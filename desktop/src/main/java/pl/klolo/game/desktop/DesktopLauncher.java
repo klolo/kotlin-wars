@@ -4,13 +4,14 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.typesafe.config.Config;
 import pl.klolo.game.GameEngine;
+import pl.klolo.game.Profile;
 
 import static pl.klolo.game.GameEngineFactoryKt.createGameEngine;
 
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
-        GameEngine gameEngine = createGameEngine();
+        GameEngine gameEngine = createGameEngine(Profile.DESKTOP);
 
         LwjglApplicationConfiguration lwjglApplicationConfiguration = new LwjglApplicationConfiguration();
         Config applicationConfigFromFile = gameEngine.getConfig("application");

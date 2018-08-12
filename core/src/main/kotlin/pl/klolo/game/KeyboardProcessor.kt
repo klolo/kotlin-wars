@@ -2,11 +2,14 @@ package pl.klolo.game
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
+import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.MoveLeft
+import pl.klolo.game.event.MoveRight
 
 /**
  * TODO: Przeniesc do desktop. Klasa zalezna od platformy gdzie jest uruchamiana gra.
  */
-class KeyboardProcessor : InputProcessor {
+class KeyboardProcessor(private val eventProcessor: EventProcessor) : InputProcessor {
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         return true
     }
@@ -25,8 +28,8 @@ class KeyboardProcessor : InputProcessor {
 
     override fun keyUp(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.LEFT -> println("Go left")
-            Input.Keys.RIGHT -> println("Go right")
+            Input.Keys.LEFT -> eventProcessor.sendEvent(MoveLeft)
+            Input.Keys.RIGHT -> eventProcessor.sendEvent(MoveRight)
         }
         return true
     }
