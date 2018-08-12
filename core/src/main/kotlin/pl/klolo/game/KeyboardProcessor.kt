@@ -3,6 +3,9 @@ package pl.klolo.game
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
 
+/**
+ * TODO: Przeniesc do desktop. Klasa zalezna od platformy gdzie jest uruchamiana gra.
+ */
 class KeyboardProcessor : InputProcessor {
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         return true

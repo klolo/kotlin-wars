@@ -7,16 +7,14 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
+import pl.klolo.game.event.EventProcessor
 
-
-class GameLauncher : ApplicationAdapter() {
+class GameEngine internal constructor(val eventProcessor: EventProcessor) : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var img: Texture
+    private val applicationConfiguration = ConfigFactory.load()
 
-    companion object {
-        private val applicationConfiguration = ConfigFactory.load()
-        fun getConfig(name: String): Config = applicationConfiguration.getConfig(name)
-    }
+    fun getConfig(name: String): Config = applicationConfiguration.getConfig(name)
 
     override fun create() {
         batch = SpriteBatch()
