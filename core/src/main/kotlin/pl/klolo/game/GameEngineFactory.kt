@@ -1,35 +1,17 @@
 package pl.klolo.game
 
 import org.springframework.context.support.GenericApplicationContext
-import org.springframework.context.support.beans
-import pl.klolo.game.event.Event
-import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.configuration.Profile
+import pl.klolo.game.configuration.beanDefinition
 
-enum class Profile {
-    DESKTOP,
-    ANDROID,
-    WEB
-}
-
-private val beanDefinition = beans {
-    bean<EventProcessor>()
-    bean { Stage(ref()) }
-    bean { GameEngine(ref(), ref(), ref()) }
-
-    profile("DESKTOP") {
-        bean {
-            KeyboardProcessor(ref())
-        }
-    }
-}
+val applicationContext = GenericApplicationContext()
 
 fun createGameEngine(profile: Profile): GameEngine {
-    val applicationContext = GenericApplicationContext()
+    applicationContext
             .apply {
                 environment.setActiveProfiles(profile.name)
                 refresh()
             }
-
     beanDefinition.initialize(applicationContext)
     return applicationContext.getBean(GameEngine::class.java)
 }

@@ -1,7 +1,7 @@
 package pl.klolo.game.entity
 //
-//class TextureEntityWithLogic: TextureEntity() {
-//    constructor(init: TextureEntity.() -> Unit) : this() {
+//class TextureEntityWithLogic: SpriteEntityWithLogic() {
+//    constructor(init: SpriteEntityWithLogic.() -> Unit) : this() {
 //        super.init()
 //        this.init()
 //    }

@@ -1,0 +1,35 @@
+[
+  {
+    "uniqueId": "player",
+    "logicClass": "pl.klolo.game.logic.PlayerLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "ship.png",
+    "x": 250.0,
+    "y": 70.0,
+    "width": 50.0,
+    "height": 50.0,
+    "zIndex": 1
+  },
+  {
+    "uniqueId": "background",
+    "logicClass": "pl.klolo.game.logic.BackgroundLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "background.jpg",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 0,
+    "height": 0,
+    "zIndex": 0
+  },
+  {
+    "uniqueId": "laserBlue01",
+    "logicClass": "pl.klolo.game.logic.BulletLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "Lasers/laserBlue01.png",
+    "x": 10.0,
+    "y": 10.0,
+    "width": 10,
+    "height": 50,
+    "zIndex": -1
+  }
+]

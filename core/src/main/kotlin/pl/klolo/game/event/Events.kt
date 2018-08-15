@@ -1,9 +1,12 @@
 package pl.klolo.game.event
 
-import javax.swing.text.html.parser.Entity
+import pl.klolo.game.entity.Entity
 
-sealed class Event
+sealed class Event()
 
-object MoveLeft : Event()
-object MoveRight : Event()
-class CollisionDetect(val collidedEntity: Entity) : Event()
+object OnLeft : Event()
+object OnRight : Event()
+object OnSpace : Event()
+class RegisterEntity() : Event() {
+    var entity: Entity? = null
+}

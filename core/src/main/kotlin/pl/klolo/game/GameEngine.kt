@@ -1,5 +1,6 @@
 package pl.klolo.game
 
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
@@ -8,10 +9,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
-import pl.klolo.game.event.EventProcessor
 
 class GameEngine internal constructor(
-        private val eventProcessor: EventProcessor,
+        private val gamePhysics: GamePhysics,
+        private val gameLighting: GameLighting,
         private val inputProcessor: InputProcessor,
         private val stage: Stage,
         private val applicationConfiguration: Config = ConfigFactory.load()) : ApplicationAdapter() {
@@ -23,12 +24,15 @@ class GameEngine internal constructor(
 
     override fun create() {
         Gdx.input.inputProcessor = inputProcessor
+        Gdx.app.logLevel = Application.LOG_DEBUG;
 
+        gamePhysics.initPhysics()
+        gameLighting.initLights()
         batch = SpriteBatch()
 
-        initializeCamera()
+        stage.initEntities()
 
-        stage.loadStage()
+        initializeCamera()
     }
 
     override fun resize(width: Int, height: Int) {
@@ -37,22 +41,25 @@ class GameEngine internal constructor(
 
     override fun dispose() {
         batch.dispose()
+        gameLighting.dispose()
+        gamePhysics.dispose()
     }
 
     override fun render() {
+        gamePhysics.update()
         stage.update(Gdx.graphics.deltaTime)
 
-        Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         batch.begin()
         stage.draw(batch, camera)
-        batch.end()
+        gameLighting.render(camera)
     }
 
     private fun initializeCamera() {
         camera = OrthographicCamera()
-        camera.setToOrtho(false, 1920f, 1080f); // TODO: ustawianie rozdzielczosci gry
+        camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()) // TODO: ustawianie rozdzielczosci gry
         batch.projectionMatrix = camera.combined
     }
 }
