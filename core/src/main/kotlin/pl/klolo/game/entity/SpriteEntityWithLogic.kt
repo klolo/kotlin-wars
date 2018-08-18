@@ -7,14 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import pl.klolo.game.logic.EntityLogic
 
 open class SpriteEntityWithLogic(
-        override val uniqueId: String,
-        private val logic: EntityLogic<SpriteEntityWithLogic>,
+        override val uniqueName: String,
+        val logic: EntityLogic<SpriteEntityWithLogic>,
         private var sprite: Sprite,
-        override var layer: Int) : Entity, Actor() {
+        override var layer: Int,
+        override var id: Int) : Entity, Actor() {
     override var shouldBeRemove: Boolean = false
 
     override fun dispose() {
         sprite.texture.dispose()
+        logic.onDispose.invoke(this)
     }
 
     override fun positionChanged() {

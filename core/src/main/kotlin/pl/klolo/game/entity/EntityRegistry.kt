@@ -8,7 +8,7 @@ class EntityRegistry(private var entitiesConfiguration: List<EntityConfiguration
 
     fun getConfigurationById(id: String): EntityConfiguration? {
         return entitiesConfiguration.findLast {
-            it.uniqueId == id
+            it.uniqueName == id
         }
     }
 }

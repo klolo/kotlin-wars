@@ -7,7 +7,9 @@ interface Entity {
     fun draw(batch: Batch, camera: OrthographicCamera)
     fun update(delta: Float)
     fun dispose()
+
     val shouldBeRemove: Boolean
-    val uniqueId: String
+    val uniqueName: String
+    val id: Int
     val layer: Int
 }

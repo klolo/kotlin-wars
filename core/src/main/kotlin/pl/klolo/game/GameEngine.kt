@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
+import pl.klolo.game.physics.GamePhysics
 
 class GameEngine internal constructor(
         private val gamePhysics: GamePhysics,
@@ -46,7 +47,6 @@ class GameEngine internal constructor(
     }
 
     override fun render() {
-        gamePhysics.update()
         stage.update(Gdx.graphics.deltaTime)
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
@@ -55,6 +55,8 @@ class GameEngine internal constructor(
         batch.begin()
         stage.draw(batch, camera)
         gameLighting.render(camera)
+        gamePhysics.update()
+        gamePhysics.debugRender(camera.combined)
     }
 
     private fun initializeCamera() {

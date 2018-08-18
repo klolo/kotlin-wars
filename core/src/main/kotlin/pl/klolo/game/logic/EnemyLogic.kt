@@ -8,38 +8,53 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
 import pl.klolo.game.GameLighting
 import pl.klolo.game.physics.GamePhysics
 import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.OnCollision
 import pl.klolo.game.extensions.execute
 
-class BulletLogic(
+class EnemyLogic(
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
-
-    private var bulletLight: PointLight? = null
-    private var physicsShape: PolygonShape? = null
+    private var light: PointLight? = null
+    private var physicsShape: CircleShape? = null
     private lateinit var body: Body
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
+        light?.remove()
         physicsShape?.dispose()
         gamePhysics.destroy(body)
-        bulletLight?.remove()
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        bulletLight = gameLighting.createPointLight(100, "#9adde3ff", 50f, x, y)
-
+        light = gameLighting.createPointLight(50, "#ff1111", 100f, x, y)
         createPhysics()
 
         addAction(sequence(
-                moveTo(x, y + Gdx.graphics.height.toFloat(), 3f),
-                execute(Runnable { shouldBeRemove = true })
+                moveTo(x, y - Gdx.graphics.width - 100, 20f),
+                execute(Runnable { onDestroy() })
         ))
+
+        eventProcessor.subscribe(id)
+                .onEvent(OnCollision::class.java) {
+                    val collidedEntity = it.entity
+                    if (collidedEntity != null) {
+                        if (collidedEntity.uniqueName.contains("laser")) {
+                            onDestroy()
+                        }
+                    }
+                }
+    }
+
+    fun SpriteEntityWithLogic.onDestroy() {
+        shouldBeRemove = true
+        eventProcessor.sendEvent(EnemyDestroyed)
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        bulletLight?.setPosition(x + width / 2, y + height / 2)
-        body.setTransform(x + width / 2, y + height / 2, 0.0f)
+        light?.setPosition(x + width / 2, y + height)
+        body?.setTransform(x + width / 2, y + height / 2, 0.0f)
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {
@@ -47,8 +62,7 @@ class BulletLogic(
             type = BodyDef.BodyType.DynamicBody
         }
 
-        physicsShape = PolygonShape()
-        physicsShape?.setAsBox(width / 2, height / 2);
+        physicsShape = CircleShape().apply { radius = width / 2 }
 
         val fixtureDef = FixtureDef().apply {
             shape = physicsShape
@@ -58,7 +72,8 @@ class BulletLogic(
         }
 
         body = gamePhysics.createBody(bodyDef)
-        val fixture = body.createFixture(fixtureDef)
+        val fixture = body?.createFixture(fixtureDef)
         fixture?.userData = this
     }
+
 }

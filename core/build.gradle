@@ -20,6 +20,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -38,4 +42,5 @@ dependencies {
     compile "org.springframework:spring-aop:$springVersion"
 
     implementation 'com.beust:klaxon:3.0.1'
+    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.7'
 }

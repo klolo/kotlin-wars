@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx
 import pl.klolo.game.entity.SpriteEntityWithLogic
 
 class BackgroundLogic() : EntityLogic<SpriteEntityWithLogic> {
+    override val onDispose: SpriteEntityWithLogic.() -> Unit = {
+
+    }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
 

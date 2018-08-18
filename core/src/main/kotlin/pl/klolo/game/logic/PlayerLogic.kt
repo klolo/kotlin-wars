@@ -17,11 +17,16 @@ class PlayerLogic(
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private lateinit var playerLight: PointLight
+
+    override val onDispose: SpriteEntityWithLogic.() -> Unit = {
+
+    }
+
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         x = Gdx.graphics.width.toFloat() / 2 - width / 2
-        playerLight = gameLighting.createPointLight(100, "#9adde3ff", 150f, x, y)
+        playerLight = gameLighting.createPointLight(100, "#9adde3ff", 80f, x, y)
         eventProcessor
-                .subscribe(uniqueId)
+                .subscribe(id)
                 .onEvent(OnLeft) {
                     if (x - 100 > 0) {
                         addAction(moveTo(x - 100, y, .25f))
@@ -49,13 +54,11 @@ class PlayerLogic(
             y = bulletYPosition
         } as SpriteEntityWithLogic
 
-        val eventToSend = RegisterEntity()
-        eventToSend.entity = bulletEntity
+        val eventToSend = RegisterEntity(bulletEntity)
         eventProcessor.sendEvent(eventToSend)
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         playerLight.setPosition(x + width / 2, y + height / 2)
-
     }
 }

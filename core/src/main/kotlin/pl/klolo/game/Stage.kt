@@ -17,6 +17,7 @@ class Stage(
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor) : Entity, ApplicationContextAware {
     override val layer: Int = -1
+    override val id: Int = -1
     override val shouldBeRemove: Boolean = false
     lateinit var _applicationContext: ApplicationContext
 
@@ -24,7 +25,7 @@ class Stage(
         _applicationContext = applicationContext!!
     }
 
-    override val uniqueId: String = "main-stage"
+    override val uniqueName: String = "main-stage"
     private var entities = emptyList<Entity>()
 
     fun initEntities() {
@@ -39,10 +40,11 @@ class Stage(
                 .sortedBy { it.layer }
 
         eventProcessor
-                .subscribe(uniqueId)
+                .subscribe(id)
                 .onEvent(RegisterEntity::class.java) { event: RegisterEntity ->
                     val newEntity = event.entity
                     if (newEntity != null) {
+                        println("Register entity: ${newEntity.uniqueName}")
                         entities += newEntity
                     }
 
@@ -50,6 +52,12 @@ class Stage(
     }
 
     override fun update(delta: Float) {
+        entities
+                .filter { it.shouldBeRemove }
+                .forEach {
+                    it.dispose()
+                }
+
         entities = entities.filter { true != it.shouldBeRemove }
         entities.forEach {
             it.update(delta)
