@@ -38,7 +38,8 @@ class HUDLogic(
         eventProcessor
                 .subscribe(id)
                 .onEvent(AddPoints::class.java) {
-                    pointsLabel.text = "${points++}"
+                    points += it.points
+                    pointsLabel.text = "$points"
                 }
     }
 

@@ -9,7 +9,7 @@ import pl.klolo.game.logic.EntityLogic
 open class EntityWithLogic(entityConfiguration: EntityConfiguration,
                            val logic: EntityLogic<EntityWithLogic>,
                            override var id: Int) : Entity, Actor() {
-
+    override var useLighting: Boolean = true
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
     override var shouldBeRemove: Boolean = false

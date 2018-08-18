@@ -3,24 +3,23 @@ package pl.klolo.game.logic
 import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.*
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.GameLighting
+import pl.klolo.game.applicationContext
+import pl.klolo.game.entity.*
 import pl.klolo.game.physics.GamePhysics
-import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.event.AddPoints
-import pl.klolo.game.event.EnemyDestroyed
-import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.OnCollision
+import pl.klolo.game.event.*
 import pl.klolo.game.extensions.execute
 
 class EnemyLogic(
+        private val entityRegistry: EntityRegistry,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
     private var light: PointLight? = null
     private var physicsShape: CircleShape? = null
     private lateinit var body: Body
+    private var life = 100
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         light?.remove()
@@ -29,7 +28,7 @@ class EnemyLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        light = gameLighting.createPointLight(50, "#ff1111", 100f, x, y)
+        light = gameLighting.createPointLight(50, "#ff1111", 100f, x, y - height / 2)
         createPhysics()
 
         addAction(sequence(
@@ -37,16 +36,61 @@ class EnemyLogic(
                 execute(Runnable { onDestroy() })
         ))
 
+        addAction(
+                forever(sequence(
+                        delay(1f),
+                        execute(Runnable {
+                            val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
+                            if (laserConfiguration != null) {
+                                shootOnPosition(laserConfiguration)
+                            }
+                        })
+                ))
+        )
+
         eventProcessor.subscribe(id)
                 .onEvent(OnCollision::class.java) {
                     val collidedEntity = it.entity
-                    if (collidedEntity != null) {
-                        if (collidedEntity.uniqueName.contains("laser")) {
-                            eventProcessor.sendEvent(AddPoints(10))
-                            onDestroy()
-                        }
+                    if (collidedEntity != null && collidedEntity.uniqueName.contains("laserBlue")) {
+                        onCollisionWithLaser(collidedEntity)
                     }
                 }
+    }
+
+    private fun SpriteEntityWithLogic.shootOnPosition(laserConfiguration: EntityConfiguration) {
+        val bulletXPosition = x + width / 2
+        val bulletYPosition = y - height
+
+        val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext, false) {
+            x = bulletXPosition
+            y = bulletYPosition
+        } as SpriteEntityWithLogic
+
+        val bulletLogic = bulletEntity.logic as BulletLogic
+        bulletLogic.direction = Direction.DOWN
+        bulletLogic.lightColor = "#ddeecc"
+        bulletLogic.apply {
+            initialize.invoke(bulletEntity)
+
+        }
+        eventProcessor.sendEvent(RegisterEntity(bulletEntity))
+    }
+
+    private fun SpriteEntityWithLogic.onCollisionWithLaser(collidedEntity: Entity) {
+        val damageLevel = collidedEntity.uniqueName
+                .elementAt(collidedEntity.uniqueName.lastIndex)
+                .toString().toInt()
+        life -= damageLevel * 10
+
+        if (life < 0) {
+            onDestroyEnemy()
+        }
+    }
+
+    fun SpriteEntityWithLogic.onDestroyEnemy() {
+        // Size enemy is points to get
+        eventProcessor.sendEvent(AddPoints(height.toInt()))
+        onDestroy()
     }
 
     fun SpriteEntityWithLogic.onDestroy() {

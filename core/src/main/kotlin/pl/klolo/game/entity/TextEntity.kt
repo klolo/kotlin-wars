@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 
 open class TextEntity(entityConfiguration: EntityConfiguration, override var id: Int) : Entity, Actor() {
     private var font: BitmapFont
-    var text: String = "0"
+    var text: String = ""
 
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
-
+    override var useLighting: Boolean = false
     override var shouldBeRemove: Boolean = false
 
     init {

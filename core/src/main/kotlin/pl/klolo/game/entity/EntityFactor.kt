@@ -11,22 +11,22 @@ private var entityCounter = 0
 fun <T> emptyFun(): T.() -> Unit = {}
 
 @Suppress("UNCHECKED_CAST")
-fun <T: Entity> createEntity(configuration: EntityConfiguration, applicationContext: ApplicationContext): T {
-    return createEntity(configuration, applicationContext, emptyFun(), false) as T
+fun <T : Entity> createEntity(configuration: EntityConfiguration, applicationContext: ApplicationContext): T {
+    return createEntity(configuration, applicationContext, false, emptyFun()) as T
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T: Entity> createEntity(configuration: EntityConfiguration,
-                 applicationContext: ApplicationContext,
-                 configureEntity: SpriteEntityWithLogic.() -> Unit): T {
-    return createEntity(configuration, applicationContext, configureEntity, true) as T
+fun <T : Entity> createEntity(configuration: EntityConfiguration,
+                              applicationContext: ApplicationContext,
+                              configureEntity: SpriteEntityWithLogic.() -> Unit): T {
+    return createEntity(configuration, applicationContext, true, configureEntity) as T
 }
 
 @Suppress("UNCHECKED_CAST")
 fun createEntity(configuration: EntityConfiguration,
                  applicationContext: ApplicationContext,
-                 configureEntity: SpriteEntityWithLogic.() -> Unit,
-                 forceInitLogic: Boolean): Entity {
+                 forceInitLogic: Boolean,
+                 configureEntity: SpriteEntityWithLogic.() -> Unit): Entity {
     return when (configuration.type) {
         EntityType.SPRITE_WITH_LOGIC -> {
             val entityLogic = createLogicClass<SpriteEntityWithLogic>(Class.forName(configuration.logicClass), applicationContext)

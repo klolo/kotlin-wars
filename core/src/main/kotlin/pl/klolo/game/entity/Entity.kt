@@ -12,4 +12,5 @@ interface Entity {
     val uniqueName: String
     val id: Int
     val layer: Int
+    var useLighting: Boolean
 }

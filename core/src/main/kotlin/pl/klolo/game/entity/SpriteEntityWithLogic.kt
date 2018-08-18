@@ -11,7 +11,7 @@ open class SpriteEntityWithLogic(
         val logic: EntityLogic<SpriteEntityWithLogic>,
         val sprite: Sprite,
         override var id: Int) : Entity, Actor() {
-
+    override var useLighting: Boolean = true
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
 

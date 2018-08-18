@@ -11,6 +11,11 @@ import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.extensions.execute
 
+enum class Direction {
+    DOWN,
+    UP
+}
+
 class BulletLogic(
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
@@ -19,6 +24,8 @@ class BulletLogic(
     private var bulletLight: PointLight? = null
     private var physicsShape: PolygonShape? = null
     private lateinit var body: Body
+    var lightColor = "#9adde3ff"
+    var direction: Direction = Direction.UP
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape?.dispose()
@@ -27,14 +34,28 @@ class BulletLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        bulletLight = gameLighting.createPointLight(100, "#9adde3ff", 50f, x, y)
+        bulletLight = gameLighting.createPointLight(100, lightColor, 50f, x, y)
 
         createPhysics()
 
         addAction(sequence(
-                moveTo(x, y + Gdx.graphics.height.toFloat(), 3f),
+                moveTo(getStartXPosition(), getTargetYPosition(), 3f),
                 execute(Runnable { shouldBeRemove = true })
         ))
+    }
+
+    private fun SpriteEntityWithLogic.getTargetYPosition(): Float {
+        return when (direction) {
+            Direction.UP -> y + Gdx.graphics.height.toFloat()
+            Direction.DOWN -> -100f // bottom margin
+        }
+    }
+
+    private fun SpriteEntityWithLogic.getStartXPosition(): Float {
+        return when (direction) {
+            Direction.UP -> x
+            Direction.DOWN -> x - height - 10
+        }
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {

@@ -2,6 +2,7 @@ package pl.klolo.game.logic
 
 import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import pl.klolo.game.GameLighting
 import pl.klolo.game.applicationContext
@@ -10,12 +11,13 @@ import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
+import pl.klolo.game.extensions.execute
 
 class PlayerLogic(
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
-
+    private var currentMove: Action = execute(Runnable {})
     private lateinit var playerLight: PointLight
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
@@ -27,15 +29,25 @@ class PlayerLogic(
         playerLight = gameLighting.createPointLight(100, "#9adde3ff", 80f, x, y)
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnLeft) {
+                .onEvent(OnLeftDown) {
                     if (x - 100 > 0) {
-                        addAction(moveTo(x - 100, y, .25f))
+                        removeAction(currentMove)
+                        currentMove = moveTo(x - Gdx.graphics.width.toFloat(), y, 5f)
+                        addAction(currentMove)
                     }
                 }
-                .onEvent(OnRight) {
+                .onEvent(OnRightDown) {
                     if (x + 100 < Gdx.graphics.width.toFloat()) {
-                        addAction(moveTo(x + 100, y, .25f))
+                        removeAction(currentMove)
+                        currentMove = moveTo(x + Gdx.graphics.width.toFloat(), y, 5f)
+                        addAction(currentMove)
                     }
+                }
+                .onEvent(OnRightUp) {
+                    removeAction(currentMove)
+                }
+                .onEvent(OnLeftUp) {
+                    removeAction(currentMove)
                 }
                 .onEvent(OnSpace) {
                     val laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
@@ -57,8 +69,7 @@ class PlayerLogic(
             y = bulletYPosition
         } as SpriteEntityWithLogic
 
-        val eventToSend = RegisterEntity(bulletEntity)
-        eventProcessor.sendEvent(eventToSend)
+        eventProcessor.sendEvent(RegisterEntity(bulletEntity))
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {

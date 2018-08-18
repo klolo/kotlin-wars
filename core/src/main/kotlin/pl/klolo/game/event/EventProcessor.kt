@@ -18,6 +18,7 @@ class EventProcessor {
             return this
         }
 
+        @Suppress("UNCHECKED_CAST")
         fun <T: Event> onEvent(event: Class<T>, eventConsumer: (T) -> Unit): Subscription {
             val eventInstance: Event = event.newInstance() as Event
             eventProcessor.onEvent(eventInstance, id, eventConsumer as (Event) -> Unit)

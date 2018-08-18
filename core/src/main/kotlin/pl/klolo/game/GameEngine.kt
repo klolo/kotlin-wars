@@ -63,7 +63,7 @@ class GameEngine internal constructor(
         batch.end()
 
         gamePhysics.update()
-        gamePhysics.debugRender(camera.combined)
+       // gamePhysics.debugRender(camera.combined)
     }
 
     private fun initializeCamera() {

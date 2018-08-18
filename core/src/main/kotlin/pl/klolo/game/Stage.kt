@@ -59,7 +59,6 @@ class Stage(
         }
     }
 
-
     fun dispose() {
         entities.forEach {
             it.dispose()
@@ -68,7 +67,7 @@ class Stage(
 
     fun drawWithLight(batch: Batch, camera: OrthographicCamera) {
         entities
-                .filter { it.layer < 10 }
+                .filter { it.useLighting }
                 .forEach {
                     it.draw(batch, camera)
                 }
@@ -76,7 +75,7 @@ class Stage(
 
     fun drawWithoutLight(batch: Batch, camera: OrthographicCamera) {
         entities
-                .filter { it.layer >= 10 }
+                .filter { !it.useLighting }
                 .forEach {
                     it.draw(batch, camera)
                 }
