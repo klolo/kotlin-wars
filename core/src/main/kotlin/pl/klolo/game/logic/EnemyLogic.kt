@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
 import pl.klolo.game.GameLighting
 import pl.klolo.game.physics.GamePhysics
 import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.event.AddPoints
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.OnCollision
@@ -41,6 +42,7 @@ class EnemyLogic(
                     val collidedEntity = it.entity
                     if (collidedEntity != null) {
                         if (collidedEntity.uniqueName.contains("laser")) {
+                            eventProcessor.sendEvent(AddPoints(10))
                             onDestroy()
                         }
                     }
@@ -54,7 +56,7 @@ class EnemyLogic(
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         light?.setPosition(x + width / 2, y + height)
-        body?.setTransform(x + width / 2, y + height / 2, 0.0f)
+        body.setTransform(x + width / 2, y + height / 2, 0.0f)
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {
@@ -72,7 +74,7 @@ class EnemyLogic(
         }
 
         body = gamePhysics.createBody(bodyDef)
-        val fixture = body?.createFixture(fixtureDef)
+        val fixture = body.createFixture(fixtureDef)
         fixture?.userData = this
     }
 

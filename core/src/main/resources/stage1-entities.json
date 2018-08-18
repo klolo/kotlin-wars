@@ -8,7 +8,7 @@
     "y": 70.0,
     "width": 50.0,
     "height": 50.0,
-    "zIndex": 1,
+    "layer": 2,
     "initOnCreate": true
   },
   {
@@ -16,11 +16,7 @@
     "logicClass": "pl.klolo.game.logic.BackgroundLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "background.jpg",
-    "x": 0.0,
-    "y": 0.0,
-    "width": 0,
-    "height": 0,
-    "zIndex": 0,
+    "layer": 1,
     "initOnCreate": true
   },
   {
@@ -32,19 +28,24 @@
     "y": 10.0,
     "width": 10,
     "height": 50,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   },
   {
     "uniqueName": "enemyBase",
     "logicClass": "pl.klolo.game.logic.EnemyBaseLogic",
-    "type": "SPRITE_WITH_LOGIC",
-    "image": "Lasers/laserBlue01.png",
-    "x": 0.0,
-    "y": 0.0,
-    "width": 0,
-    "height": 0,
-    "zIndex": 0,
+    "type": "ENTITY_WITH_LOGIC",
+    "initOnCreate": true
+  },
+  {
+    "uniqueName": "text",
+    "type": "TEXT_ENTITY",
+    "initOnCreate": false,
+    "layer": 10
+  },
+  {
+    "uniqueName": "hud",
+    "logicClass": "pl.klolo.game.logic.HUDLogic",
+    "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },
   {
@@ -52,59 +53,44 @@
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "enemyRed1.png",
-    "x": 0.0,
-    "y": 0.0,
     "width": 30,
     "height": 30,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   },
   {
     "uniqueName": "enemyRed2",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "enemyRed2.png",
-    "x": 0.0,
-    "y": 0.0,
     "width": 40,
     "height": 40,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   },
   {
     "uniqueName": "enemyRed3",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "enemyRed3.png",
-    "x": 0.0,
-    "y": 0.0,
     "width": 50,
     "height": 50,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   },
   {
     "uniqueName": "enemyRed4",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "enemyRed4.png",
-    "x": 0.0,
-    "y": 0.0,
     "width": 60,
     "height": 60,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   },
   {
     "uniqueName": "enemyRed5",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "enemyRed5.png",
-    "x": 0.0,
-    "y": 0.0,
     "width": 60,
     "height": 60,
-    "zIndex": -1,
-    "initOnCreate": false
+    "layer": -1
   }
 ]

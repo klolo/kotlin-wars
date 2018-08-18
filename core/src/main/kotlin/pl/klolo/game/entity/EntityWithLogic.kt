@@ -6,36 +6,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
 import pl.klolo.game.logic.EntityLogic
 
-open class SpriteEntityWithLogic(
-        entityConfiguration: EntityConfiguration,
-        val logic: EntityLogic<SpriteEntityWithLogic>,
-        val sprite: Sprite,
-        override var id: Int) : Entity, Actor() {
+open class EntityWithLogic(entityConfiguration: EntityConfiguration,
+                           val logic: EntityLogic<EntityWithLogic>,
+                           override var id: Int) : Entity, Actor() {
 
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
-
     override var shouldBeRemove: Boolean = false
 
-    init {
-        x = entityConfiguration.x
-        y = entityConfiguration.y
-        width = entityConfiguration.width
-        height = entityConfiguration.height
-    }
-
     override fun dispose() {
-        sprite.texture.dispose()
         logic.onDispose.invoke(this)
     }
 
     override fun positionChanged() {
-        sprite.setPosition(x, y)
         super.positionChanged()
     }
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
-        batch.draw(sprite, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
     }
 
     override fun update(delta: Float) {

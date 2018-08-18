@@ -3,65 +3,54 @@ package pl.klolo.game.entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
-import com.sun.org.apache.xpath.internal.operations.Bool
 import org.springframework.context.ApplicationContext
 import pl.klolo.game.logic.EntityLogic
 
 private var entityCounter = 0
 
-enum class EntityType {
-    SPRITE_WITH_LOGIC
+fun <T> emptyFun(): T.() -> Unit = {}
+
+@Suppress("UNCHECKED_CAST")
+fun <T: Entity> createEntity(configuration: EntityConfiguration, applicationContext: ApplicationContext): T {
+    return createEntity(configuration, applicationContext, emptyFun(), false) as T
 }
 
-class EntityConfiguration(
-        val uniqueName: String,
-        val logicClass: String,
-        val type: EntityType,
-        val image: String,
-        val x: Float,
-        val y: Float,
-        val width: Float,
-        val height: Float,
-        var zIndex: Int,
-        var initOnCreate: Boolean
-)
-
-private val emptyInitFun: SpriteEntityWithLogic.() -> Unit = {}
-
-fun createEntity(configuration: EntityConfiguration, applicationContext: ApplicationContext): Entity {
-    return createEntity(configuration, applicationContext, emptyInitFun, false)
-}
-
-fun createEntity(configuration: EntityConfiguration,
+@Suppress("UNCHECKED_CAST")
+fun <T: Entity> createEntity(configuration: EntityConfiguration,
                  applicationContext: ApplicationContext,
-                 configureEntity: SpriteEntityWithLogic.() -> Unit): Entity {
-    return createEntity(configuration, applicationContext, configureEntity, true)
+                 configureEntity: SpriteEntityWithLogic.() -> Unit): T {
+    return createEntity(configuration, applicationContext, configureEntity, true) as T
 }
 
+@Suppress("UNCHECKED_CAST")
 fun createEntity(configuration: EntityConfiguration,
                  applicationContext: ApplicationContext,
                  configureEntity: SpriteEntityWithLogic.() -> Unit,
                  forceInitLogic: Boolean): Entity {
-
     return when (configuration.type) {
         EntityType.SPRITE_WITH_LOGIC -> {
             val entityLogic = createLogicClass<SpriteEntityWithLogic>(Class.forName(configuration.logicClass), applicationContext)
-            val sprite = Sprite(Texture(Gdx.files.internal(configuration.image)))
+            val entitySprite = Sprite(Texture(Gdx.files.internal(configuration.image)))
 
-            val logicInitializeFunction: SpriteEntityWithLogic.() -> Unit =
-                    if (configuration.initOnCreate || forceInitLogic) entityLogic.initialize else emptyInitFun
-
-            SpriteEntityWithLogic(configuration.uniqueName, entityLogic, sprite, configuration.zIndex, entityCounter++)
-                    .apply {
-                        x = configuration.x
-                        y = configuration.y
-                        width = configuration.width
-                        height = configuration.height
-                    }
+            SpriteEntityWithLogic(configuration, entityLogic, entitySprite, entityCounter++)
                     .apply(configureEntity)
-                    .apply(logicInitializeFunction)
+                    .apply(getInitializeFunction(configuration, forceInitLogic, entityLogic))
+        }
+        EntityType.ENTITY_WITH_LOGIC -> {
+            val entityLogic = createLogicClass<EntityWithLogic>(Class.forName(configuration.logicClass), applicationContext)
+
+            EntityWithLogic(configuration, entityLogic, entityCounter++)
+                    .apply(configureEntity as EntityWithLogic.() -> Unit)
+                    .apply(getInitializeFunction(configuration, forceInitLogic, entityLogic))
+        }
+        EntityType.TEXT_ENTITY -> {
+            TextEntity(configuration, entityCounter++).apply(configureEntity as TextEntity.() -> Unit)
         }
     }
+}
+
+fun <T : Entity> getInitializeFunction(configuration: EntityConfiguration, forceInitLogic: Boolean, entityLogic: EntityLogic<T>): T.() -> Unit {
+    return if (configuration.initOnCreate || forceInitLogic) entityLogic.initialize else emptyFun()
 }
 
 @Suppress("UNCHECKED_CAST")

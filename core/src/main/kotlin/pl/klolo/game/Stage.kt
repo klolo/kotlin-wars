@@ -15,32 +15,21 @@ import pl.klolo.game.event.RegisterEntity
 
 class Stage(
         private val entityRegistry: EntityRegistry,
-        private val eventProcessor: EventProcessor) : Entity, ApplicationContextAware {
-    override val layer: Int = -1
-    override val id: Int = -1
-    override val shouldBeRemove: Boolean = false
+        private val eventProcessor: EventProcessor) : ApplicationContextAware {
     lateinit var _applicationContext: ApplicationContext
 
     override fun setApplicationContext(applicationContext: ApplicationContext?) {
         _applicationContext = applicationContext!!
     }
 
-    override val uniqueName: String = "main-stage"
     private var entities = emptyList<Entity>()
 
     fun initEntities() {
         val json = Gdx.files.internal("stage1-entities.json").readString()
         val entitiesConfiguration = Klaxon().parseArray<EntityConfiguration>(json) ?: emptyList()
 
-        entityRegistry.addConfiguration(entitiesConfiguration)
-
-        entities = entitiesConfiguration
-                .map { createEntity(it, _applicationContext) }
-                .filter { it.layer >= 0 }
-                .sortedBy { it.layer }
-
         eventProcessor
-                .subscribe(id)
+                .subscribe(-1)
                 .onEvent(RegisterEntity::class.java) { event: RegisterEntity ->
                     val newEntity = event.entity
                     if (newEntity != null) {
@@ -49,9 +38,15 @@ class Stage(
                     }
 
                 }
+
+        entityRegistry.addConfiguration(entitiesConfiguration)
+        entities += entitiesConfiguration
+                .filter { it.initOnCreate }
+                .map { createEntity<Entity>(it, _applicationContext) }
+                .sortedBy { it.layer }
     }
 
-    override fun update(delta: Float) {
+    fun update(delta: Float) {
         entities
                 .filter { it.shouldBeRemove }
                 .forEach {
@@ -64,18 +59,27 @@ class Stage(
         }
     }
 
-    override fun dispose() {
+
+    fun dispose() {
         entities.forEach {
             it.dispose()
         }
     }
 
-    override fun draw(batch: Batch, camera: OrthographicCamera) {
-        entities.forEach {
-            it.draw(batch, camera)
-        }
+    fun drawWithLight(batch: Batch, camera: OrthographicCamera) {
+        entities
+                .filter { it.layer < 10 }
+                .forEach {
+                    it.draw(batch, camera)
+                }
+    }
 
-        batch.end()
+    fun drawWithoutLight(batch: Batch, camera: OrthographicCamera) {
+        entities
+                .filter { it.layer >= 10 }
+                .forEach {
+                    it.draw(batch, camera)
+                }
     }
 
 }

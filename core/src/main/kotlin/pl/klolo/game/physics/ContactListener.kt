@@ -8,7 +8,6 @@ import pl.klolo.game.entity.Entity
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.OnCollision
-import pl.klolo.game.event.OnLeft
 
 class ContactListener(private val eventProcessor: EventProcessor) : ContactListener {
     override fun preSolve(contact: Contact?, oldManifold: Manifold?) {

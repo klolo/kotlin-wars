@@ -43,6 +43,9 @@ class PlayerLogic(
                         shootOnPosition(laserConfiguration)
                     }
                 }
+                .onEvent(OnCollision::class.java) {
+
+                }
     }
 
     private fun SpriteEntityWithLogic.shootOnPosition(laserConfiguration: EntityConfiguration) {

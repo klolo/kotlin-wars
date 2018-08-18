@@ -7,8 +7,9 @@ sealed class Event()
 object OnLeft : Event()
 object OnRight : Event()
 object OnSpace : Event()
-object EnemyDestroyed: Event()
+object EnemyDestroyed : Event()
 
-class OnCollision(val entity: Entity? = null): Event()
+class OnCollision(val entity: Entity? = null) : Event()
+class AddPoints(val points: Int = 0) : Event()
 
 class RegisterEntity(val entity: Entity? = null) : Event()

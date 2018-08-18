@@ -53,8 +53,15 @@ class GameEngine internal constructor(
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         batch.begin()
-        stage.draw(batch, camera)
+        stage.drawWithLight(batch, camera)
+        batch.end()
+
         gameLighting.render(camera)
+
+        batch.begin()
+        stage.drawWithoutLight(batch, camera)
+        batch.end()
+
         gamePhysics.update()
         gamePhysics.debugRender(camera.combined)
     }

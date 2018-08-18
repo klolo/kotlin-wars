@@ -1,16 +1,14 @@
 package pl.klolo.game.entity
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.scenes.scene2d.Actor
-import pl.klolo.game.logic.EntityLogic
 
-open class SpriteEntityWithLogic(
-        entityConfiguration: EntityConfiguration,
-        val logic: EntityLogic<SpriteEntityWithLogic>,
-        val sprite: Sprite,
-        override var id: Int) : Entity, Actor() {
+open class TextEntity(entityConfiguration: EntityConfiguration, override var id: Int) : Entity, Actor() {
+    private var font: BitmapFont
+    var text: String = "0"
 
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
@@ -22,24 +20,27 @@ open class SpriteEntityWithLogic(
         y = entityConfiguration.y
         width = entityConfiguration.width
         height = entityConfiguration.height
+
+        font = BitmapFont()
+        font.color = Color.WHITE
     }
 
     override fun dispose() {
-        sprite.texture.dispose()
-        logic.onDispose.invoke(this)
+        font.dispose()
     }
 
     override fun positionChanged() {
-        sprite.setPosition(x, y)
-        super.positionChanged()
     }
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
-        batch.draw(sprite, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+        font.draw(batch, text, x, y);
     }
 
     override fun update(delta: Float) {
-        logic.onUpdate.invoke(this, delta)
         super.act(delta)
+    }
+
+    fun getFontHeight(): Float {
+        return font.lineHeight
     }
 }

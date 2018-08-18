@@ -3,10 +3,7 @@ package pl.klolo.game.logic
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import pl.klolo.game.applicationContext
-import pl.klolo.game.entity.EntityConfiguration
-import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.entity.createEntity
+import pl.klolo.game.entity.*
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
@@ -14,16 +11,16 @@ import java.util.*
 
 class EnemyBaseLogic(
         private val eventProcessor: EventProcessor,
-        private val entityRegistry: EntityRegistry) : EntityLogic<SpriteEntityWithLogic> {
+        private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
 
     private val maxEnemiesOnStage = 3
     private var enemiesCount = 0
 
-    override val onDispose: SpriteEntityWithLogic.() -> Unit = {
+    override val onDispose: EntityWithLogic.() -> Unit = {
 
     }
 
-    override val initialize: SpriteEntityWithLogic.() -> Unit = {
+    override val initialize: EntityWithLogic.() -> Unit = {
         eventProcessor
                 .subscribe(id)
                 .onEvent(EnemyDestroyed) {
@@ -46,7 +43,7 @@ class EnemyBaseLogic(
         ))
     }
 
-    private fun SpriteEntityWithLogic.createEnemy(laserConfiguration: EntityConfiguration) {
+    private fun EntityWithLogic.createEnemy(laserConfiguration: EntityConfiguration) {
         val random = Random()
         val bulletXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt())
         val bulletYPosition = Gdx.graphics.height.toFloat() + 10
@@ -56,12 +53,11 @@ class EnemyBaseLogic(
             y = bulletYPosition
         } as SpriteEntityWithLogic
 
-        val eventToSend = RegisterEntity(bulletEntity)
-        eventProcessor.sendEvent(eventToSend)
+        eventProcessor.sendEvent(RegisterEntity(bulletEntity))
     }
 
 
-    override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
+    override val onUpdate: EntityWithLogic.(Float) -> Unit = {
     }
 
 }
