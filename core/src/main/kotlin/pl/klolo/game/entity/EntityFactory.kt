@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import org.springframework.context.ApplicationContext
 import pl.klolo.game.logic.EntityLogic
+import pl.klolo.game.logic.EntityLogicWithRendering
 
 private var entityCounter = 0
 
@@ -45,6 +46,13 @@ fun createEntity(configuration: EntityConfiguration,
         }
         EntityType.TEXT_ENTITY -> {
             TextEntity(configuration, entityCounter++).apply(configureEntity as TextEntity.() -> Unit)
+        }
+        EntityType.SPRITE_WITH_CUSTOM_RENDERING -> {
+            val entityLogic = createLogicClass<SpriteWithCustomRendering>(Class.forName(configuration.logicClass), applicationContext)
+
+            SpriteWithCustomRendering(configuration, entityLogic as EntityLogicWithRendering<SpriteWithCustomRendering>, entityCounter++)
+                    .apply(configureEntity as SpriteWithCustomRendering.() -> Unit)
+                    .apply(getInitializeFunction(configuration, forceInitLogic, entityLogic))
         }
     }
 }

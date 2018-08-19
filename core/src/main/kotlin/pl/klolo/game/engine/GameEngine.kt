@@ -15,11 +15,14 @@ class GameEngine internal constructor(
         private val gamePhysics: GamePhysics,
         private val gameLighting: GameLighting,
         private val inputProcessor: InputProcessor,
-        private val stage: Stage,
-        private val applicationConfiguration: Config = ConfigFactory.load()) : ApplicationAdapter() {
+        private val stage: Stage) : ApplicationAdapter() {
 
     private lateinit var batch: SpriteBatch
     private lateinit var camera: OrthographicCamera
+
+    companion object {
+        val applicationConfiguration: Config = ConfigFactory.load()
+    }
 
     fun getConfig(name: String): Config = applicationConfiguration.getConfig(name)
 

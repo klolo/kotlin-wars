@@ -13,7 +13,7 @@ class EnemyBaseLogic(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
 
-    private val maxEnemiesOnStage = 3
+    private val maxEnemiesOnStage = 2
     private var enemiesCount = 0
 
     override val onDispose: EntityWithLogic.() -> Unit = {

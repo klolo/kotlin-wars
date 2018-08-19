@@ -3,11 +3,16 @@ package pl.klolo.game.physics
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import pl.klolo.game.engine.GameEngine
 
 class GamePhysics(private val contactListener: ContactListener) {
     lateinit var world: World
     private lateinit var debugRenderer: Box2DDebugRenderer
     private var bodyToRemove: List<Body> = mutableListOf()
+    private val enableDebugRender = GameEngine.applicationConfiguration
+            .getConfig("engine")
+            .getBoolean("debugRender")
+
     fun initPhysics() {
         val gravityVec = Vector2(0f, -9.8f)
         world = World(gravityVec, true)
@@ -31,7 +36,9 @@ class GamePhysics(private val contactListener: ContactListener) {
     }
 
     fun debugRender(matrix: Matrix4) {
-        debugRenderer.render(world, matrix)
+        if (enableDebugRender) {
+            debugRenderer.render(world, matrix)
+        }
     }
 
     fun dispose() {

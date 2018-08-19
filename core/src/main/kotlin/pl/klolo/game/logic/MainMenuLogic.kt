@@ -37,13 +37,11 @@ class MainMenuLogic<T : Entity>(
     }
 
     override val onUpdate: T.(Float) -> Unit = {
-        gameTitleLabel.text = "Kotlin wars"
         gameTitleLabel.setPosition(
                 Gdx.graphics.width.toFloat() / 2 - gameTitleLabel.getFontWidth() / 2,
                 Gdx.graphics.height.toFloat() / 2
         )
 
-        infoLabel.text = "(press enter for start, escape for exit)"
         infoLabel.setPosition(
                 Gdx.graphics.width.toFloat() / 2 - infoLabel.getFontWidth() / 2,
                 Gdx.graphics.height.toFloat() / 2 - gameTitleLabel.getFontHeight()
@@ -54,6 +52,7 @@ class MainMenuLogic<T : Entity>(
         return createEntity<TextEntity>(textConfiguration, applicationContext)
                 .apply {
                     fontSize = FontSize.HUDE
+                    text = "kotlin wars"
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }
     }
@@ -61,6 +60,7 @@ class MainMenuLogic<T : Entity>(
     private fun initInfoLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration, applicationContext)
                 .apply {
+                    text = "press enter for start, escape for exit"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }

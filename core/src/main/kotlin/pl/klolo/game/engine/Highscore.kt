@@ -8,6 +8,6 @@ class Highscore {
     }
 
     fun getScore(): List<Int> {
-        return result.sorted()
+        return result.sortedDescending()
     }
 }

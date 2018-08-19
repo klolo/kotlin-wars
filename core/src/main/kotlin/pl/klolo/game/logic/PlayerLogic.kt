@@ -44,7 +44,7 @@ class PlayerLogic(
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         x = Gdx.graphics.width.toFloat() / 2 - width / 2
-        playerLight = gameLighting.createPointLight(100, "#9adde3ff", 80f, x, y)
+        playerLight = gameLighting.createPointLight(100, "#9adde3ff", 70f, x, y)
 
         val playerSpeed = 3f // seconds per screen width
         createPhysics()
@@ -80,7 +80,7 @@ class PlayerLogic(
                 .onEvent(OnCollision::class.java) {
                     val collidedEntity = it.entity!!
                     if (isEnemyLaser(collidedEntity)) {
-                        lifeLevel -= 50
+                        lifeLevel -= 10
                         eventProcessor.sendEvent(PlayerHit(lifeLevel))
 
                         if (lifeLevel <= 0) {

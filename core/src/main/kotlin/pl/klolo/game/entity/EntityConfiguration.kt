@@ -2,6 +2,7 @@ package pl.klolo.game.entity
 
 enum class EntityType {
     SPRITE_WITH_LOGIC,
+    SPRITE_WITH_CUSTOM_RENDERING,
     ENTITY_WITH_LOGIC,
     TEXT_ENTITY
 }

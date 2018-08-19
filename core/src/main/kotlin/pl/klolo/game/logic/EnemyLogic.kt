@@ -35,7 +35,7 @@ class EnemyLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        light = gameLighting.createPointLight(50, Colors.redLight, 30f, x, y)
+        light = gameLighting.createPointLight(50, Colors.redLight, 40f, x, y)
 
         life = uniqueName
                 .elementAt(uniqueName.lastIndex)
