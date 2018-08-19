@@ -5,7 +5,7 @@
     "type": "SPRITE_WITH_LOGIC",
     "image": "ship.png",
     "x": 250.0,
-    "y": 70.0,
+    "y": 50.0,
     "width": 50.0,
     "height": 50.0,
     "layer": 2,

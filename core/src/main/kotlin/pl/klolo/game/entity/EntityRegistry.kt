@@ -6,9 +6,11 @@ class EntityRegistry(private var entitiesConfiguration: List<EntityConfiguration
         this.entitiesConfiguration += entitiesConfiguration
     }
 
-    fun getConfigurationById(id: String): EntityConfiguration? {
-        return entitiesConfiguration.findLast {
+    fun getConfigurationById(id: String): EntityConfiguration {
+        val result = entitiesConfiguration.findLast {
             it.uniqueName == id
-        }
+        } ?: throw IllegalArgumentException("Entity configuration by id not found $id")
+
+        return result
     }
 }

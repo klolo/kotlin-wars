@@ -1,4 +1,4 @@
-package pl.klolo.game
+package pl.klolo.game.engine
 
 import org.springframework.context.support.GenericApplicationContext
 import pl.klolo.game.configuration.Profile

@@ -2,7 +2,7 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import pl.klolo.game.applicationContext
+import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
@@ -31,11 +31,9 @@ class EnemyBaseLogic(
                 Actions.sequence(
                         Actions.run {
                             if (enemiesCount < maxEnemiesOnStage) {
-                                val laserConfiguration = entityRegistry.getConfigurationById("enemyRed" + Random().nextInt(5))
-                                if (laserConfiguration != null) {
-                                    enemiesCount++
-                                    createEnemy(laserConfiguration)
-                                }
+                                val laserConfiguration = entityRegistry.getConfigurationById("enemyRed" + (1 + Random().nextInt(5)))
+                                enemiesCount++
+                                createEnemy(laserConfiguration)
                             }
                         },
                         Actions.delay(1f)
@@ -45,12 +43,14 @@ class EnemyBaseLogic(
 
     private fun EntityWithLogic.createEnemy(laserConfiguration: EntityConfiguration) {
         val random = Random()
-        val bulletXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt())
-        val bulletYPosition = Gdx.graphics.height.toFloat() + 10
+        val margin = 50
+
+        val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
+        val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
         val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext) {
-            x = bulletXPosition.toFloat()
-            y = bulletYPosition
+            x = enemyXPosition.toFloat()
+            y = enemyYPosition
         } as SpriteEntityWithLogic
 
         eventProcessor.sendEvent(RegisterEntity(bulletEntity))

@@ -1,4 +1,4 @@
-package pl.klolo.game
+package pl.klolo.game.engine
 
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.ApplicationAdapter
@@ -63,7 +63,7 @@ class GameEngine internal constructor(
         batch.end()
 
         gamePhysics.update()
-       // gamePhysics.debugRender(camera.combined)
+        gamePhysics.debugRender(camera.combined)
     }
 
     private fun initializeCamera() {

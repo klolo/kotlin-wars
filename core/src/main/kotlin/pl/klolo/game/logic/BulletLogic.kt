@@ -2,19 +2,22 @@ package pl.klolo.game.logic
 
 import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
-import pl.klolo.game.GameLighting
-import pl.klolo.game.physics.GamePhysics
+import pl.klolo.game.configuration.Colors.blueLight
+import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.engine.isEnemyByName
+import pl.klolo.game.engine.isPlayerByName
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.OnCollision
 import pl.klolo.game.extensions.execute
+import pl.klolo.game.physics.GamePhysics
+import java.util.*
 
-enum class Direction {
-    DOWN,
-    UP
-}
+enum class Direction { DOWN, UP }
 
 class BulletLogic(
         private val gamePhysics: GamePhysics,
@@ -22,13 +25,14 @@ class BulletLogic(
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private var bulletLight: PointLight? = null
-    private var physicsShape: PolygonShape? = null
+    private lateinit var physicsShape: PolygonShape
+    var isEnemyBullet = true
     private lateinit var body: Body
-    var lightColor = "#9adde3ff"
+    var lightColor = blueLight
     var direction: Direction = Direction.UP
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
-        physicsShape?.dispose()
+        physicsShape.dispose()
         gamePhysics.destroy(body)
         bulletLight?.remove()
     }
@@ -37,49 +41,52 @@ class BulletLogic(
         bulletLight = gameLighting.createPointLight(100, lightColor, 50f, x, y)
 
         createPhysics()
+        eventProcessor
+                .subscribe(id)
+                .onEvent(OnCollision::class.java) {
+                    onCollision(it)
+                }
 
         addAction(sequence(
-                moveTo(getStartXPosition(), getTargetYPosition(), 3f),
+                moveTo(x, getTargetYPosition(), 3f + Random().nextFloat()),
                 execute(Runnable { shouldBeRemove = true })
         ))
+    }
+
+    private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
+        val collidedEntity = it.entity
+
+        if (collidedEntity != null) {
+            if (isEnemyBullet && isPlayerByName(collidedEntity)) {
+                shouldBeRemove = true
+            } else if (!isEnemyBullet && isEnemyByName(collidedEntity)) {
+                shouldBeRemove = true
+            }
+        }
     }
 
     private fun SpriteEntityWithLogic.getTargetYPosition(): Float {
         return when (direction) {
             Direction.UP -> y + Gdx.graphics.height.toFloat()
-            Direction.DOWN -> -100f // bottom margin
-        }
-    }
-
-    private fun SpriteEntityWithLogic.getStartXPosition(): Float {
-        return when (direction) {
-            Direction.UP -> x
-            Direction.DOWN -> x - height - 10
+            Direction.DOWN -> y - Gdx.graphics.height.toFloat()
         }
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         bulletLight?.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
+
+        val minYPositionOffset = 100
+        if (y + minYPositionOffset < 0) {
+            shouldBeRemove = true
+        }
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {
-        val bodyDef = BodyDef().apply {
-            type = BodyDef.BodyType.DynamicBody
-        }
+        physicsShape = PolygonShape().apply { setAsBox(width / 2, height / 2) }
+        body = gamePhysics.createDynamicBody()
 
-        physicsShape = PolygonShape()
-        physicsShape?.setAsBox(width / 2, height / 2);
-
-        val fixtureDef = FixtureDef().apply {
-            shape = physicsShape
-            density = 0.5f
-            friction = 0.4f
-            restitution = 0.6f
-        }
-
-        body = gamePhysics.createBody(bodyDef)
-        val fixture = body.createFixture(fixtureDef)
-        fixture?.userData = this
+        val fixture = body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
+        fixture.userData = this
     }
 }

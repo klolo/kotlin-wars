@@ -54,4 +54,7 @@ class EventProcessor {
                 .forEach { it.second(event) }
     }
 
+    fun clearAllSubscription() {
+        subscription.clear()
+    }
 }

@@ -2,15 +2,12 @@ package pl.klolo.game.physics
 
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.badlogic.gdx.physics.box2d.*
 
 class GamePhysics(private val contactListener: ContactListener) {
     lateinit var world: World
     private lateinit var debugRenderer: Box2DDebugRenderer
-
+    private var bodyToRemove: List<Body> = mutableListOf()
     fun initPhysics() {
         val gravityVec = Vector2(0f, -9.8f)
         world = World(gravityVec, true)
@@ -18,8 +15,19 @@ class GamePhysics(private val contactListener: ContactListener) {
         debugRenderer = Box2DDebugRenderer()
     }
 
+    fun onDispose() {
+        world.step(0f, 0, 0)
+    }
+
     fun update() {
-        world.step(1 / 60f, 6, 2);
+        world.step(1 / 60f, 6, 2)
+
+        bodyToRemove.forEach {
+            it.isActive = false
+            world.destroyBody(it)
+        }
+
+        bodyToRemove = mutableListOf()
     }
 
     fun debugRender(matrix: Matrix4) {
@@ -28,14 +36,25 @@ class GamePhysics(private val contactListener: ContactListener) {
 
     fun dispose() {
         world.dispose()
-
     }
 
     fun destroy(body: Body) {
-        world.destroyBody(body)
+        bodyToRemove += body
     }
 
-    fun createBody(bodyDef: BodyDef): Body {
+    fun createDynamicBody(bodyDef: BodyDef = BodyDef()): Body {
+        bodyDef.apply {
+            type = BodyDef.BodyType.DynamicBody
+        }
         return world.createBody(bodyDef)
+    }
+
+    fun <T : Shape> getStandardFixtureDef(_shape: T): FixtureDef {
+        return FixtureDef().apply {
+            shape = _shape
+            density = 0.5f
+            friction = 0.4f
+            restitution = 0.6f
+        }
     }
 }

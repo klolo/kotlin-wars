@@ -1,4 +1,4 @@
-package pl.klolo.game
+package pl.klolo.game.engine
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -11,9 +11,13 @@ import pl.klolo.game.entity.EntityConfiguration
 import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.GameOver
 import pl.klolo.game.event.RegisterEntity
+import pl.klolo.game.event.StartNewGame
+import pl.klolo.game.physics.GamePhysics
 
 class Stage(
+        private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor) : ApplicationContextAware {
     lateinit var _applicationContext: ApplicationContext
@@ -25,19 +29,43 @@ class Stage(
     private var entities = emptyList<Entity>()
 
     fun initEntities() {
-        val json = Gdx.files.internal("stage1-entities.json").readString()
-        val entitiesConfiguration = Klaxon().parseArray<EntityConfiguration>(json) ?: emptyList()
+        subscribe()
+        loadStage("menu-entities.json")
+    }
 
+    private fun subscribe() {
         eventProcessor
                 .subscribe(-1)
                 .onEvent(RegisterEntity::class.java) { event: RegisterEntity ->
                     val newEntity = event.entity
                     if (newEntity != null) {
-                        println("Register entity: ${newEntity.uniqueName}")
                         entities += newEntity
                     }
-
                 }
+                .onEvent(GameOver::class.java) {
+                    switchStage("gameover-menu-entities.json")
+                }
+                .onEvent(StartNewGame) {
+                    switchStage("game-entities.json")
+                }
+    }
+
+    private fun switchStage(nextStageFileConfiguration: String) {
+        disposeCurrentStageEntities()
+        subscribe()
+        loadStage(nextStageFileConfiguration)
+    }
+
+    private fun disposeCurrentStageEntities() {
+        eventProcessor.clearAllSubscription()
+        gamePhysics.onDispose()
+        entities.forEach { it.dispose() }
+        entities = emptyList()
+    }
+
+    private fun loadStage(stageConfigurationFilename: String) {
+        val json = Gdx.files.internal(stageConfigurationFilename).readString()
+        val entitiesConfiguration = Klaxon().parseArray<EntityConfiguration>(json) ?: emptyList()
 
         entityRegistry.addConfiguration(entitiesConfiguration)
         entities += entitiesConfiguration

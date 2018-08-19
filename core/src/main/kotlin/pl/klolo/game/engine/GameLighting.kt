@@ -1,9 +1,10 @@
-package pl.klolo.game
+package pl.klolo.game.engine
 
-import box2dLight.ConeLight
 import box2dLight.PointLight
 import box2dLight.RayHandler
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import pl.klolo.game.configuration.Colors
 import pl.klolo.game.extensions.toColor
 import pl.klolo.game.physics.GamePhysics
 
@@ -16,7 +17,7 @@ class GameLighting(private val gamePhysics: GamePhysics) {
         rayHandler.setBlur(true)
         rayHandler.setBlurNum(3)
         rayHandler.setShadows(true)
-        rayHandler.setAmbientLight("#222222".toColor())
+        rayHandler.setAmbientLight(Colors.ambient)
     }
 
     fun dispose() {
@@ -32,7 +33,7 @@ class GameLighting(private val gamePhysics: GamePhysics) {
         return PointLight(rayHandler, rays, color.toColor(), distance, x, y) // TODO: dispose
     }
 
-    fun createDirectionalLight(rays: Int, color: String, distance: Float, x: Float, y: Float, directionDegree: Float, coneDegree: Float): ConeLight {
-        return ConeLight(rayHandler, rays, color.toColor(), distance, x, y, directionDegree, coneDegree)
+    fun createPointLight(rays: Int, color: Color, distance: Float, x: Float, y: Float): PointLight {
+        return PointLight(rayHandler, rays, color, distance, x, y) // TODO: dispose
     }
 }

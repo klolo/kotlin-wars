@@ -1,0 +1,22 @@
+[
+  {
+    "uniqueName": "background",
+    "logicClass": "pl.klolo.game.logic.BackgroundLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "background.jpg",
+    "layer": 1,
+    "initOnCreate": true
+  },
+  {
+    "uniqueName": "text",
+    "type": "TEXT_ENTITY",
+    "initOnCreate": false,
+    "layer": 10
+  },
+  {
+    "uniqueName": "gameOverMenu",
+    "type": "ENTITY_WITH_LOGIC",
+    "logicClass": "pl.klolo.game.logic.GameOverMenuLogic",
+    "initOnCreate": true
+  }
+]

@@ -3,10 +3,10 @@ package pl.klolo.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.typesafe.config.Config;
-import pl.klolo.game.GameEngine;
+import pl.klolo.game.engine.GameEngine;
 import pl.klolo.game.configuration.Profile;
 
-import static pl.klolo.game.GameEngineFactoryKt.createGameEngine;
+import static pl.klolo.game.engine.GameEngineFactoryKt.createGameEngine;
 
 public class DesktopLauncher {
 

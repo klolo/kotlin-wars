@@ -1,4 +1,4 @@
-package pl.klolo.game
+package pl.klolo.game.engine
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor
@@ -29,6 +29,10 @@ class KeyboardProcessor(private val eventProcessor: EventProcessor) : InputProce
             Input.Keys.LEFT -> eventProcessor.sendEvent(OnLeftUp)
             Input.Keys.RIGHT -> eventProcessor.sendEvent(OnRightUp)
             Input.Keys.SPACE -> eventProcessor.sendEvent(OnSpace)
+            Input.Keys.DOWN -> eventProcessor.sendEvent(OnArrowDown)
+            Input.Keys.UP -> eventProcessor.sendEvent(OnArrowUp)
+            Input.Keys.ENTER -> eventProcessor.sendEvent(OnEnter)
+            Input.Keys.ESCAPE -> eventProcessor.sendEvent(OnEscape)
         }
         return true
     }
