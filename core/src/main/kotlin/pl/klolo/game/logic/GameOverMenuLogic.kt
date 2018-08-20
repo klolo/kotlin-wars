@@ -23,7 +23,7 @@ class GameOverMenuLogic<T : Entity>(
     private val gameOverLabel: TextEntity
             by lazy { initGameOverLabel() }
 
-    private val scoreLabels: List<TextEntity>
+    private val scoreLabels: TextEntity
             by lazy { createScoreLabels() }
 
     override val initialize: T.() -> Unit = {
@@ -43,13 +43,11 @@ class GameOverMenuLogic<T : Entity>(
                 Gdx.graphics.height.toFloat() / 2
         )
 
-        for (i: Int in scoreLabels.indices) {
-            val startYPosition = Gdx.graphics.height.toFloat() / 2 - gameOverLabel.getFontHeight()
-            scoreLabels[i].setPosition(
-                    Gdx.graphics.width.toFloat() / 2 - scoreLabels[i].getFontWidth() / 2,
-                    startYPosition - (i * scoreLabels[i].getFontHeight())
-            )
-        }
+        val startYPosition = Gdx.graphics.height.toFloat() / 2 - gameOverLabel.getFontHeight()
+        scoreLabels.setPosition(
+                Gdx.graphics.width.toFloat() / 2 - scoreLabels.getFontWidth() / 2,
+                startYPosition - scoreLabels.getFontHeight())
+
     }
 
     private fun initGameOverLabel(): TextEntity {
@@ -61,15 +59,12 @@ class GameOverMenuLogic<T : Entity>(
                 }
     }
 
-    private fun createScoreLabels(): List<TextEntity> {
-        return highscore.getScore()
-                .map {
-                    createEntity<TextEntity>(textConfiguration, applicationContext)
-                            .apply {
-                                text = it.toString()
-                                fontSize = FontSize.MEDIUM
-                                eventProcessor.sendEvent(RegisterEntity(this))
-                            }
+    private fun createScoreLabels(): TextEntity {
+        return createEntity<TextEntity>(textConfiguration, applicationContext)
+                .apply {
+                    text = "Your score: ${highscore.getLastScore()}\nBest score: ${highscore.getRecord()}"
+                    fontSize = FontSize.SMALL
+                    eventProcessor.sendEvent(RegisterEntity(this))
                 }
     }
 

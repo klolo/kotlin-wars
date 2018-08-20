@@ -12,6 +12,16 @@
     "initOnCreate": true
   },
   {
+    "uniqueName": "playerLifebar",
+    "logicClass": "pl.klolo.game.logic.PlayerLifeBarLogic",
+    "type": "SPRITE_WITH_CUSTOM_RENDERING",
+    "image": "lifebar-background.png",
+    "width": 100,
+    "height": 20,
+    "layer": 2,
+    "initOnCreate": true
+  },
+  {
     "uniqueName": "background",
     "logicClass": "pl.klolo.game.logic.BackgroundLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",

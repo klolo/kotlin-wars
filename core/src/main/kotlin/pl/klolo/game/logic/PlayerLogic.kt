@@ -3,8 +3,6 @@ package pl.klolo.game.logic
 import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
@@ -84,7 +82,7 @@ class PlayerLogic(
                         eventProcessor.sendEvent(PlayerHit(lifeLevel))
 
                         if (lifeLevel <= 0) {
-                            highscore.addScore(points)
+                            highscore.setLastScore(points)
                             eventProcessor.sendEvent(GameOver(lifeLevel))
                         }
                     }

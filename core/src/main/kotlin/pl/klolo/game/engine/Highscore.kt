@@ -1,13 +1,22 @@
 package pl.klolo.game.engine
 
+import com.badlogic.gdx.Gdx
+
+
 class Highscore {
-    private var result = emptyList<Int>()
+    private var lastScore = 0
+    private val prefs = Gdx.app.getPreferences("My Preferences")
 
-    fun addScore(score: Int) {
-        result += score
-    }
+    fun getRecord(): Int = prefs.getInteger("record")
 
-    fun getScore(): List<Int> {
-        return result.sortedDescending()
+    fun getLastScore(): Int = lastScore
+
+    fun setLastScore(score: Int) {
+        lastScore = score
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        if (prefs.getInteger("record") < score) {
+            prefs.putInteger("record", score)
+            prefs.flush()
+        }
     }
 }
