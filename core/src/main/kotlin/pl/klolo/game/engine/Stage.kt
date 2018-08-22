@@ -43,9 +43,11 @@ class Stage(
                     }
                 }
                 .onEvent(GameOver::class.java) {
+                    println(" -- GAME OVER ---")
                     switchStage("gameover-menu-entities.json")
                 }
                 .onEvent(StartNewGame) {
+                    println(" -- START GAME ---")
                     switchStage("game-entities.json")
                 }
     }

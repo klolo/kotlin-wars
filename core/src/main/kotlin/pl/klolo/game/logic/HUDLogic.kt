@@ -9,7 +9,7 @@ import pl.klolo.game.entity.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.AddPoints
 import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.PlayerHit
+import pl.klolo.game.event.ChangePlayerLfeLevel
 import pl.klolo.game.event.RegisterEntity
 
 class HUDLogic(
@@ -43,13 +43,15 @@ class HUDLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
+        println("HUDLogic creating...")
+
         eventProcessor
                 .subscribe(id)
                 .onEvent(AddPoints::class.java) {
                     points += it.points
                     pointsLabel.text = "$points"
                 }
-                .onEvent(PlayerHit::class.java) {
+                .onEvent(ChangePlayerLfeLevel::class.java) {
                     lifeLabel.text = "${it.actualPlayerLifeLevel}%"
                 }
     }

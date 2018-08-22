@@ -23,14 +23,15 @@ class EnemyLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
-    private var light: PointLight? = null
-    private var physicsShape: CircleShape? = null
+    private lateinit var light: PointLight
+    private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var life: Int = 0
+    var shootDelay = 3f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
-        light?.remove()
-        physicsShape?.dispose()
+        light.remove()
+        physicsShape.dispose()
         gamePhysics.destroy(body)
     }
 
@@ -52,7 +53,7 @@ class EnemyLogic(
 
         addAction(
                 forever(sequence(
-                        delay(1f + Random().nextInt(2)),
+                        delay(shootDelay),
                         execute(Runnable {
                             val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
                             shootOnPosition(laserConfiguration)
@@ -103,12 +104,15 @@ class EnemyLogic(
     }
 
     fun SpriteEntityWithLogic.onDestroy() {
+        if(shouldBeRemove) {
+            return
+        }
         shouldBeRemove = true
         eventProcessor.sendEvent(EnemyDestroyed)
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        light?.setPosition(x + width / 2, y + height / 2)
+        light.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
 
         val downMarginBeforeDestroyEntity = 20
@@ -120,15 +124,7 @@ class EnemyLogic(
     private fun SpriteEntityWithLogic.createPhysics() {
         body = gamePhysics.createDynamicBody()
         physicsShape = CircleShape().apply { radius = width / 2 }
-
-        val fixtureDef = FixtureDef().apply {
-            shape = physicsShape
-            density = 0.5f
-            friction = 0.4f
-            restitution = 0.6f
-        }
-
-        val fixture = body.createFixture(fixtureDef)
+        val fixture = body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
         fixture?.userData = this
     }
 

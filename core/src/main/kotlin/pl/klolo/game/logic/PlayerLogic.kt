@@ -2,10 +2,12 @@ package pl.klolo.game.logic
 
 import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader.Inputs.opacity
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.Action
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.Highscore
 import pl.klolo.game.engine.applicationContext
@@ -41,11 +43,14 @@ class PlayerLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
+        println("PlayerLogic creating...")
+
         x = Gdx.graphics.width.toFloat() / 2 - width / 2
         playerLight = gameLighting.createPointLight(100, "#9adde3ff", 70f, x, y)
 
         val playerSpeed = 3f // seconds per screen width
         createPhysics()
+
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnLeftDown) {
@@ -79,13 +84,30 @@ class PlayerLogic(
                     val collidedEntity = it.entity!!
                     if (isEnemyLaser(collidedEntity)) {
                         lifeLevel -= 10
-                        eventProcessor.sendEvent(PlayerHit(lifeLevel))
+
+                        // TODO: animation
+//                        addAction(
+//                                sequence(
+//                                        scaleTo(0.9f, 0.9f, 0.1f, Interpolation.bounce),
+//                                        scaleTo(1f, 1f, 0.1f, Interpolation.bounce)
+//                                )
+//                        )
+
+                        eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
 
                         if (lifeLevel <= 0) {
                             highscore.setLastScore(points)
                             eventProcessor.sendEvent(GameOver(lifeLevel))
                         }
                     }
+                }
+                .onEvent(AddPlayerLife::class.java) {
+                    println("increase life level ${it}")
+                    lifeLevel += it.lifeAmount
+                    if (lifeLevel > 100) {
+                        lifeLevel = 100
+                    }
+                    eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
                 }
     }
 
@@ -96,8 +118,7 @@ class PlayerLogic(
         val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext) {
             x = bulletXPosition
             y = bulletYPosition
-
-        } as SpriteEntityWithLogic
+        }
 
         (bulletEntity.logic as BulletLogic).isEnemyBullet = false
 

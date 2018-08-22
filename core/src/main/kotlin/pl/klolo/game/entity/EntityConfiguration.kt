@@ -7,7 +7,7 @@ enum class EntityType {
     TEXT_ENTITY
 }
 
-class EntityConfiguration(
+data class EntityConfiguration(
         /** human readable name - required */
         val uniqueName: String,
 

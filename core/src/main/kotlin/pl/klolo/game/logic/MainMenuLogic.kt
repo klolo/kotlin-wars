@@ -1,6 +1,8 @@
 package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Sprite
 import pl.klolo.game.engine.FontSize
 import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.Entity
@@ -15,7 +17,7 @@ import pl.klolo.game.event.StartNewGame
 class MainMenuLogic<T : Entity>(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<T> {
-
+    private lateinit  var rocket: Sprite
     private val textConfiguration = entityRegistry.getConfigurationById("text")
 
     private val gameTitleLabel: TextEntity
@@ -25,6 +27,9 @@ class MainMenuLogic<T : Entity>(
             by lazy { initInfoLabel() }
 
     override val initialize: T.() -> Unit = {
+        println("MainMenuLogic creating...")
+
+        rocket = Sprite(Texture(Gdx.files.internal("rocket.png")))
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnEnter) {

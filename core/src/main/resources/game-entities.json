@@ -70,6 +70,12 @@
     "initOnCreate": true
   },
   {
+    "uniqueName": "bonusManager",
+    "logicClass": "pl.klolo.game.logic.BonusLogic",
+    "type": "ENTITY_WITH_LOGIC",
+    "initOnCreate": true
+  },
+  {
     "uniqueName": "enemyRed1",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
@@ -112,6 +118,24 @@
     "image": "enemyRed5.png",
     "width": 60,
     "height": 60,
+    "layer": -1
+  },
+  {
+    "uniqueName": "medicineBonus",
+    "logicClass": "pl.klolo.game.logic.AdditionalLifeBonusLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "Power-ups/pill_red.png",
+    "width": 20,
+    "height": 20,
+    "layer": -1
+  },
+  {
+    "uniqueName": "starBonus",
+    "logicClass": "pl.klolo.game.logic.AdditionalPointsBonusLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "Power-ups/star_gold.png",
+    "width": 20,
+    "height": 20,
     "layer": -1
   }
 ]

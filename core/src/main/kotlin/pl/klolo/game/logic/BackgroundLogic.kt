@@ -18,6 +18,8 @@ class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
     }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
+        println("BackgroundLogic creating...")
+
         val texture = Texture(Gdx.files.internal(entityConfiguration.image))
         leftBackground = Sprite(texture)
         leftBackground.x = Gdx.graphics.width.toFloat() * -1

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import pl.klolo.game.entity.SpriteWithCustomRendering
 import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.PlayerHit
+import pl.klolo.game.event.ChangePlayerLfeLevel
 
 class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLogicWithRendering<SpriteWithCustomRendering> {
     private lateinit var fill: Sprite
@@ -20,6 +20,8 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
+        println("PlayerLifeBarLogic creating...")
+
         fill = Sprite(Texture(Gdx.files.internal(entityConfiguration.image)))
         background = Sprite(Texture(Gdx.files.internal("lifebar.png")))
 
@@ -29,7 +31,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(PlayerHit::class.java) {
+                .onEvent(ChangePlayerLfeLevel::class.java) {
                     lifeAmount = it.actualPlayerLifeLevel / 100f
                 }
     }
