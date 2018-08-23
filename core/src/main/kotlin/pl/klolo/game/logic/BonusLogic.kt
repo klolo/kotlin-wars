@@ -2,7 +2,7 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.addAction
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.engine.Highscore
 import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.*
@@ -18,23 +18,26 @@ class BonusLogic(
 
     private val items by lazy {
         listOf(
-                entityRegistry.getConfigurationById("medicineBonus") to 2,
-                entityRegistry.getConfigurationById("starBonus") to 10
+                entityRegistry.getConfigurationById("medicineBonus") to 50,
+                entityRegistry.getConfigurationById("starBonus") to 2,
+                entityRegistry.getConfigurationById("superBulletBonus") to 2,
+                entityRegistry.getConfigurationById("shieldBonus") to 50,
+                entityRegistry.getConfigurationById("doublePointsBonus") to 50
         )
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
         println("BonusLogic creating...")
 
-        addAction(Actions.forever(
-                Actions.sequence(
+        addAction(forever(
+                sequence(
                         Actions.run {
                             val randomItem = getRandomItemConfiguration()
                             if (shouldCreateItem(randomItem.second)) {
                                 createItem(randomItem.first)
                             }
                         },
-                        Actions.delay(0.5f)
+                        delay(0.5f)
                 )
         ))
     }

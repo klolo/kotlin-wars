@@ -23,3 +23,27 @@ class AdditionalPointsBonusLogic(
         return AddPoints(100)
     }
 }
+
+class SuperBulletBonusLogic(eventProcessor: EventProcessor, gameLighting: GameLighting, gamePhysics: GamePhysics)
+    : BaseBonusLogic(eventProcessor, gameLighting, gamePhysics) {
+
+    override fun getEventToSendOnCollisionWithPlayer(): Event {
+        return EnableSuperBullet
+    }
+}
+
+class ShieldBonusLogic(eventProcessor: EventProcessor, gameLighting: GameLighting, gamePhysics: GamePhysics)
+    : BaseBonusLogic(eventProcessor, gameLighting, gamePhysics) {
+
+    override fun getEventToSendOnCollisionWithPlayer(): Event {
+        return EnableShield
+    }
+}
+
+class DoublePointsBonusLogic(eventProcessor: EventProcessor, gameLighting: GameLighting, gamePhysics: GamePhysics)
+    : BaseBonusLogic(eventProcessor, gameLighting, gamePhysics) {
+
+    override fun getEventToSendOnCollisionWithPlayer(): Event {
+        return EnableDoublePoints
+    }
+}

@@ -36,7 +36,7 @@ abstract class BaseBonusLogic(
 
         val moveAction = sequence(
                 parallel(
-                        moveTo(x, y - Gdx.graphics.width - 100, 20f),
+                        moveTo(x, y - Gdx.graphics.width - 100, 25f),
                         forever(
                                 sequence(
                                         scaleTo(1.2f, 1.2f, 1f, Interpolation.linear),

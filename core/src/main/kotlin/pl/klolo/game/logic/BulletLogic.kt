@@ -30,6 +30,7 @@ class BulletLogic(
     private lateinit var body: Body
     var lightColor = blueLight
     var direction: Direction = Direction.UP
+    var bulletPower = 10
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()

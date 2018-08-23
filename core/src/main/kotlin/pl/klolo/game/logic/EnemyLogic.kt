@@ -27,6 +27,7 @@ class EnemyLogic(
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var life: Int = 0
+    private val lifeFactory = 20
     var shootDelay = 3f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
@@ -41,7 +42,7 @@ class EnemyLogic(
         life = uniqueName
                 .elementAt(uniqueName.lastIndex)
                 .toString()
-                .toInt() * 10
+                .toInt() * lifeFactory
 
         createPhysics()
 
@@ -65,7 +66,7 @@ class EnemyLogic(
                 .onEvent(OnCollision::class.java) {
                     val collidedEntity = it.entity!!
                     if (isPlayerLaser(collidedEntity)) {
-                        onCollisionWithLaser(collidedEntity)
+                        onCollisionWithLaser(collidedEntity as SpriteEntityWithLogic)
                     }
                 }
     }
@@ -90,8 +91,8 @@ class EnemyLogic(
         eventProcessor.sendEvent(RegisterEntity(bulletEntity))
     }
 
-    private fun SpriteEntityWithLogic.onCollisionWithLaser(collidedEntity: Entity) {
-        life -= 10
+    private fun SpriteEntityWithLogic.onCollisionWithLaser(collidedEntity: SpriteEntityWithLogic) {
+        life -= (collidedEntity.logic as BulletLogic).bulletPower
         if (life <= 0) {
             onDestroyEnemy()
         }
@@ -104,7 +105,7 @@ class EnemyLogic(
     }
 
     fun SpriteEntityWithLogic.onDestroy() {
-        if(shouldBeRemove) {
+        if (shouldBeRemove) {
             return
         }
         shouldBeRemove = true
