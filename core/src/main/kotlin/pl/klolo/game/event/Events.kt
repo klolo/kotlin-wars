@@ -24,7 +24,9 @@ class AddPoints(val points: Int = 0) : Event()
 class AddPlayerLife(val lifeAmount: Int = 0) : Event()
 object EnableSuperBullet : Event()
 object EnableShield : Event()
+object DisableShield : Event()
 object EnableDoublePoints : Event()
+object LaserHitInShield: Event()
 
 
 // engine

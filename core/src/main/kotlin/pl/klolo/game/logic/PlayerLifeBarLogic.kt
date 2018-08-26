@@ -37,7 +37,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     }
 
     override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit =
-            { batch: Batch, camera: OrthographicCamera ->
+            { batch: Batch, _ ->
                 batch.draw(background, x, y, originX, originY, entityConfiguration.width, height, scaleX, scaleY, rotation)
                 batch.draw(fill,
                         x + (entityConfiguration.width * 0.05f),

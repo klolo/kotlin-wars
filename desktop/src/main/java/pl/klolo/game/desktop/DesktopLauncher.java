@@ -13,13 +13,13 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         GameEngine gameEngine = createGameEngine(Profile.DESKTOP);
 
-        LwjglApplicationConfiguration lwjglApplicationConfiguration = new LwjglApplicationConfiguration();
+        LwjglApplicationConfiguration appConfig = new LwjglApplicationConfiguration();
         Config applicationConfigFromFile = gameEngine.getConfig("application");
-        lwjglApplicationConfiguration.title = applicationConfigFromFile.getString("title");
-        lwjglApplicationConfiguration.width = applicationConfigFromFile.getInt("width");
-        lwjglApplicationConfiguration.height = applicationConfigFromFile.getInt("height");
-        lwjglApplicationConfiguration.fullscreen = applicationConfigFromFile.getBoolean("fullscreen");
-        new LwjglApplication(gameEngine, lwjglApplicationConfiguration);
+        appConfig.title = applicationConfigFromFile.getString("title");
+        appConfig.width = applicationConfigFromFile.getInt("width");
+        appConfig.height = applicationConfigFromFile.getInt("height");
+        appConfig.fullscreen = applicationConfigFromFile.getBoolean("fullscreen");
+        new LwjglApplication(gameEngine, appConfig);
     }
 
 }

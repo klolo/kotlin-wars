@@ -6,6 +6,10 @@ fun isPlayerByName(entity: Entity): Boolean {
     return entity.uniqueName.contains("player")
 }
 
+fun isShieldByName(entity: Entity): Boolean {
+    return entity.uniqueName.contains("shield")
+}
+
 fun isEnemyByName(entity: Entity): Boolean {
     return entity.uniqueName.contains("enemy")
 }

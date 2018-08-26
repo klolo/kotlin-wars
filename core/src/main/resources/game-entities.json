@@ -1,7 +1,7 @@
 [
   {
     "uniqueName": "player",
-    "logicClass": "pl.klolo.game.logic.PlayerLogic",
+    "logicClass": "pl.klolo.game.logic.player.PlayerLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "ship.png",
     "x": 250.0,
@@ -90,7 +90,7 @@
     "uniqueName": "enemyRed1",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "enemyRed1.png",
+    "image": "enemy/enemyRed1.png",
     "width": 30,
     "height": 30,
     "layer": -1
@@ -99,7 +99,7 @@
     "uniqueName": "enemyRed2",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "enemyRed2.png",
+    "image": "enemy/enemyRed2.png",
     "width": 40,
     "height": 40,
     "layer": -1
@@ -108,7 +108,7 @@
     "uniqueName": "enemyRed3",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "enemyRed3.png",
+    "image": "enemy/enemyRed3.png",
     "width": 50,
     "height": 50,
     "layer": -1
@@ -117,7 +117,7 @@
     "uniqueName": "enemyRed4",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "enemyRed4.png",
+    "image": "enemy/enemyRed4.png",
     "width": 60,
     "height": 60,
     "layer": -1
@@ -126,7 +126,7 @@
     "uniqueName": "enemyRed5",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "enemyRed5.png",
+    "image": "enemy/enemyRed5.png",
     "width": 60,
     "height": 60,
     "layer": -1
@@ -166,6 +166,16 @@
     "width": 20,
     "height": 20,
     "layer": -1
+  },
+  {
+    "uniqueName": "shield1",
+    "logicClass": "pl.klolo.game.logic.ShieldLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "shield1.png",
+    "width": 110,
+    "height": 60,
+    "layer": 2,
+    "initOnCreate": true
   },
   {
     "uniqueName": "doublePointsBonus",

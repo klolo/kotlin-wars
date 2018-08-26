@@ -45,7 +45,7 @@ abstract class BaseBonusLogic(
                         )
 
                 ),
-                execute(Runnable { shouldBeRemove = true })
+                execute { shouldBeRemove = true }
         )
         addAction(moveAction)
 
@@ -61,10 +61,10 @@ abstract class BaseBonusLogic(
                                         parallel(
                                                 scaleTo(0.01f, 0.01f, 0.2f, Interpolation.linear)
                                         ),
-                                        execute(Runnable {
+                                        execute {
                                             eventProcessor.sendEvent(getEventToSendOnCollisionWithPlayer())
                                             shouldBeRemove = true
-                                        })
+                                        }
                                 )
                         )
                     }

@@ -32,7 +32,7 @@ class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
     }
 
     override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit =
-            { batch: Batch, camera: OrthographicCamera ->
+            { batch: Batch, _ ->
                 batch.draw(leftBackground, leftBackground.x, y, originX, originY, width, height, scaleX, scaleY, rotation)
                 batch.draw(centerBackground, centerBackground.x, y, originX, originY, width, height, scaleX, scaleY, rotation)
                 batch.draw(rightBackground, rightBackground.x, y, originX, originY, width, height, scaleX, scaleY, rotation)

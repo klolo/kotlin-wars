@@ -18,11 +18,11 @@ class BonusLogic(
 
     private val items by lazy {
         listOf(
-                entityRegistry.getConfigurationById("medicineBonus") to 50,
+                entityRegistry.getConfigurationById("medicineBonus") to 2,
                 entityRegistry.getConfigurationById("starBonus") to 2,
                 entityRegistry.getConfigurationById("superBulletBonus") to 2,
-                entityRegistry.getConfigurationById("shieldBonus") to 50,
-                entityRegistry.getConfigurationById("doublePointsBonus") to 50
+                entityRegistry.getConfigurationById("shieldBonus") to 2,
+                entityRegistry.getConfigurationById("doublePointsBonus") to 2
         )
     }
 
@@ -37,7 +37,7 @@ class BonusLogic(
                                 createItem(randomItem.first)
                             }
                         },
-                        delay(0.5f)
+                        delay(1f)
                 )
         ))
     }

@@ -17,7 +17,6 @@ import pl.klolo.game.event.StartNewGame
 class MainMenuLogic<T : Entity>(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<T> {
-    private lateinit  var rocket: Sprite
     private val textConfiguration = entityRegistry.getConfigurationById("text")
 
     private val gameTitleLabel: TextEntity
@@ -29,7 +28,6 @@ class MainMenuLogic<T : Entity>(
     override val initialize: T.() -> Unit = {
         println("MainMenuLogic creating...")
 
-        rocket = Sprite(Texture(Gdx.files.internal("rocket.png")))
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnEnter) {

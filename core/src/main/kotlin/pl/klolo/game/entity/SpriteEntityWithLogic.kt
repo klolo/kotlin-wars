@@ -14,8 +14,8 @@ open class SpriteEntityWithLogic(
     override var useLighting: Boolean = true
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer
-
     override var shouldBeRemove: Boolean = false
+    var display = true
 
     init {
         x = entityConfiguration.x
@@ -35,7 +35,9 @@ open class SpriteEntityWithLogic(
     }
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
-        batch.draw(sprite, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+        if(display) {
+            batch.draw(sprite, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
+        }
     }
 
     override fun update(delta: Float) {

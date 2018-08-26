@@ -35,7 +35,7 @@ data class EntityConfiguration(
         /** Order on stage */
         var layer: Int = 1,
 
-        /** If true initialize function on logic is called on loading game */
+        /** If true initializeMoving function on logic is called on loading game */
         var initOnCreate: Boolean = false,
 
         /** Depends on this entity is render with or without light */

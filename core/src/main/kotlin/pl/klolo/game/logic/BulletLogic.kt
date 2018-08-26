@@ -10,8 +10,10 @@ import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.isEnemyByName
 import pl.klolo.game.engine.isPlayerByName
+import pl.klolo.game.engine.isShieldByName
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.LaserHitInShield
 import pl.klolo.game.event.OnCollision
 import pl.klolo.game.extensions.execute
 import pl.klolo.game.physics.GamePhysics
@@ -50,7 +52,7 @@ class BulletLogic(
 
         addAction(sequence(
                 moveTo(x, getTargetYPosition(), 3f + Random().nextFloat()),
-                execute(Runnable { shouldBeRemove = true })
+                execute { shouldBeRemove = true }
         ))
     }
 
@@ -58,10 +60,14 @@ class BulletLogic(
         val collidedEntity = it.entity
 
         if (collidedEntity != null) {
-            if (isEnemyBullet && isPlayerByName(collidedEntity)) {
-                shouldBeRemove = true
-            } else if (!isEnemyBullet && isEnemyByName(collidedEntity)) {
-                shouldBeRemove = true
+            val enemyHitPlayer = isEnemyBullet && isPlayerByName(collidedEntity)
+            val playerHitEnemy = !isEnemyBullet && isEnemyByName(collidedEntity)
+            val enemyHitShield = isEnemyBullet && isShieldByName(collidedEntity)
+
+            shouldBeRemove = enemyHitPlayer || playerHitEnemy || enemyHitShield
+
+            if (enemyHitShield) {
+                eventProcessor.sendEvent(LaserHitInShield)
             }
         }
     }

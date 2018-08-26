@@ -49,16 +49,16 @@ class EnemyLogic(
         addAction(
                 sequence(
                         moveTo(x, y - Gdx.graphics.width - 100, 20f),
-                        execute(Runnable { onDestroy() })
+                        execute { onDestroy() }
                 ))
 
         addAction(
                 forever(sequence(
                         delay(shootDelay),
-                        execute(Runnable {
+                        execute {
                             val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
                             shootOnPosition(laserConfiguration)
-                        })
+                        }
                 ))
         )
 

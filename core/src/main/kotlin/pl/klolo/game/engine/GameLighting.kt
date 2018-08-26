@@ -1,5 +1,6 @@
 package pl.klolo.game.engine
 
+import box2dLight.Light
 import box2dLight.PointLight
 import box2dLight.RayHandler
 import com.badlogic.gdx.graphics.Color
@@ -29,11 +30,7 @@ class GameLighting(private val gamePhysics: GamePhysics) {
         rayHandler.updateAndRender();
     }
 
-    fun createPointLight(rays: Int, color: String, distance: Float, x: Float, y: Float): PointLight {
-        return PointLight(rayHandler, rays, color.toColor(), distance, x, y) // TODO: dispose
-    }
-
     fun createPointLight(rays: Int, color: Color, distance: Float, x: Float, y: Float): PointLight {
-        return PointLight(rayHandler, rays, color, distance, x, y) // TODO: dispose
+        return  PointLight(rayHandler, rays, color, distance, x, y) // TODO: dispose
     }
 }
