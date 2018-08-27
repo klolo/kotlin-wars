@@ -12,10 +12,9 @@ import pl.klolo.game.engine.isEnemyByName
 import pl.klolo.game.engine.isPlayerByName
 import pl.klolo.game.engine.isShieldByName
 import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.LaserHitInShield
-import pl.klolo.game.event.OnCollision
+import pl.klolo.game.event.*
 import pl.klolo.game.extensions.execute
+import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.physics.GamePhysics
 import java.util.*
 
@@ -44,16 +43,20 @@ class BulletLogic(
         bulletLight = gameLighting.createPointLight(100, lightColor, 50f, x, y)
 
         createPhysics()
-        eventProcessor
-                .subscribe(id)
-                .onEvent(OnCollision::class.java) {
-                    onCollision(it)
-                }
 
         addAction(sequence(
                 moveTo(x, getTargetYPosition(), 3f + Random().nextFloat()),
                 execute { shouldBeRemove = true }
         ))
+
+        executeAfterDelay(0.25f) {
+            eventProcessor
+                    .subscribe(id)
+                    .onEvent(OnCollision::class.java) {
+                        onCollision(it)
+                    }
+
+        }
     }
 
     private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {

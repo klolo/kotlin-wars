@@ -49,7 +49,7 @@ class PlayerLogic(
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         println("PlayerLogic creating...")
 
-        playerLight = gameLighting.createPointLight(100, blueLight, 70f, x, y)
+        playerLight = gameLighting.createPointLight(100, blueLight, 50f, x, y)
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
 
         initializeMoving()
@@ -72,20 +72,14 @@ class PlayerLogic(
                 }
                 .onEvent(EnableSuperBullet) {
                     enableSuperBullet()
-
-                    addAction(
-                            executeAfterDelay(15f) { disableSuperBullet() }
-                    )
+                    executeAfterDelay(15f) { disableSuperBullet() }
                 }
                 .onEvent(EnableShield) {
                     hasShield = true
-
-                    addAction(
-                            executeAfterDelay(15f) {
-                                hasShield = false
-                                eventProcessor.sendEvent(DisableShield)
-                            }
-                    )
+                    executeAfterDelay(15f) {
+                        hasShield = false
+                        eventProcessor.sendEvent(DisableShield)
+                    }
                 }
                 .onEvent(EnableDoublePoints) {
 

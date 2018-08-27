@@ -30,9 +30,7 @@ class MainMenuLogic<T : Entity>(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnEnter) {
-                    eventProcessor.sendEvent(StartNewGame)
-                }
+                .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
     }
 
     override val onDispose: T.() -> Unit = {
@@ -40,14 +38,17 @@ class MainMenuLogic<T : Entity>(
     }
 
     override val onUpdate: T.(Float) -> Unit = {
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+
         gameTitleLabel.setPosition(
-                Gdx.graphics.width.toFloat() / 2 - gameTitleLabel.getFontWidth() / 2,
-                Gdx.graphics.height.toFloat() / 2
+                width / 2 - gameTitleLabel.getFontWidth() / 2,
+                height / 2
         )
 
         infoLabel.setPosition(
-                Gdx.graphics.width.toFloat() / 2 - infoLabel.getFontWidth() / 2,
-                Gdx.graphics.height.toFloat() / 2 - gameTitleLabel.getFontHeight()
+                width / 2 - infoLabel.getFontWidth() / 2,
+                height / 2 - gameTitleLabel.getFontHeight()
         )
     }
 
@@ -57,6 +58,10 @@ class MainMenuLogic<T : Entity>(
                     fontSize = FontSize.HUDE
                     text = "kotlin wars"
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
+                }
+                .apply {
+                    intializeFont()
                 }
     }
 
@@ -66,6 +71,7 @@ class MainMenuLogic<T : Entity>(
                     text = "press enter for start, escape for exit"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
                 }
     }
 

@@ -13,7 +13,9 @@ import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
+import pl.klolo.game.extensions.addSequence
 import pl.klolo.game.extensions.execute
+import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.physics.GamePhysics
 import java.util.*
 
@@ -22,7 +24,7 @@ class EnemyLogic(
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
-
+    private var resultLabel: TextEntity? = null
     private lateinit var light: PointLight
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
@@ -31,9 +33,7 @@ class EnemyLogic(
     var shootDelay = 3f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
-        light.remove()
-        physicsShape.dispose()
-        gamePhysics.destroy(body)
+
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
@@ -65,7 +65,7 @@ class EnemyLogic(
         eventProcessor.subscribe(id)
                 .onEvent(OnCollision::class.java) {
                     val collidedEntity = it.entity!!
-                    if (isPlayerLaser(collidedEntity)) {
+                    if (isPlayerLaser(collidedEntity) && display) {
                         onCollisionWithLaser(collidedEntity as SpriteEntityWithLogic)
                     }
                 }
@@ -99,9 +99,21 @@ class EnemyLogic(
     }
 
     fun SpriteEntityWithLogic.onDestroyEnemy() {
-        // Size enemy is points to get
+        resultLabel = createResultLabel("+${height.toInt()}")
+        resultLabel?.setPosition(x, y)
+        resultLabel?.apply {
+            addSequence(
+                    alpha(0f, 1f),
+                    execute { onDestroy() }
+            )
+        }
+
+        display = false
+        light.remove()
+        physicsShape.dispose()
+        gamePhysics.destroy(body)
+
         eventProcessor.sendEvent(AddPoints(height.toInt()))
-        onDestroy()
     }
 
     fun SpriteEntityWithLogic.onDestroy() {
@@ -110,6 +122,7 @@ class EnemyLogic(
         }
         shouldBeRemove = true
         eventProcessor.sendEvent(EnemyDestroyed)
+        resultLabel?.shouldBeRemove = true
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
@@ -127,6 +140,15 @@ class EnemyLogic(
         physicsShape = CircleShape().apply { radius = width / 2 }
         val fixture = body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
         fixture?.userData = this
+    }
+
+    private fun createResultLabel(labelText: String): TextEntity {
+        return createEntity<TextEntity>(entityRegistry.getConfigurationById("text"), applicationContext)
+                .apply {
+                    text = labelText
+                    eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
+                }
     }
 
 }

@@ -8,7 +8,6 @@ import pl.klolo.game.entity.EntityWithLogic
 import pl.klolo.game.entity.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.AddPoints
-import pl.klolo.game.event.EnableSuperBullet
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 
@@ -18,7 +17,6 @@ class HUDLogic(
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
     private val textConfiguration = entityRegistry.getConfigurationById("text")
     private val pointsLabel: TextEntity by lazy { initPointLabel() }
-    private val bonusLabel: TextEntity by lazy { initLifeLabel() }
     private var points = 0
 
     private fun initPointLabel(): TextEntity {
@@ -26,6 +24,7 @@ class HUDLogic(
                 .apply {
                     text = "0"
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
                 }
     }
 
@@ -34,12 +33,12 @@ class HUDLogic(
                 .apply {
                     text = ""
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
                 }
     }
 
     override val onDispose: EntityWithLogic.() -> Unit = {
         pointsLabel.dispose()
-        bonusLabel.dispose()
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
@@ -51,16 +50,11 @@ class HUDLogic(
                     points += it.points
                     pointsLabel.text = "$points"
                 }
-                .onEvent(EnableSuperBullet) {
-                    bonusLabel.text = "" // TODO
-                }
     }
 
     override val onUpdate: EntityWithLogic.(Float) -> Unit = {
         val leftMargin = 10f
         pointsLabel.setPosition(leftMargin, Gdx.graphics.height.toFloat() - pointsLabel.getFontHeight())
-        bonusLabel.setPosition(
-                Gdx.graphics.width.toFloat() - 100,
-                Gdx.graphics.height.toFloat() - pointsLabel.getFontHeight() * 3)
+
     }
 }

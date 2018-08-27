@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.engine.FontManager
 import pl.klolo.game.engine.FontSize
 
@@ -14,6 +15,7 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
     override var useLighting: Boolean = false
     override var shouldBeRemove: Boolean = false
 
+    var label: Label? = null
     var text: String = ""
     var fontSize = FontSize.SMALL
 
@@ -24,6 +26,12 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
         height = entityConfiguration.height
     }
 
+    fun intializeFont() {
+        label = FontManager.getFontBySize(fontSize)
+        label?.setSize(fontSize.value.toFloat(), fontSize.value.toFloat())
+        label?.setText(text)
+    }
+
     override fun dispose() {
     }
 
@@ -31,7 +39,10 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
     }
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
-        FontManager.getFontBySize(fontSize).draw(batch, text, x, y)
+        label?.setPosition(x, y)
+        label?.scaleBy(scaleX, scaleY)
+        label?.setText(text)
+        label?.draw(batch, color.a)
     }
 
     override fun update(delta: Float) {
@@ -39,10 +50,10 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
     }
 
     fun getFontHeight(): Float {
-        return FontManager.getFontBySize(fontSize).lineHeight
+        return FontManager.getFontBySize(fontSize).height
     }
 
     fun getFontWidth(): Float {
-        return GlyphLayout(FontManager.getFontBySize(fontSize), text).width
+        return GlyphLayout(label?.style?.font, text).width
     }
 }

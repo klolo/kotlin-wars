@@ -3,7 +3,6 @@ package pl.klolo.game.logic
 import box2dLight.Light
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import pl.klolo.game.configuration.Colors.red
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.entity.EntityRegistry
@@ -12,7 +11,6 @@ import pl.klolo.game.event.DisableShield
 import pl.klolo.game.event.EnableShield
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.LaserHitInShield
-import pl.klolo.game.extensions.execute
 import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.logic.player.PlayerMoveLogic
 import pl.klolo.game.physics.GamePhysics
@@ -20,14 +18,13 @@ import java.util.*
 
 
 class ShieldLogic(
-        private val entityRegistry: EntityRegistry,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor) {
 
     private val hitLights = Stack<Light>()
     private lateinit var physicsShape: CircleShape
-    private lateinit var body: Body
+    lateinit var body: Body
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         useLighting = false
@@ -35,10 +32,12 @@ class ShieldLogic(
 
         initializeMoving()
                 .onEvent(DisableShield) {
+                    println("disabling shield...")
                     body.isActive = false
                     display = false
                 }
                 .onEvent(EnableShield) {
+                    println("enabling shield...")
                     body.isActive = true
                     display = true
                 }
@@ -50,7 +49,7 @@ class ShieldLogic(
                     println("enemy laser hit in shield. Available lights: ${hitLights.size}")
 
                     hitLights.push(gameLighting.createPointLight(150, red, 120f, x, y))
-                    addAction(executeAfterDelay(0.15f) { hitLights.pop()?.remove() })
+                    executeAfterDelay(0.15f) { hitLights.pop()?.remove() }
                 }
 
         body = gamePhysics.createDynamicBody()

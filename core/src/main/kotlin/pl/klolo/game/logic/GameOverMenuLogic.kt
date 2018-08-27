@@ -57,6 +57,7 @@ class GameOverMenuLogic<T : Entity>(
                     text = "Game over"
                     fontSize = FontSize.HUDE
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
                 }
     }
 
@@ -66,6 +67,7 @@ class GameOverMenuLogic<T : Entity>(
                     text = "Your score: ${highscore.getLastScore()}\n\nBest score: ${highscore.getRecord()}"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
+                    intializeFont()
                 }
     }
 
