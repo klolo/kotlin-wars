@@ -2,6 +2,7 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
+import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.DisableShield
@@ -17,7 +18,7 @@ class ShieldLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor) {
 
-    private var explosionLights = ExplosionLights(gameLighting, 500f)
+    private var explosionLights = ExplosionLights(gameLighting, 200f, blueLight)
     private lateinit var physicsShape: CircleShape
     lateinit var body: Body
 

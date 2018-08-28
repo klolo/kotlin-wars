@@ -6,9 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.configuration.Colors.white
 
 enum class FontSize(val value: Int) {
-    SMALL(18),
+    SMALL(22),
     MEDIUM(26),
-    HUDE(36)
+    BIG(45),
+    HUGE(80),
 }
 
 class FontManager {
@@ -18,7 +19,7 @@ class FontManager {
         private val fontsBySize: Map<Int, Label> = mapOf(
                 FontSize.SMALL.value to createFont(FontSize.SMALL.value),
                 FontSize.MEDIUM.value to createFont(FontSize.MEDIUM.value),
-                FontSize.HUDE.value to createFont(FontSize.HUDE.value)
+                FontSize.HUGE.value to createFont(FontSize.HUGE.value)
         )
 
         fun getFontBySize(size: FontSize): Label {

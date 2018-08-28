@@ -15,6 +15,7 @@ import pl.klolo.game.event.*
 import pl.klolo.game.extensions.addForeverSequence
 import pl.klolo.game.extensions.addSequence
 import pl.klolo.game.extensions.execute
+import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
@@ -23,7 +24,7 @@ class EnemyLogic(
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
-
+    private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages: PopupMessages = PopupMessages(entityRegistry, eventProcessor)
 
     private lateinit var light: PointLight
@@ -95,8 +96,12 @@ class EnemyLogic(
 
     private fun SpriteEntityWithLogic.onCollisionWithLaser(collidedEntity: SpriteEntityWithLogic) {
         life -= (collidedEntity.logic as BulletLogic).bulletPower
+
         if (life <= 0) {
             onDestroyEnemy()
+        }
+        else {
+            explosionLights.addLight(this)
         }
     }
 
@@ -116,6 +121,7 @@ class EnemyLogic(
         }
         shouldBeRemove = true
         eventProcessor.sendEvent(EnemyDestroyed)
+        explosionLights.onDispose()
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {

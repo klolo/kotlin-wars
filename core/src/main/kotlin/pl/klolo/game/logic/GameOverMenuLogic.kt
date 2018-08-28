@@ -8,10 +8,7 @@ import pl.klolo.game.entity.Entity
 import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.TextEntity
 import pl.klolo.game.entity.createEntity
-import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.OnEnter
-import pl.klolo.game.event.RegisterEntity
-import pl.klolo.game.event.StartNewGame
+import pl.klolo.game.event.*
 
 class GameOverMenuLogic<T : Entity>(
         private val highscore: Highscore,
@@ -30,9 +27,8 @@ class GameOverMenuLogic<T : Entity>(
         println("GameOverMenuLogic creating...")
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnEnter) {
-                    eventProcessor.sendEvent(StartNewGame)
-                }
+                .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
+                .onEvent(OnEscape) { Gdx.app.exit() }
     }
 
     override val onDispose: T.() -> Unit = {
@@ -55,7 +51,7 @@ class GameOverMenuLogic<T : Entity>(
         return createEntity<TextEntity>(textConfiguration, applicationContext)
                 .apply {
                     text = "Game over"
-                    fontSize = FontSize.HUDE
+                    fontSize = FontSize.HUGE
                     eventProcessor.sendEvent(RegisterEntity(this))
                     intializeFont()
                 }

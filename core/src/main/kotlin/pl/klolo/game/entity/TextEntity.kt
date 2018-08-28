@@ -29,6 +29,7 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
         label = FontManager.getFontBySize(fontSize)
         label?.setSize(fontSize.value.toFloat(), fontSize.value.toFloat())
         label?.setText(text)
+        color.a = 0.9f
     }
 
     override fun dispose() {

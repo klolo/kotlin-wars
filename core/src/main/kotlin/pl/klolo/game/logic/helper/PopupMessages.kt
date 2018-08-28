@@ -41,6 +41,10 @@ class PopupMessages(
         }
     }
 
+    var updatePosition: SpriteEntityWithLogic.() -> Unit = {
+        messageLabel?.setPosition(x, y + height)
+    }
+
     private fun createResultLabel(labelText: String): TextEntity {
         return createEntity<TextEntity>(entityRegistry.getConfigurationById("text"), applicationContext)
                 .apply {

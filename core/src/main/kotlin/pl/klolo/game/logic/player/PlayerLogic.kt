@@ -17,6 +17,8 @@ import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
+val doublePointsTime = 15f
+
 class PlayerLogic(
         private val highscore: Highscore,
         private val gamePhysics: GamePhysics,
@@ -33,6 +35,7 @@ class PlayerLogic(
     val defaulBulletPower = 10
     var enabledSuperBulletCounter = 0
     var bulletPower = defaulBulletPower
+    var doublePoints = false
 
     lateinit var physicsShape: PolygonShape
     lateinit var body: Body
@@ -60,7 +63,7 @@ class PlayerLogic(
                     shootOnPosition()
                 }
                 .onEvent(AddPoints::class.java) {
-                    points += it.points
+                    addPoints(it)
                 }
                 .onEvent(AddPlayerLife::class.java) {
                     onAddPlayerLife(it)
@@ -77,10 +80,22 @@ class PlayerLogic(
                     }
                 }
                 .onEvent(EnableDoublePoints) {
-
+                    doublePoints = true
+                    popupMessages.show(this, "x2")
+                    executeAfterDelay(doublePointsTime) {
+                        doublePoints = false
+                        popupMessages.show(this, "x1")
+                    }
                 }
 
         createPhysics()
+    }
+
+    private fun addPoints(it: AddPoints) {
+        points = when (doublePoints) {
+            true -> points + (it.points * 2)
+            false -> points + it.points
+        }
     }
 
     private fun SpriteEntityWithLogic.onAddPlayerLife(it: AddPlayerLife) {
@@ -148,6 +163,7 @@ class PlayerLogic(
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
+        popupMessages.updatePosition(this)
         playerLight.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
         checkPosition()
