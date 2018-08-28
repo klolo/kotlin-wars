@@ -1,5 +1,6 @@
 package pl.klolo.game.engine
 
+import box2dLight.ConeLight
 import box2dLight.Light
 import box2dLight.PointLight
 import box2dLight.RayHandler
@@ -31,6 +32,10 @@ class GameLighting(private val gamePhysics: GamePhysics) {
     }
 
     fun createPointLight(rays: Int, color: Color, distance: Float, x: Float, y: Float): PointLight {
-        return  PointLight(rayHandler, rays, color, distance, x, y) // TODO: dispose
+        return PointLight(rayHandler, rays, color, distance, x, y)
+    }
+
+    fun createConeLight(rays: Int, color: Color, distance: Float, x: Float, y: Float, direction: Float, degree: Float): ConeLight {
+        return ConeLight(rayHandler, rays, color, distance, x, y, direction, degree)
     }
 }

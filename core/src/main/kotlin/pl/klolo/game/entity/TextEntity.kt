@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.engine.FontManager
 import pl.klolo.game.engine.FontSize
 
-
 open class TextEntity(entityConfiguration: EntityConfiguration, override var id: Int) : Entity, Actor() {
     override val uniqueName = entityConfiguration.uniqueName
     override val layer: Int = entityConfiguration.layer

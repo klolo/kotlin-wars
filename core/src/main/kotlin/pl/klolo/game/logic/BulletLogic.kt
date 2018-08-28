@@ -13,6 +13,7 @@ import pl.klolo.game.engine.isPlayerByName
 import pl.klolo.game.engine.isShieldByName
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
+import pl.klolo.game.extensions.addSequence
 import pl.klolo.game.extensions.execute
 import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.physics.GamePhysics
@@ -44,10 +45,10 @@ class BulletLogic(
 
         createPhysics()
 
-        addAction(sequence(
+        addSequence(
                 moveTo(x, getTargetYPosition(), 3f + Random().nextFloat()),
                 execute { shouldBeRemove = true }
-        ))
+        )
 
         executeAfterDelay(0.25f) {
             eventProcessor
@@ -55,14 +56,13 @@ class BulletLogic(
                     .onEvent(OnCollision::class.java) {
                         onCollision(it)
                     }
-
         }
     }
 
     private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
         val collidedEntity = it.entity
 
-        if (collidedEntity != null) {
+        if (collidedEntity != null && !shouldBeRemove) {
             val enemyHitPlayer = isEnemyBullet && isPlayerByName(collidedEntity)
             val playerHitEnemy = !isEnemyBullet && isEnemyByName(collidedEntity)
             val enemyHitShield = isEnemyBullet && isShieldByName(collidedEntity)

@@ -3,7 +3,6 @@ package pl.klolo.game.logic
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
-import pl.klolo.game.engine.Highscore
 import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EventProcessor
@@ -11,14 +10,13 @@ import pl.klolo.game.event.RegisterEntity
 import java.util.*
 
 class BonusLogic(
-        private val highscore: Highscore,
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
     private val random = Random()
 
     private val items by lazy {
         listOf(
-                entityRegistry.getConfigurationById("medicineBonus") to 20,
+                entityRegistry.getConfigurationById("medicineBonus") to 1,
                 entityRegistry.getConfigurationById("starBonus") to 10,
                 entityRegistry.getConfigurationById("superBulletBonus") to 30,
                 entityRegistry.getConfigurationById("shieldBonus") to 1,
@@ -57,7 +55,6 @@ class BonusLogic(
     }
 
     private fun createItem(bonusItemConfiguration: EntityConfiguration) {
-        println("creating bonus: ${bonusItemConfiguration.uniqueName}")
         val random = Random()
         val margin = 100
 

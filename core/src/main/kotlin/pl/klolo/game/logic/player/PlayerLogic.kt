@@ -3,21 +3,18 @@ package pl.klolo.game.logic.player
 import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.Highscore
 import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.engine.isEnemyLaser
-import pl.klolo.game.entity.EntityConfiguration
-import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.entity.createEntity
+import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
-import pl.klolo.game.extensions.execute
 import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.logic.BulletLogic
 import pl.klolo.game.logic.EntityLogic
+import pl.klolo.game.logic.helper.ExplosionLights
+import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
 class PlayerLogic(
@@ -27,6 +24,8 @@ class PlayerLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor) {
 
+    private var explosionLights = ExplosionLights(gameLighting, 50f)
+    private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var hasShield = false
 
     var lifeLevel = 100
@@ -43,6 +42,7 @@ class PlayerLogic(
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()
         playerLight.remove()
+        explosionLights.onDispose()
         gamePhysics.destroy(body)
     }
 
@@ -53,22 +53,17 @@ class PlayerLogic(
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
 
         initializeMoving()
+                .onEvent(OnCollision::class.java) {
+                    onCollision(it)
+                }
                 .onEvent(OnSpace) {
-                    shootOnPosition(laserConfiguration)
+                    shootOnPosition()
                 }
                 .onEvent(AddPoints::class.java) {
                     points += it.points
                 }
-                .onEvent(OnCollision::class.java) {
-                    onCollision(it)
-                }
                 .onEvent(AddPlayerLife::class.java) {
-                    println("increase life level $it")
-                    lifeLevel += it.lifeAmount
-                    if (lifeLevel > 100) {
-                        lifeLevel = 100
-                    }
-                    eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
+                    onAddPlayerLife(it)
                 }
                 .onEvent(EnableSuperBullet) {
                     enableSuperBullet()
@@ -86,6 +81,17 @@ class PlayerLogic(
                 }
 
         createPhysics()
+    }
+
+    private fun SpriteEntityWithLogic.onAddPlayerLife(it: AddPlayerLife) {
+        println("increase life level $it")
+        lifeLevel += it.lifeAmount
+        if (lifeLevel > 100) {
+            lifeLevel = 100
+        }
+
+        eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
+        popupMessages.show(this, "+${it.lifeAmount}%")
     }
 
     private fun enableSuperBullet() {
@@ -106,7 +112,7 @@ class PlayerLogic(
         }
     }
 
-    private fun onCollision(it: OnCollision) {
+    private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
         val collidedEntity = it.entity!!
         if (isEnemyLaser(collidedEntity)) {
             if (hasShield) {
@@ -114,15 +120,9 @@ class PlayerLogic(
             }
 
             lifeLevel -= 10
+            popupMessages.show(this, "-10%")
 
-            // TODO: animation
-            //                        addAction(
-            //                                sequence(
-            //                                        scaleTo(0.9f, 0.9f, 0.1f, Interpolation.bounce),
-            //                                        scaleTo(1f, 1f, 0.1f, Interpolation.bounce)
-            //                                )
-            //                        )
-
+            explosionLights.addLight(this)
             eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
 
             if (lifeLevel <= 0) {
@@ -132,7 +132,7 @@ class PlayerLogic(
         }
     }
 
-    private fun SpriteEntityWithLogic.shootOnPosition(laserConfiguration: EntityConfiguration) {
+    private fun SpriteEntityWithLogic.shootOnPosition() {
         val bulletXPosition = x + width / 2
         val bulletYPosition = y + height / 2
 
@@ -150,9 +150,7 @@ class PlayerLogic(
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         playerLight.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
-        if (hasShield) {
-
-        }
+        checkPosition()
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {
@@ -160,7 +158,6 @@ class PlayerLogic(
         physicsShape.setAsBox(width / 2, height / 2);
         body = gamePhysics.createDynamicBody()
 
-        body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
-                .userData = this
+        body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape)).userData = this
     }
 }

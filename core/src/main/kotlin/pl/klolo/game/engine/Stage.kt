@@ -40,6 +40,7 @@ class Stage(
                     val newEntity = event.entity
                     if (newEntity != null) {
                         entities += newEntity
+                        println("create entity ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
                     }
                 }
                 .onEvent(GameOver::class.java) {

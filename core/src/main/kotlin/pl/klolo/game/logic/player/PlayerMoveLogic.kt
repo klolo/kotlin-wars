@@ -2,15 +2,19 @@ package pl.klolo.game.logic.player
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Action
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.extensions.execute
 
 abstract class PlayerMoveLogic(private val eventProcessor: EventProcessor) {
 
+    enum class Direction { LEFT, RIGHT, NONE }
+
     private val playerSpeed = 3f // seconds per screen width
     private var currentMove: Action = execute {}
+    private var direction = Direction.NONE
+    private val margin = 50f
 
     protected fun SpriteEntityWithLogic.initializeMoving(): EventProcessor.Subscription {
         x = Gdx.graphics.width.toFloat() / 2 - width / 2
@@ -19,25 +23,41 @@ abstract class PlayerMoveLogic(private val eventProcessor: EventProcessor) {
                 .subscribe(id)
                 .onEvent(OnLeftDown) {
                     if (x - 100 > 0) {
+                        direction = Direction.LEFT
                         onMove(x - Gdx.graphics.width.toFloat(), playerSpeed)
                     }
                 }
                 .onEvent(OnRightDown) {
                     if (x + 100 < Gdx.graphics.width.toFloat()) {
+                        direction = Direction.RIGHT
                         onMove(x + Gdx.graphics.width.toFloat(), playerSpeed)
                     }
                 }
                 .onEvent(OnRightUp) {
+                    direction = Direction.NONE
                     removeAction(currentMove)
                 }
                 .onEvent(OnLeftUp) {
+                    direction = Direction.NONE
                     removeAction(currentMove)
                 }
     }
 
+    fun SpriteEntityWithLogic.checkPosition() {
+        val centerX = x + width / 2
+        val stopMovingLeft = centerX < margin && direction == Direction.LEFT
+        val stopMovingRight = centerX > Gdx.graphics.width.toFloat() - margin && direction == Direction.RIGHT
+
+        if (stopMovingLeft || stopMovingRight) {
+            removeAction(currentMove)
+            direction = Direction.NONE
+        }
+    }
+
     private fun SpriteEntityWithLogic.onMove(x: Float, playerSpeed: Float) {
         removeAction(currentMove)
-        currentMove = Actions.moveTo(x, y, playerSpeed)
+        currentMove = moveTo(x, y, playerSpeed)
         addAction(currentMove)
     }
+
 }
