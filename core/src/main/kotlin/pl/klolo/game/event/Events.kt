@@ -1,5 +1,6 @@
 package pl.klolo.game.event
 
+import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.Entity
 
 sealed class Event()
@@ -26,7 +27,7 @@ object EnableSuperBullet : Event()
 object EnableShield : Event()
 object DisableShield : Event()
 object EnableDoublePoints : Event()
-object LaserHitInShield: Event()
+object LaserHitInShield : Event()
 
 
 // engine
@@ -35,3 +36,4 @@ class RegisterEntity(val entity: Entity? = null) : Event()
 class GameOver(val totalPoints: Int = 0) : Event()
 object StartNewGame : Event()
 class OnCollision(val entity: Entity? = null) : Event()
+class PlaySound(val soundEffect: SoundEffect? = null) : Event()

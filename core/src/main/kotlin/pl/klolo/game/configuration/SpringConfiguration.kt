@@ -18,9 +18,10 @@ val beanDefinition = beans {
     bean<EntityRegistry>()
     bean<Highscore>()
 
+    bean { SoundManager(ref()) }
     bean { ContactListener(ref()) }
     bean { GamePhysics(ref()) }
-    bean { Stage(ref(), ref(), ref()) }
+    bean { Stage(ref(), ref(), ref(), ref()) }
     bean { GameLighting(ref()) }
     bean { GameEngine(ref(), ref(), ref(), ref()) }
 

@@ -4,10 +4,7 @@ import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import pl.klolo.game.configuration.Colors.blueLight
-import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.Highscore
-import pl.klolo.game.engine.applicationContext
-import pl.klolo.game.engine.isEnemyLaser
+import pl.klolo.game.engine.*
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
 import pl.klolo.game.extensions.executeAfterDelay
@@ -160,6 +157,7 @@ class PlayerLogic(
         bulletEntity.logic.bulletPower = bulletPower
 
         eventProcessor.sendEvent(RegisterEntity(bulletEntity))
+        eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_SHOOT))
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {

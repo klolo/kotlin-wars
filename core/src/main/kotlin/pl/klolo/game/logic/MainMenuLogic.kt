@@ -2,6 +2,8 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import pl.klolo.game.engine.FontSize
+import pl.klolo.game.engine.Song
+import pl.klolo.game.engine.SoundManager
 import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.Entity
 import pl.klolo.game.entity.EntityRegistry
@@ -10,6 +12,7 @@ import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
 
 class MainMenuLogic<T : Entity>(
+        private val soundManager: SoundManager,
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<T> {
     private val textConfiguration = entityRegistry.getConfigurationById("text")
@@ -28,7 +31,7 @@ class MainMenuLogic<T : Entity>(
                 .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
                 .onEvent(OnEscape) { Gdx.app.exit() }
 
-
+        soundManager.playSong(Song.MENU)
     }
 
     override val onDispose: T.() -> Unit = {

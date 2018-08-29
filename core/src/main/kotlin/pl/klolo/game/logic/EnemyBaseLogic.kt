@@ -10,6 +10,7 @@ import pl.klolo.game.event.RegisterEntity
 import java.util.*
 
 val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 250f
+val minimalShootDelay = 0.5f
 
 class EnemyBaseLogic(
         private val eventProcessor: EventProcessor,
@@ -28,7 +29,8 @@ class EnemyBaseLogic(
         eventProcessor
                 .subscribe(id)
                 .onEvent(EnemyDestroyed) {
-                    println("Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, shoot delay: ${3f - (totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)}")
+                    println("Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
+                            "shoot delay: ${Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)}")
                     enemiesCount--
                 }
 
@@ -51,7 +53,7 @@ class EnemyBaseLogic(
 
     private fun EntityWithLogic.createEnemy(laserConfiguration: EntityConfiguration) {
         val random = Random()
-        val margin = 80
+        val margin = 120
 
         val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
@@ -62,7 +64,7 @@ class EnemyBaseLogic(
         } as SpriteEntityWithLogic
 
         (enemyEntity.logic as EnemyLogic).apply {
-            shootDelay = 3f - (totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)
+            shootDelay = 3f - Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)
 
         }
         enemyEntity.logic.apply { initialize.invoke(enemyEntity) }

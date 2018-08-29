@@ -17,6 +17,7 @@ import pl.klolo.game.event.StartNewGame
 import pl.klolo.game.physics.GamePhysics
 
 class Stage(
+        private val soundManager: SoundManager,
         private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor) : ApplicationContextAware {
@@ -40,16 +41,18 @@ class Stage(
                     val newEntity = event.entity
                     if (newEntity != null) {
                         entities += newEntity
-                        println("create entity ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
+                        println("create: ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
                     }
                 }
                 .onEvent(GameOver::class.java) {
                     println(" -- GAME OVER ---")
                     switchStage("gameover-menu-entities.json")
+                    soundManager.playSong(Song.MENU)
                 }
                 .onEvent(StartNewGame) {
                     println(" -- START GAME ---")
                     switchStage("game-entities.json")
+                    soundManager.playSong(Song.GAME)
                 }
     }
 
@@ -57,6 +60,7 @@ class Stage(
         disposeCurrentStageEntities()
         subscribe()
         loadStage(nextStageFileConfiguration)
+        soundManager.initialize()
     }
 
     private fun disposeCurrentStageEntities() {
