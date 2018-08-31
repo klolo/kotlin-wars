@@ -25,7 +25,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
         Gdx.app.debug(this.javaClass.name,"initialize")
 
         fill = Sprite(Texture(Gdx.files.internal(entityConfiguration.image)))
-        background = Sprite(Texture(Gdx.files.internal("lifebar.png")))
+        background = Sprite(Texture(Gdx.files.internal("assets/lifebar.png")))
 
         useLighting = false
         width = entityConfiguration.width

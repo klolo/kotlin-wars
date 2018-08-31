@@ -12,6 +12,11 @@ class GameDependencyInjectionContext {
         beanRegistry[classRef] = classRef.constructors[0].newInstance(*constructParameter)
     }
 
+    fun registerBean(instance: Any) {
+        println("Register: $instance")
+        beanRegistry[instance.javaClass] = instance
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun getBeanByClass(classRef: Class<*>): Any? {
         if (classRef.isInterface) {

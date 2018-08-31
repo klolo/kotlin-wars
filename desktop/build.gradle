@@ -4,7 +4,7 @@ sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/main/java" ]
 
 project.ext.mainClassName = "pl.klolo.game.desktop.DesktopLauncher"
-project.ext.assetsDir = new File("../core/src/main/resources/assets");
+project.ext.assetsDir = new File("../core/src/main/resources");
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName

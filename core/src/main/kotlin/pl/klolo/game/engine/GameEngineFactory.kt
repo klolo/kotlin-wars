@@ -7,19 +7,15 @@ import pl.klolo.game.physics.ContactListener
 import pl.klolo.game.physics.GamePhysics
 
 val gameDependencyInjectionContext = GameDependencyInjectionContext()
-private lateinit var filepathResolver: FilepathResolver
 
-fun resolveFilepath(path: String): String = filepathResolver.resolve(path)
+class ProfileHolder(val activeProfile: Profile)
 
 fun createGameEngine(profile: Profile): GameEngine {
-    filepathResolver = FilepathResolver(profile)
     gameDependencyInjectionContext
             .apply {
                 registerBean(EntityRegistry::class.java)
+                registerBean(ProfileHolder(profile))
                 registerBean(EventProcessor::class.java)
-
-                registerInputKeyboardProcessorDependOnProfile(profile)
-
                 registerBean(Highscore::class.java)
                 registerBean(SoundManager::class.java)
                 registerBean(ContactListener::class.java)
@@ -30,12 +26,4 @@ fun createGameEngine(profile: Profile): GameEngine {
             }
 
     return gameDependencyInjectionContext.getBeanByClass(GameEngine::class.java) as GameEngine
-}
-
-fun GameDependencyInjectionContext.registerInputKeyboardProcessorDependOnProfile(profile: Profile) {
-    when (profile) {
-        Profile.DESKTOP, Profile.WEB -> registerBean(KeyboardProcessor::class.java)
-        Profile.ANDROID -> {
-        }
-    }
 }

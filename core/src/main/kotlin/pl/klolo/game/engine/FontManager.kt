@@ -6,15 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.configuration.Colors.white
 
 enum class FontSize(val value: Int) {
-    SMALL(20),
-    MEDIUM(26),
+    SMALL(25),
+    MEDIUM(30),
     BIG(45),
-    HUGE(80),
+    HUGE(90),
 }
 
 class FontManager {
     companion object {
-        private val fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("RuslanDisplay.ttf"))
+        private val fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("assets/ruslan-display.ttf"))
 
         private val fontsBySize: Map<Int, Label> = mapOf(
                 FontSize.SMALL.value to createFont(FontSize.SMALL.value),

@@ -22,11 +22,12 @@ import pl.klolo.game.physics.GamePhysics
 const val bonusLifetime = 15f
 
 class PlayerLogic(
+        private val profileHolder: ProfileHolder,
         private val highscore: Highscore,
         private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor,
-        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor) {
+        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor, profileHolder) {
 
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
@@ -190,8 +191,8 @@ class PlayerLogic(
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         popupMessages.updatePosition(this)
-        playerLight.setPosition(x + width / 2, y + height / 2)
-        body.setTransform(x + width / 2, y + height / 2, 0.0f)
+        playerLight.setPosition(x + width / 2, y + height)
+        body.setTransform(x + width / 2, y + height, 0.0f)
         checkPosition()
     }
 

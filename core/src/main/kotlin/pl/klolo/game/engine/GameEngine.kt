@@ -8,25 +8,33 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
+import pl.klolo.game.configuration.Profile
+import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.physics.GamePhysics
 
 class GameEngine internal constructor(
+        private val profileHolder: ProfileHolder,
+        private val eventProcessor: EventProcessor,
         private val gamePhysics: GamePhysics,
         private val gameLighting: GameLighting,
-        private val inputProcessor: InputProcessor,
         private val stage: Stage) : ApplicationAdapter() {
 
     private lateinit var batch: SpriteBatch
     private lateinit var camera: OrthographicCamera
 
     companion object {
-        val applicationConfiguration: Config = ConfigFactory.load(resolveFilepath("application.conf"))
+        val applicationConfiguration: Config = ConfigFactory.load("assets/application.conf")
     }
 
     fun getConfig(name: String): Config = applicationConfiguration.getConfig(name)
 
     override fun create() {
-        Gdx.input.inputProcessor = inputProcessor
+        Gdx.input.inputProcessor =
+                when (profileHolder.activeProfile) {
+                    Profile.DESKTOP, Profile.WEB -> KeyboardProcessor(eventProcessor)
+                    Profile.ANDROID -> TouchProcessor(eventProcessor)
+                }
+
         Gdx.app.logLevel = getConfig("engine").getInt("logLevel")
 
         gamePhysics.initPhysics()

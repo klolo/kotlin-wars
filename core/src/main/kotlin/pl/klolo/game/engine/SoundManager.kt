@@ -7,17 +7,17 @@ import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.PlaySound
 
 enum class Song(val filename: String) {
-    MENU("sound/bensound-littleplanet.mp3"),
-    GAME("sound/bensound-extremeaction.mp3")
+    MENU("assets/sound/bensound-littleplanet.mp3"),
+    GAME("assets/sound/bensound-extremeaction.mp3")
 }
 
 enum class SoundEffect(val filename: String) {
-    PLAYER_SHOOT("sound/laser-shot-silenced.wav"),
-    SHIELD_COLLISION("sound/collision.ogg"),
-    FOUND_BONUS("sound/bonus.wav"),
-    YIPEE("sound/yipee.wav"),
-    PLAYER_COLLISION("sound/playerCollision.wav"),
-    DESTROY_PLAYER("sound/destroy.wav")
+    PLAYER_SHOOT("assets/sound/laser-shot-silenced.wav"),
+    SHIELD_COLLISION("assets/sound/collision.ogg"),
+    FOUND_BONUS("assets/sound/bonus.wav"),
+    YIPEE("assets/sound/yipee.wav"),
+    PLAYER_COLLISION("assets/sound/playerCollision.wav"),
+    DESTROY_PLAYER("assets/sound/destroy.wav")
 }
 
 class SoundManager(private val eventProcessor: EventProcessor) {

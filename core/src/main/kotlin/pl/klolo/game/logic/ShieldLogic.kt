@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
@@ -13,9 +14,10 @@ import pl.klolo.game.logic.player.PlayerMoveLogic
 import pl.klolo.game.physics.GamePhysics
 
 class ShieldLogic(
+        private val profileHolder: ProfileHolder,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
-        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor) {
+        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor, profileHolder) {
 
     private var explosionLights = ExplosionLights(gameLighting, 200f, blueLight)
     private lateinit var physicsShape: CircleShape

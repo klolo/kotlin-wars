@@ -26,7 +26,7 @@ class Stage(
         Gdx.app.debug(this.javaClass.name, "initialize")
 
         subscribe()
-        loadStage("menu-entities.json")
+        loadStage("assets/menu-entities.json")
     }
 
     private fun subscribe() {
@@ -41,12 +41,12 @@ class Stage(
                 }
                 .onEvent(GameOver::class.java) {
                     Gdx.app.debug(this.javaClass.name, "game over")
-                    switchStage("gameover-menu-entities.json")
+                    switchStage("assets/gameover-menu-entities.json")
                     soundManager.playSong(Song.MENU)
                 }
                 .onEvent(StartNewGame) {
                     Gdx.app.debug(this.javaClass.name, "start new game")
-                    switchStage("game-entities.json")
+                    switchStage("assets/game-entities.json")
                     soundManager.playSong(Song.GAME)
                 }
     }
