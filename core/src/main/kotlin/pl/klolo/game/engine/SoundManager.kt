@@ -16,7 +16,8 @@ enum class SoundEffect(val filename: String) {
     SHIELD_COLLISION("sound/collision.ogg"),
     FOUND_BONUS("sound/bonus.wav"),
     YIPEE("sound/yipee.wav"),
-    PLAYER_COLLISION("sound/playerCollision.wav")
+    PLAYER_COLLISION("sound/playerCollision.wav"),
+    DESTROY_PLAYER("sound/destroy.wav")
 }
 
 class SoundManager(private val eventProcessor: EventProcessor) {

@@ -16,7 +16,7 @@ class PulsingLightAnimation(private val light: Light) {
     private var delta = 0f
     private val deltaStep = 0.02f
     private val minDistance = 150
-    private val distanceGrow = 250
+    private val distanceGrow = 350
 
     fun update() {
         delta += deltaStep

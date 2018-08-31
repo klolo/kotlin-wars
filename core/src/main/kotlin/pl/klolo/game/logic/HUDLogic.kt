@@ -1,7 +1,6 @@
 package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
-import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.EntityWithLogic
 import pl.klolo.game.entity.TextEntity
@@ -11,7 +10,7 @@ import pl.klolo.game.event.EnableDoublePoints
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 import pl.klolo.game.extensions.executeAfterDelay
-import pl.klolo.game.logic.player.doublePointsTime
+import pl.klolo.game.logic.player.bonusLifetime
 
 class HUDLogic(
         private val eventProcessor: EventProcessor,
@@ -56,7 +55,7 @@ class HUDLogic(
                 .onEvent(EnableDoublePoints) {
                     doublePoints = true
                     bonusLabel.text = "x2"
-                    executeAfterDelay(doublePointsTime) {
+                    executeAfterDelay(bonusLifetime) {
                         doublePoints = false
                         bonusLabel.text = ""
                     }

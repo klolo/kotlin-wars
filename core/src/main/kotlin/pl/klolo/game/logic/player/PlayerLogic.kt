@@ -4,6 +4,7 @@ import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
+import pl.klolo.game.configuration.Colors
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.*
 import pl.klolo.game.entity.EntityConfiguration
@@ -18,7 +19,7 @@ import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
-val doublePointsTime = 15f
+const val bonusLifetime = 15f
 
 class PlayerLogic(
         private val highscore: Highscore,
@@ -31,17 +32,17 @@ class PlayerLogic(
     private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var hasShield = false
 
-    var lifeLevel = 100
-    var points = 0
-    val defaulBulletPower = 10
-    var enabledSuperBulletCounter = 0
-    var bulletPower = defaulBulletPower
-    var doublePoints = false
+    private var lifeLevel = 100
+    private var points = 0
+    private val defaultBulletPower = 10
+    private var enabledSuperBulletCounter = 0
+    private var bulletPower = defaultBulletPower
+    private var doublePoints = false
 
-    lateinit var physicsShape: PolygonShape
-    lateinit var body: Body
-    lateinit var playerLight: PointLight
-    lateinit var laserConfiguration: EntityConfiguration
+    private lateinit var physicsShape: PolygonShape
+    private lateinit var body: Body
+    private lateinit var playerLight: PointLight
+    private lateinit var laserConfiguration: EntityConfiguration
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()
@@ -51,7 +52,7 @@ class PlayerLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name, "initialize")
 
         playerLight = gameLighting.createPointLight(100, blueLight, 50f, x, y)
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
@@ -72,12 +73,12 @@ class PlayerLogic(
                 .onEvent(EnableSuperBullet) {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     enableSuperBullet()
-                    executeAfterDelay(15f) { disableSuperBullet() }
+                    executeAfterDelay(bonusLifetime) { disableSuperBullet() }
                 }
                 .onEvent(EnableShield) {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     hasShield = true
-                    executeAfterDelay(15f) {
+                    executeAfterDelay(bonusLifetime) {
                         hasShield = false
                         eventProcessor.sendEvent(DisableShield)
                     }
@@ -86,7 +87,7 @@ class PlayerLogic(
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     doublePoints = true
                     popupMessages.show(this, "x2")
-                    executeAfterDelay(doublePointsTime) {
+                    executeAfterDelay(bonusLifetime) {
                         doublePoints = false
                         popupMessages.show(this, "x1")
                     }
@@ -103,7 +104,7 @@ class PlayerLogic(
     }
 
     private fun SpriteEntityWithLogic.onAddPlayerLife(it: AddPlayerLife) {
-        Gdx.app.debug(this.javaClass.name,"increase life level $it")
+        Gdx.app.debug(this.javaClass.name, "increase life level $it")
         lifeLevel += it.lifeAmount
         if (lifeLevel > 100) {
             lifeLevel = 100
@@ -117,20 +118,22 @@ class PlayerLogic(
     }
 
     private fun enableSuperBullet() {
-        Gdx.app.debug(this.javaClass.name,"Enable super bullet. enabled: ${enabledSuperBulletCounter}, current power: ${bulletPower}")
+        Gdx.app.debug(this.javaClass.name, "Enable super bullet. enabled: ${enabledSuperBulletCounter}, current power: ${bulletPower}")
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue02")
-        bulletPower *= 2
+        bulletPower *= 4
         enabledSuperBulletCounter++
-        playerLight.distance = 100f
+        playerLight.distance = 150f
+        playerLight.color = Colors.gold
     }
 
     private fun disableSuperBullet() {
         enabledSuperBulletCounter--
         if (enabledSuperBulletCounter == 0) {
-            Gdx.app.debug(this.javaClass.name,"Disable super bullet.")
+            Gdx.app.debug(this.javaClass.name, "Disable super bullet.")
             laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
-            bulletPower = defaulBulletPower
+            bulletPower = defaultBulletPower
             playerLight.distance = 70f
+            playerLight.color = blueLight
         }
     }
 
@@ -146,9 +149,19 @@ class PlayerLogic(
             eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
 
             if (lifeLevel <= 0) {
-                highscore.setLastScore(points)
-                eventProcessor.sendEvent(GameOver(lifeLevel))
+                onGameOver()
             }
+        }
+    }
+
+    private fun SpriteEntityWithLogic.onGameOver() {
+        highscore.setLastScore(points)
+        eventProcessor.sendEvent(PlaySound(SoundEffect.DESTROY_PLAYER))
+        playerLight.distance *= 200
+        display = false
+
+        executeAfterDelay(0.15f) {
+            eventProcessor.sendEvent(GameOver(lifeLevel))
         }
     }
 
@@ -163,6 +176,13 @@ class PlayerLogic(
 
         (bulletEntity.logic as BulletLogic).isEnemyBullet = false
         bulletEntity.logic.bulletPower = bulletPower
+
+        if (enabledSuperBulletCounter > 0) {
+            bulletEntity.logic.apply {
+                bulletLight.color = Colors.gold
+                bulletLight.distance = 2f * bulletLight.distance
+            }
+        }
 
         eventProcessor.sendEvent(RegisterEntity(bulletEntity))
         eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_SHOOT))

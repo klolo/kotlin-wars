@@ -18,12 +18,20 @@ class BonusLogic(
         listOf(
                 entityRegistry.getConfigurationById("medicineBonus") to 50,
                 entityRegistry.getConfigurationById("starBonus") to 1,
-                entityRegistry.getConfigurationById("superBulletBonus") to 30,
+                entityRegistry.getConfigurationById("superBulletBonus") to 20,
                 entityRegistry.getConfigurationById("shieldBonus") to 20,
                 entityRegistry.getConfigurationById("doublePointsBonus") to 40
         )
     }
-
+<?xml version="1.0" encoding="<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
+<module>
+	<source path="com/mygdx/game" />
+</module>UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
+<module>
+	<source path="com/mygdx/game" />
+</module>
     override val initialize: EntityWithLogic.() -> Unit = {
         Gdx.app.debug(this.javaClass.name,"initialize")
 

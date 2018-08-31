@@ -26,7 +26,7 @@ class BulletLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
-    private var bulletLight: PointLight? = null
+    lateinit var bulletLight: PointLight
     private lateinit var physicsShape: PolygonShape
     var isEnemyBullet = true
     private lateinit var body: Body

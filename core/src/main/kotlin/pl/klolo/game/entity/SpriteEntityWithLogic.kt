@@ -1,6 +1,7 @@
 package pl.klolo.game.entity
 
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -22,6 +23,7 @@ open class SpriteEntityWithLogic(
         y = entityConfiguration.y
         width = entityConfiguration.width
         height = entityConfiguration.height
+        sprite.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     override fun dispose() {
