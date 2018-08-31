@@ -37,7 +37,7 @@ class BulletLogic(
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()
         gamePhysics.destroy(body)
-        bulletLight?.remove()
+        bulletLight.remove()
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
@@ -83,7 +83,7 @@ class BulletLogic(
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        bulletLight?.setPosition(x + width / 2, y + height / 2)
+        bulletLight.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
 
         val minYPositionOffset = 100

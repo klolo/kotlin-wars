@@ -2,10 +2,9 @@ package pl.klolo.game.engine
 
 import com.badlogic.gdx.Gdx
 
-
 class Highscore {
     private var lastScore = 0
-    private val prefs = Gdx.app.getPreferences("My Preferences")
+    private val prefs by lazy { Gdx.app.getPreferences("My Preferences") }
 
     fun getRecord(): Int = prefs.getInteger("record")
 

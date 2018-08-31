@@ -1,7 +1,6 @@
 package pl.klolo.game.logic.helper
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha
-import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.entity.TextEntity

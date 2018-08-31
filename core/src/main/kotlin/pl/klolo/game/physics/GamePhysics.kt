@@ -9,9 +9,12 @@ class GamePhysics(private val contactListener: ContactListener) {
     lateinit var world: World
     private lateinit var debugRenderer: Box2DDebugRenderer
     private var bodyToRemove: List<Body> = mutableListOf()
-    private val enableDebugRender = GameEngine.applicationConfiguration
-            .getConfig("engine")
-            .getBoolean("debugRender")
+
+    private val enableDebugRender: Boolean by lazy {
+        GameEngine.applicationConfiguration
+                .getConfig("engine")
+                .getBoolean("debugRender")
+    }
 
     fun initPhysics() {
         val gravityVec = Vector2(0f, -9.8f)

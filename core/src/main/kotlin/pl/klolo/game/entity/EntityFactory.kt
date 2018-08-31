@@ -3,10 +3,11 @@ package pl.klolo.game.entity
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
-import org.springframework.context.ApplicationContext
-import pl.klolo.game.engine.applicationContext
+import pl.klolo.game.engine.gameDependencyInjectionContext
 import pl.klolo.game.logic.EntityLogic
 import pl.klolo.game.logic.EntityLogicWithRendering
+import kotlin.reflect.KType
+import kotlin.reflect.full.createType
 
 private var entityCounter = 0
 
@@ -62,7 +63,7 @@ fun <T : Entity> getInitializeFunction(configuration: EntityConfiguration, force
 @Suppress("UNCHECKED_CAST")
 fun <T : Entity> createLogicClass(clazz: Class<*>): EntityLogic<T> {
     val constructParameter = clazz.constructors[0].parameters
-            .map { applicationContext.getBean(it.type) }
+            .map { gameDependencyInjectionContext.getBeanByClass(it.type) }
             .toTypedArray()
 
     return clazz.constructors[0].newInstance(*constructParameter) as EntityLogic<T>

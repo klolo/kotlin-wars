@@ -2,7 +2,6 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor

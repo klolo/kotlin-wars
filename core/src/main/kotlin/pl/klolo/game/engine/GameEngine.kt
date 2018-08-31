@@ -1,6 +1,5 @@
 package pl.klolo.game.engine
 
-import com.badlogic.gdx.Application
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputProcessor
@@ -21,7 +20,7 @@ class GameEngine internal constructor(
     private lateinit var camera: OrthographicCamera
 
     companion object {
-        val applicationConfiguration: Config = ConfigFactory.load()
+        val applicationConfiguration: Config = ConfigFactory.load(resolveFilepath("application.conf"))
     }
 
     fun getConfig(name: String): Config = applicationConfiguration.getConfig(name)

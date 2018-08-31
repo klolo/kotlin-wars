@@ -1,17 +1,41 @@
 package pl.klolo.game.engine
 
-import org.springframework.context.support.GenericApplicationContext
 import pl.klolo.game.configuration.Profile
-import pl.klolo.game.configuration.beanDefinition
+import pl.klolo.game.entity.EntityRegistry
+import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.physics.ContactListener
+import pl.klolo.game.physics.GamePhysics
 
-val applicationContext = GenericApplicationContext()
+val gameDependencyInjectionContext = GameDependencyInjectionContext()
+private lateinit var filepathResolver: FilepathResolver
+
+fun resolveFilepath(path: String): String = filepathResolver.resolve(path)
 
 fun createGameEngine(profile: Profile): GameEngine {
-    applicationContext
+    filepathResolver = FilepathResolver(profile)
+    gameDependencyInjectionContext
             .apply {
-                environment.setActiveProfiles(profile.name)
-                refresh()
+                registerBean(EntityRegistry::class.java)
+                registerBean(EventProcessor::class.java)
+
+                registerInputKeyboardProcessorDependOnProfile(profile)
+
+                registerBean(Highscore::class.java)
+                registerBean(SoundManager::class.java)
+                registerBean(ContactListener::class.java)
+                registerBean(GamePhysics::class.java)
+                registerBean(GameLighting::class.java)
+                registerBean(Stage::class.java)
+                registerBean(GameEngine::class.java)
             }
-    beanDefinition.initialize(applicationContext)
-    return applicationContext.getBean(GameEngine::class.java)
+
+    return gameDependencyInjectionContext.getBeanByClass(GameEngine::class.java) as GameEngine
+}
+
+fun GameDependencyInjectionContext.registerInputKeyboardProcessorDependOnProfile(profile: Profile) {
+    when (profile) {
+        Profile.DESKTOP, Profile.WEB -> registerBean(KeyboardProcessor::class.java)
+        Profile.ANDROID -> {
+        }
+    }
 }

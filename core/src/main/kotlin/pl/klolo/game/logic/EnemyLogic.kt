@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.applicationContext
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
