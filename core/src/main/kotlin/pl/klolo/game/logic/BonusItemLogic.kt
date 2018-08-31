@@ -1,6 +1,7 @@
 package pl.klolo.game.logic
 
 import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.event.*
 import pl.klolo.game.physics.GamePhysics
 
@@ -15,11 +16,12 @@ class AdditionalLifeBonusLogic(
 }
 
 class AdditionalPointsBonusLogic(
-        eventProcessor: EventProcessor,
+        val eventProcessor: EventProcessor,
         gameLighting: GameLighting,
         gamePhysics: GamePhysics) : BaseBonusLogic(eventProcessor, gameLighting, gamePhysics) {
 
     override fun getEventToSendOnCollisionWithPlayer(): Event {
+        eventProcessor.sendEvent(PlaySound(SoundEffect.YIPEE))
         return AddPoints(100)
     }
 }
@@ -40,7 +42,7 @@ class ShieldBonusLogic(eventProcessor: EventProcessor, gameLighting: GameLightin
     }
 }
 
-class DoublePointsBonusLogic(eventProcessor: EventProcessor, gameLighting: GameLighting, gamePhysics: GamePhysics)
+class DoublePointsBonusLogic(val eventProcessor: EventProcessor, gameLighting: GameLighting, gamePhysics: GamePhysics)
     : BaseBonusLogic(eventProcessor, gameLighting, gamePhysics) {
 
     override fun getEventToSendOnCollisionWithPlayer(): Event {
