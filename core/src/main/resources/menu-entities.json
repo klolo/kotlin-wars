@@ -8,6 +8,23 @@
     "initOnCreate": true
   },
   {
+    "uniqueName": "gameLogo",
+    "logicClass": "pl.klolo.game.logic.EmptyLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "logo.png",
+    "width": 90,
+    "height": 87,
+    "layer": 10
+  },
+  {
+    "uniqueName": "menuOverlay",
+    "logicClass": "pl.klolo.game.logic.MenuOverlayLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "menu-overlay.png",
+    "layer": 2,
+    "initOnCreate": true
+  },
+  {
     "uniqueName": "text",
     "type": "TEXT_ENTITY",
     "initOnCreate": false,

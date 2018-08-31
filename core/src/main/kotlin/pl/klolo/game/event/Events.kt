@@ -32,7 +32,6 @@ object LaserHitInShield : Event()
 
 // engine
 class RegisterEntity(val entity: Entity? = null) : Event()
-
 class GameOver(val totalPoints: Int = 0) : Event()
 object StartNewGame : Event()
 class OnCollision(val entity: Entity? = null) : Event()

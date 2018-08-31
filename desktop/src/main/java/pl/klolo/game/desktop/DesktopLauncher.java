@@ -1,5 +1,6 @@
 package pl.klolo.game.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.typesafe.config.Config;
@@ -19,6 +20,7 @@ public class DesktopLauncher {
         appConfig.width = applicationConfigFromFile.getInt("width");
         appConfig.height = applicationConfigFromFile.getInt("height");
         appConfig.fullscreen = applicationConfigFromFile.getBoolean("fullscreen");
+
         new LwjglApplication(gameEngine, appConfig);
     }
 

@@ -8,9 +8,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import pl.klolo.game.entity.SpriteWithCustomRendering
 
 class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
-    private lateinit var leftBackground: Sprite
-    private lateinit var centerBackground: Sprite
-    private lateinit var rightBackground: Sprite
+    companion object {
+        @JvmStatic
+        private lateinit var leftBackground: Sprite
+
+        @JvmStatic
+        private lateinit var centerBackground: Sprite
+
+        @JvmStatic
+        private lateinit var rightBackground: Sprite
+
+        private var positionInitialized = false
+    }
 
     private val movingSpeed = 10
 
@@ -18,17 +27,20 @@ class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
     }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
-        println("BackgroundLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
 
-        val texture = Texture(Gdx.files.internal(entityConfiguration.image))
-        leftBackground = Sprite(texture)
-        leftBackground.x = Gdx.graphics.width.toFloat() * -1
+        if (!positionInitialized) {
+            val texture = Texture(Gdx.files.internal(entityConfiguration.image))
+            leftBackground = Sprite(texture)
+            leftBackground.x = Gdx.graphics.width.toFloat() * -1
 
-        centerBackground = Sprite(texture)
-        centerBackground.x = 0f
+            centerBackground = Sprite(texture)
+            centerBackground.x = 0f
 
-        rightBackground = Sprite(texture)
-        rightBackground.x = Gdx.graphics.width.toFloat()
+            rightBackground = Sprite(texture)
+            rightBackground.x = Gdx.graphics.width.toFloat()
+            positionInitialized = true
+        }
     }
 
     override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit =

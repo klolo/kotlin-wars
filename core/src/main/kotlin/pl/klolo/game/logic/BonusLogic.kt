@@ -25,7 +25,7 @@ class BonusLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        println("BonusLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
 
         addAction(forever(
                 sequence(
@@ -61,7 +61,7 @@ class BonusLogic(
         val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
-        val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration, applicationContext) {
+        val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration) {
             x = enemyXPosition.toFloat()
             y = enemyYPosition
         } as SpriteEntityWithLogic

@@ -79,7 +79,7 @@ class EnemyLogic(
         val offset = 20
         val bulletYPosition = y - height - offset
 
-        val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext, false) {
+        val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, false) {
             x = bulletXPosition - width / 2 // width of the bullet
             y = bulletYPosition
 

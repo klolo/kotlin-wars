@@ -25,11 +25,11 @@ class EnemyBaseLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        println("EnemyBaseLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
         eventProcessor
                 .subscribe(id)
                 .onEvent(EnemyDestroyed) {
-                    println("Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
+                    Gdx.app.debug(this.javaClass.name,"Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
                             "shoot delay: ${Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)}")
                     enemiesCount--
                 }
@@ -58,7 +58,7 @@ class EnemyBaseLogic(
         val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
-        val enemyEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext, false) {
+        val enemyEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, false) {
             x = enemyXPosition.toFloat()
             y = enemyYPosition
         } as SpriteEntityWithLogic

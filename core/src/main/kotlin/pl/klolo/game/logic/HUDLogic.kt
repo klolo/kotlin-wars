@@ -23,7 +23,7 @@ class HUDLogic(
     var doublePoints = false
 
     private fun initPointLabel(): TextEntity {
-        return createEntity<TextEntity>(textConfiguration, applicationContext)
+        return createEntity<TextEntity>(textConfiguration)
                 .apply {
                     text = "0"
                     eventProcessor.sendEvent(RegisterEntity(this))
@@ -32,7 +32,7 @@ class HUDLogic(
     }
 
     private fun initBonusLabel(): TextEntity {
-        return createEntity<TextEntity>(textConfiguration, applicationContext)
+        return createEntity<TextEntity>(textConfiguration)
                 .apply {
                     text = ""
                     eventProcessor.sendEvent(RegisterEntity(this))
@@ -45,7 +45,7 @@ class HUDLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        println("HUDLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
 
         eventProcessor
                 .subscribe(id)

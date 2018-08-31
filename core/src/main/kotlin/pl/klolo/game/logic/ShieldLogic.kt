@@ -1,14 +1,13 @@
 package pl.klolo.game.logic
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.event.DisableShield
-import pl.klolo.game.event.EnableShield
-import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.LaserHitInShield
+import pl.klolo.game.event.*
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.player.PlayerMoveLogic
 import pl.klolo.game.physics.GamePhysics
@@ -28,12 +27,12 @@ class ShieldLogic(
 
         initializeMoving()
                 .onEvent(DisableShield) {
-                    println("disabling shield...")
+                    Gdx.app.debug(this.javaClass.name,"disabling shield...")
                     body.isActive = false
                     display = false
                 }
                 .onEvent(EnableShield) {
-                    println("enabling shield...")
+                    Gdx.app.debug(this.javaClass.name,"enabling shield...")
                     body.isActive = true
                     display = true
                 }
@@ -42,6 +41,7 @@ class ShieldLogic(
                         return@onEvent
                     }
 
+                    eventProcessor.sendEvent(PlaySound(SoundEffect.SHIELD_COLLISION))
                     explosionLights.addLight(this)
                 }
 

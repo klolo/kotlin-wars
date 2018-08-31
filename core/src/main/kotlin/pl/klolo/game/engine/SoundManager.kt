@@ -13,19 +13,21 @@ enum class Song(val filename: String) {
 
 enum class SoundEffect(val filename: String) {
     PLAYER_SHOOT("sound/laser-shot-silenced.wav"),
+    SHIELD_COLLISION("sound/collision.ogg"),
+    FOUND_BONUS("sound/bonus.wav"),
+    YIPEE("sound/yipee.wav"),
+    PLAYER_COLLISION("sound/playerCollision.wav")
 }
 
 class SoundManager(private val eventProcessor: EventProcessor) {
     private var currentMusic: Music? = null
 
     private val sounds: Map<SoundEffect, Sound> by lazy {
-        mapOf<SoundEffect, Sound>(
-                SoundEffect.PLAYER_SHOOT to Gdx.audio.newSound(Gdx.files.internal(SoundEffect.PLAYER_SHOOT.filename))
-        )
+        SoundEffect.values().map { it to Gdx.audio.newSound(Gdx.files.internal(it.filename)) }.toMap()
     }
 
     fun initialize() {
-        println("SoundManager creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
 
         eventProcessor
                 .subscribe(-2)

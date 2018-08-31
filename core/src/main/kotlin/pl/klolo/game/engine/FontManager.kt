@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.configuration.Colors.white
 
 enum class FontSize(val value: Int) {
-    SMALL(22),
+    SMALL(20),
     MEDIUM(26),
     BIG(45),
     HUGE(80),

@@ -8,6 +8,14 @@
     "initOnCreate": true
   },
   {
+    "uniqueName": "menuOverlay",
+    "logicClass": "pl.klolo.game.logic.MenuOverlayLogic",
+    "type": "SPRITE_WITH_LOGIC",
+    "image": "menu-overlay.png",
+    "layer": 2,
+    "initOnCreate": true
+  },
+  {
     "uniqueName": "text",
     "type": "TEXT_ENTITY",
     "initOnCreate": false,

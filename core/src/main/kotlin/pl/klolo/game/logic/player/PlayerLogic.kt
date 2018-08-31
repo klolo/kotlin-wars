@@ -1,11 +1,15 @@
 package pl.klolo.game.logic.player
 
 import box2dLight.PointLight
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.*
-import pl.klolo.game.entity.*
+import pl.klolo.game.entity.EntityConfiguration
+import pl.klolo.game.entity.EntityRegistry
+import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
 import pl.klolo.game.extensions.executeAfterDelay
 import pl.klolo.game.logic.BulletLogic
@@ -47,7 +51,7 @@ class PlayerLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        println("PlayerLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
 
         playerLight = gameLighting.createPointLight(100, blueLight, 50f, x, y)
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
@@ -66,10 +70,12 @@ class PlayerLogic(
                     onAddPlayerLife(it)
                 }
                 .onEvent(EnableSuperBullet) {
+                    eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     enableSuperBullet()
                     executeAfterDelay(15f) { disableSuperBullet() }
                 }
                 .onEvent(EnableShield) {
+                    eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     hasShield = true
                     executeAfterDelay(15f) {
                         hasShield = false
@@ -77,6 +83,7 @@ class PlayerLogic(
                     }
                 }
                 .onEvent(EnableDoublePoints) {
+                    eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     doublePoints = true
                     popupMessages.show(this, "x2")
                     executeAfterDelay(doublePointsTime) {
@@ -96,10 +103,13 @@ class PlayerLogic(
     }
 
     private fun SpriteEntityWithLogic.onAddPlayerLife(it: AddPlayerLife) {
-        println("increase life level $it")
+        Gdx.app.debug(this.javaClass.name,"increase life level $it")
         lifeLevel += it.lifeAmount
         if (lifeLevel > 100) {
             lifeLevel = 100
+        }
+        else {
+            eventProcessor.sendEvent(PlaySound(SoundEffect.YIPEE))
         }
 
         eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
@@ -107,7 +117,7 @@ class PlayerLogic(
     }
 
     private fun enableSuperBullet() {
-        println("Enable super bullet. enabled: ${enabledSuperBulletCounter}, current power: ${bulletPower}")
+        Gdx.app.debug(this.javaClass.name,"Enable super bullet. enabled: ${enabledSuperBulletCounter}, current power: ${bulletPower}")
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue02")
         bulletPower *= 2
         enabledSuperBulletCounter++
@@ -117,7 +127,7 @@ class PlayerLogic(
     private fun disableSuperBullet() {
         enabledSuperBulletCounter--
         if (enabledSuperBulletCounter == 0) {
-            println("Disable super bullet.")
+            Gdx.app.debug(this.javaClass.name,"Disable super bullet.")
             laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
             bulletPower = defaulBulletPower
             playerLight.distance = 70f
@@ -126,10 +136,8 @@ class PlayerLogic(
 
     private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
         val collidedEntity = it.entity!!
-        if (isEnemyLaser(collidedEntity)) {
-            if (hasShield) {
-                return
-            }
+        if (isEnemyLaser(collidedEntity) && !hasShield) {
+            eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_COLLISION))
 
             lifeLevel -= 10
             popupMessages.show(this, "-10%")
@@ -148,7 +156,7 @@ class PlayerLogic(
         val bulletXPosition = x + width / 2
         val bulletYPosition = y + height / 2
 
-        val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, applicationContext) {
+        val bulletEntity: SpriteEntityWithLogic = createEntity(laserConfiguration) {
             x = bulletXPosition
             y = bulletYPosition
         }

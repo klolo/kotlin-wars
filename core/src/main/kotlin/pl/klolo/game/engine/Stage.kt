@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.beust.klaxon.Klaxon
-import org.springframework.context.ApplicationContext
-import org.springframework.context.ApplicationContextAware
 import pl.klolo.game.entity.Entity
 import pl.klolo.game.entity.EntityConfiguration
 import pl.klolo.game.entity.EntityRegistry
@@ -20,16 +18,13 @@ class Stage(
         private val soundManager: SoundManager,
         private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
-        private val eventProcessor: EventProcessor) : ApplicationContextAware {
-    lateinit var _applicationContext: ApplicationContext
-
-    override fun setApplicationContext(applicationContext: ApplicationContext?) {
-        _applicationContext = applicationContext!!
-    }
+        private val eventProcessor: EventProcessor) {
 
     private var entities = emptyList<Entity>()
 
     fun initEntities() {
+        Gdx.app.debug(this.javaClass.name, "initialize")
+
         subscribe()
         loadStage("menu-entities.json")
     }
@@ -41,16 +36,16 @@ class Stage(
                     val newEntity = event.entity
                     if (newEntity != null) {
                         entities += newEntity
-                        println("create: ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
+                        Gdx.app.debug(this.javaClass.name, "register entity uniqueName = ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
                     }
                 }
                 .onEvent(GameOver::class.java) {
-                    println(" -- GAME OVER ---")
+                    Gdx.app.debug(this.javaClass.name, "game over")
                     switchStage("gameover-menu-entities.json")
                     soundManager.playSong(Song.MENU)
                 }
                 .onEvent(StartNewGame) {
-                    println(" -- START GAME ---")
+                    Gdx.app.debug(this.javaClass.name, "start new game")
                     switchStage("game-entities.json")
                     soundManager.playSong(Song.GAME)
                 }
@@ -66,6 +61,8 @@ class Stage(
     private fun disposeCurrentStageEntities() {
         eventProcessor.clearAllSubscription()
         gamePhysics.onDispose()
+
+        Gdx.app.debug(this.javaClass.name, "clearing entities")
         entities.forEach { it.dispose() }
         entities = emptyList()
     }
@@ -75,29 +72,31 @@ class Stage(
         val entitiesConfiguration = Klaxon().parseArray<EntityConfiguration>(json) ?: emptyList()
 
         entityRegistry.addConfiguration(entitiesConfiguration)
-        entities += entitiesConfiguration
+        val loadedEntities = entitiesConfiguration
                 .filter { it.initOnCreate }
-                .map { createEntity<Entity>(it, _applicationContext) }
-                .sortedBy { it.layer }
+                .map { createEntity<Entity>(it) }
+
+        entities += loadedEntities
+        entities = entities.sortedBy { it.layer }
+        Gdx.app.debug(this.javaClass.name, "entities loaded: ${entities.joinToString { it.uniqueName }}")
     }
 
     fun update(delta: Float) {
         entities
                 .filter { it.shouldBeRemove }
                 .forEach {
+                    Gdx.app.debug(this.javaClass.name, "dispose entity: $it")
                     it.dispose()
                 }
 
-        entities = entities.filter { true != it.shouldBeRemove }
+        entities = entities.filter { !it.shouldBeRemove }
         entities.forEach {
             it.update(delta)
         }
     }
 
     fun dispose() {
-        entities.forEach {
-            it.dispose()
-        }
+        entities.forEach(Entity::dispose)
     }
 
     fun drawWithLight(batch: Batch, camera: OrthographicCamera) {

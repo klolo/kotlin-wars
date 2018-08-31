@@ -24,7 +24,7 @@ class GameOverMenuLogic<T : Entity>(
             by lazy { createScoreLabels() }
 
     override val initialize: T.() -> Unit = {
-        println("GameOverMenuLogic creating...")
+        Gdx.app.debug(this.javaClass.name,"initialize")
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
@@ -48,7 +48,7 @@ class GameOverMenuLogic<T : Entity>(
     }
 
     private fun initGameOverLabel(): TextEntity {
-        return createEntity<TextEntity>(textConfiguration, applicationContext)
+        return createEntity<TextEntity>(textConfiguration)
                 .apply {
                     text = "Game over"
                     fontSize = FontSize.HUGE
@@ -58,7 +58,7 @@ class GameOverMenuLogic<T : Entity>(
     }
 
     private fun createScoreLabels(): TextEntity {
-        return createEntity<TextEntity>(textConfiguration, applicationContext)
+        return createEntity<TextEntity>(textConfiguration)
                 .apply {
                     text = "Your score: ${highscore.getLastScore()}\n\nBest score: ${highscore.getRecord()}"
                     fontSize = FontSize.SMALL

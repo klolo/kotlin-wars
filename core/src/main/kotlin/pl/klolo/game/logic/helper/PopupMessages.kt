@@ -46,7 +46,7 @@ class PopupMessages(
     }
 
     private fun createResultLabel(labelText: String): TextEntity {
-        return createEntity<TextEntity>(entityRegistry.getConfigurationById("text"), applicationContext)
+        return createEntity<TextEntity>(entityRegistry.getConfigurationById("text"))
                 .apply {
                     text = labelText
                     eventProcessor.sendEvent(RegisterEntity(this))

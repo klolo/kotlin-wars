@@ -28,7 +28,7 @@ class GameEngine internal constructor(
 
     override fun create() {
         Gdx.input.inputProcessor = inputProcessor
-        Gdx.app.logLevel = Application.LOG_DEBUG;
+        Gdx.app.logLevel = getConfig("engine").getInt("logLevel")
 
         gamePhysics.initPhysics()
         gameLighting.initLights()
