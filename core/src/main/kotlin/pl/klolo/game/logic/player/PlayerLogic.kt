@@ -27,10 +27,12 @@ class PlayerLogic(
         private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
         private val eventProcessor: EventProcessor,
-        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor, profileHolder) {
+        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
+    private var moveLogic = getMoveLogicImplementation(profileHolder.activeProfile, eventProcessor)
+
     private var hasShield = false
 
     private var lifeLevel = 100
@@ -53,12 +55,14 @@ class PlayerLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name, "initialize")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
+        y = getPlayerBottomMargin(profileHolder.activeProfile, height)
 
         playerLight = gameLighting.createPointLight(100, blueLight, 50f, x, y)
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
 
-        initializeMoving()
+        moveLogic.initialize(this)
+        moveLogic.createSubscription(this)
                 .onEvent(OnCollision::class.java) {
                     onCollision(it)
                 }
@@ -191,9 +195,9 @@ class PlayerLogic(
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         popupMessages.updatePosition(this)
-        playerLight.setPosition(x + width / 2, y + height)
-        body.setTransform(x + width / 2, y + height, 0.0f)
-        checkPosition()
+        playerLight.setPosition(x + width / 2, y + height / 2)
+        body.setTransform(x + width / 2, y + height / 2, 0.0f)
+        moveLogic.onUpdate(this, it)
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {

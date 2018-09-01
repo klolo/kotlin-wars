@@ -28,7 +28,7 @@ class SoundManager(private val eventProcessor: EventProcessor) {
     }
 
     fun initialize() {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name,"createSubscription")
 
         eventProcessor
                 .subscribe(-2)

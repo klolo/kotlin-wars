@@ -64,14 +64,13 @@
   },
   {
     "uniqueName": "enemyBase",
-    "logicClass": "pl.klolo.game.logic.EnemyBaseLogic",
+    "logicClass": "pl.klolo.game.logic.EnemyGeneratorLogic",
     "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },
   {
     "uniqueName": "text",
     "type": "TEXT_ENTITY",
-    "initOnCreate": false,
     "layer": 10
   },
   {
@@ -82,7 +81,7 @@
   },
   {
     "uniqueName": "bonusManager",
-    "logicClass": "pl.klolo.game.logic.BonusLogic",
+    "logicClass": "pl.klolo.game.logic.BonusGeneratorLogic",
     "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },

@@ -44,7 +44,7 @@ class HUDLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name,"createSubscription")
 
         eventProcessor
                 .subscribe(id)

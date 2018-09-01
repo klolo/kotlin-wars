@@ -9,8 +9,13 @@ import pl.klolo.game.physics.GamePhysics
 
 class GameLighting(private val gamePhysics: GamePhysics) {
     private lateinit var rayHandler: RayHandler
+    private var entityScaleFactor: Float = 1.0f
 
     fun initLights() {
+        entityScaleFactor = GameEngine.applicationConfiguration.getConfig("engine")
+                .getDouble("entityScaleFactor")
+                .toFloat()
+
         RayHandler.useDiffuseLight(true)
         rayHandler = RayHandler(gamePhysics.world)
         rayHandler.setBlur(true)
@@ -29,6 +34,6 @@ class GameLighting(private val gamePhysics: GamePhysics) {
     }
 
     fun createPointLight(rays: Int, color: Color, distance: Float, x: Float, y: Float): PointLight {
-        return PointLight(rayHandler, rays, color, distance, x, y)
+        return PointLight(rayHandler, rays, color, distance * entityScaleFactor, x, y)
     }
 }

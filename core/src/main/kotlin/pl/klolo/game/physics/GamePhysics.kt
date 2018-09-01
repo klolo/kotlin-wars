@@ -30,9 +30,10 @@ class GamePhysics(private val contactListener: ContactListener) {
     fun update() {
         world.step(1 / 60f, 6, 2)
 
-        bodyToRemove.forEach {
-            it.isActive = false
-            world.destroyBody(it)
+        bodyToRemove.forEach { body ->
+            body.isActive = false
+            body.fixtureList.forEach { body.destroyFixture(it) }
+            world.destroyBody(body)
         }
 
         bodyToRemove = mutableListOf()

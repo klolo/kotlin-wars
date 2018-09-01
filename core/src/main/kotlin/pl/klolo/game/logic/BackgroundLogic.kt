@@ -27,7 +27,7 @@ class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
     }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name,"createSubscription")
 
         if (!positionInitialized) {
             val texture = Texture(Gdx.files.internal(entityConfiguration.image))

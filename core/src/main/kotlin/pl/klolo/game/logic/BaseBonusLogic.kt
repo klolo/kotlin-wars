@@ -8,16 +8,18 @@ import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.configuration.Colors
-import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.isPlayerByName
+import pl.klolo.game.engine.*
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.Event
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.OnCollision
+import pl.klolo.game.extensions.addForeverSequence
+import pl.klolo.game.extensions.addSequence
 import pl.klolo.game.extensions.execute
 import pl.klolo.game.physics.GamePhysics
 
 abstract class BaseBonusLogic(
+        private val profileHolder: ProfileHolder,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting,
         private val gamePhysics: GamePhysics) : EntityLogic<SpriteEntityWithLogic> {
@@ -26,6 +28,7 @@ abstract class BaseBonusLogic(
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var ignoreNextCollision = false
+    private val bonusSpeed = 20f
 
     abstract fun getEventToSendOnCollisionWithPlayer(): Event;
 
@@ -33,21 +36,17 @@ abstract class BaseBonusLogic(
         light = gameLighting.createPointLight(150, Colors.gold, 90f, x, y)
 
         createPhysics()
-
-        val moveAction = sequence(
-                parallel(
-                        moveTo(x, y - Gdx.graphics.width - 100, 20f),
-                        forever(
-                                sequence(
-                                        scaleTo(1.3f, 1.3f, 1f, Interpolation.linear),
-                                        scaleTo(0.9f, 0.9f, 1f, Interpolation.linear)
-                                )
-                        )
-
-                ),
-                execute { shouldBeRemove = true }
+        addForeverSequence(
+                scaleTo(1.4f, 1.4f, 1f, Interpolation.linear),
+                scaleTo(1f, 1f, 1f, Interpolation.linear)
         )
-        addAction(moveAction)
+
+        addSequence(
+                moveTo(x, -1 * height, 18f),
+                execute {
+                    shouldBeRemove = true
+                }
+        )
 
         eventProcessor.subscribe(id)
                 .onEvent(OnCollision::class.java) {
@@ -56,21 +55,15 @@ abstract class BaseBonusLogic(
                     if (isPlayerByName(collidedEntity) && !ignoreNextCollision) {
                         ignoreNextCollision = true
                         clearActions()
-                        addAction(
-                                sequence(
-                                        parallel(
-                                                scaleTo(0.01f, 0.01f, 0.2f, Interpolation.linear)
-                                        ),
-                                        execute {
-                                            eventProcessor.sendEvent(getEventToSendOnCollisionWithPlayer())
-                                            shouldBeRemove = true
-                                        }
-                                )
+                        addSequence(
+                                scaleTo(0.01f, 0.01f, 0.2f, Interpolation.linear),
+                                execute {
+                                    eventProcessor.sendEvent(getEventToSendOnCollisionWithPlayer())
+                                    shouldBeRemove = true
+                                }
                         )
                     }
                 }
-
-
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
@@ -82,12 +75,12 @@ abstract class BaseBonusLogic(
         light.remove()
         physicsShape.dispose()
         gamePhysics.destroy(body)
+        clearActions()
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {
         body = gamePhysics.createDynamicBody()
         physicsShape = CircleShape().apply { radius = width / 2 }
-
         val fixture = body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
         fixture?.userData = this
     }

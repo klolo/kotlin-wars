@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.engine.ProfileHolder
+import pl.klolo.game.engine.getScreenWidth
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
@@ -19,6 +21,7 @@ import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
 class EnemyLogic(
+        private val profileHolder: ProfileHolder,
         private val entityRegistry: EntityRegistry,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
@@ -32,6 +35,7 @@ class EnemyLogic(
     private var life: Int = 0
     private val lifeFactory = 20
     var shootDelay = 3f
+    var speed = 1f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         if (display) {
@@ -42,6 +46,7 @@ class EnemyLogic(
     }
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
+        val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
         light = gameLighting.createPointLight(50, Colors.redLight, 40f, x, y)
 
         life = uniqueName
@@ -52,16 +57,13 @@ class EnemyLogic(
         createPhysics()
 
         addSequence(
-                moveTo(x, y - Gdx.graphics.width - 100, 20f),
+                moveTo(x, -1 * height, speed),
                 execute { onDestroy() }
         )
 
         addForeverSequence(
                 delay(shootDelay),
-                execute {
-                    val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
-                    shootOnPosition(laserConfiguration)
-                }
+                execute { shootOnPosition(laserConfiguration) }
         )
 
         eventProcessor.subscribe(id)

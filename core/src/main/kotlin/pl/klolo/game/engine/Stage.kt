@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.beust.klaxon.Klaxon
-import pl.klolo.game.entity.Entity
-import pl.klolo.game.entity.EntityConfiguration
-import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.createEntity
+import pl.klolo.game.entity.*
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.GameOver
 import pl.klolo.game.event.RegisterEntity
@@ -23,10 +20,10 @@ class Stage(
     private var entities = emptyList<Entity>()
 
     fun initEntities() {
-        Gdx.app.debug(this.javaClass.name, "initialize")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         subscribe()
-        loadStage("assets/menu-entities.json")
+        loadStage("assets/entities/menu-entities.json")
     }
 
     private fun subscribe() {
@@ -41,12 +38,12 @@ class Stage(
                 }
                 .onEvent(GameOver::class.java) {
                     Gdx.app.debug(this.javaClass.name, "game over")
-                    switchStage("assets/gameover-menu-entities.json")
+                    switchStage("assets/entities/gameover-menu-entities.json")
                     soundManager.playSong(Song.MENU)
                 }
                 .onEvent(StartNewGame) {
                     Gdx.app.debug(this.javaClass.name, "start new game")
-                    switchStage("assets/game-entities.json")
+                    switchStage("assets/entities/game-entities.json")
                     soundManager.playSong(Song.GAME)
                 }
     }
@@ -68,8 +65,15 @@ class Stage(
     }
 
     private fun loadStage(stageConfigurationFilename: String) {
+        val entityScaleFactor = GameEngine.applicationConfiguration.getConfig("engine")
+                .getDouble("entityScaleFactor")
+                .toFloat()
+
         val json = Gdx.files.internal(stageConfigurationFilename).readString()
-        val entitiesConfiguration = Klaxon().parseArray<EntityConfiguration>(json) ?: emptyList()
+
+        val entitiesConfiguration = Klaxon()
+                .parseArray<EntityConfiguration>(json)
+                ?.map { scaleEntity(it, entityScaleFactor) } ?: emptyList()
 
         entityRegistry.addConfiguration(entitiesConfiguration)
         val loadedEntities = entitiesConfiguration
@@ -81,11 +85,27 @@ class Stage(
         Gdx.app.debug(this.javaClass.name, "entities loaded: ${entities.joinToString { it.uniqueName }}")
     }
 
+    private fun scaleEntity(entityConfiguration: EntityConfiguration, entityScaleFactor: Float): EntityConfiguration {
+        return EntityConfiguration(
+                uniqueName = entityConfiguration.uniqueName,
+                type = entityConfiguration.type,
+                logicClass = entityConfiguration.logicClass,
+                image = entityConfiguration.image,
+                x = entityConfiguration.x,
+                y = entityConfiguration.y,
+                width = entityConfiguration.width * entityScaleFactor,
+                height = entityConfiguration.height * entityScaleFactor,
+                layer = entityConfiguration.layer,
+                initOnCreate = entityConfiguration.initOnCreate,
+                useLighting = entityConfiguration.useLighting
+        )
+    }
+
     fun update(delta: Float) {
         entities
                 .filter { it.shouldBeRemove }
                 .forEach {
-                    Gdx.app.debug(this.javaClass.name, "dispose entity: $it")
+                    Gdx.app.debug(this.javaClass.name, "dispose entity: ${it.uniqueName}")
                     it.dispose()
                 }
 

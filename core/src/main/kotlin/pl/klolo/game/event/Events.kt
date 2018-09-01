@@ -20,6 +20,7 @@ object OnEscape : Event()
 // player
 object EnemyDestroyed : Event()
 
+class PlayerChangePosition(val x: Float = 0f, val y: Float = 0f) : Event()
 class ChangePlayerLfeLevel(val actualPlayerLifeLevel: Int = 100) : Event()
 class AddPoints(val points: Int = 0) : Event()
 class AddPlayerLife(val lifeAmount: Int = 0) : Event()
@@ -32,6 +33,7 @@ object LaserHitInShield : Event()
 
 // engine
 class RegisterEntity(val entity: Entity? = null) : Event()
+
 class GameOver(val totalPoints: Int = 0) : Event()
 object StartNewGame : Event()
 class OnCollision(val entity: Entity? = null) : Event()

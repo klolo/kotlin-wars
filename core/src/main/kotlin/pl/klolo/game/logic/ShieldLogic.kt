@@ -10,31 +10,33 @@ import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.helper.ExplosionLights
-import pl.klolo.game.logic.player.PlayerMoveLogic
 import pl.klolo.game.physics.GamePhysics
 
 class ShieldLogic(
-        private val profileHolder: ProfileHolder,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
-        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic>, PlayerMoveLogic(eventProcessor, profileHolder) {
+        private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private var explosionLights = ExplosionLights(gameLighting, 200f, blueLight)
     private lateinit var physicsShape: CircleShape
-    lateinit var body: Body
+    private lateinit var body: Body
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         useLighting = false
-        y = height * 1.2f
 
-        initializeMoving()
+        eventProcessor
+                .subscribe(id)
+                .onEvent(PlayerChangePosition::class.java) {
+                    x = it.x - width / 2
+                    y = it.y
+                }
                 .onEvent(DisableShield) {
-                    Gdx.app.debug(this.javaClass.name,"disabling shield...")
+                    Gdx.app.debug(this.javaClass.name, "disabling shield...")
                     body.isActive = false
                     display = false
                 }
                 .onEvent(EnableShield) {
-                    Gdx.app.debug(this.javaClass.name,"enabling shield...")
+                    Gdx.app.debug(this.javaClass.name, "enabling shield...")
                     body.isActive = true
                     display = true
                 }
@@ -47,6 +49,20 @@ class ShieldLogic(
                     explosionLights.addLight(this)
                 }
 
+        createShieldPhysics()
+    }
+
+    override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
+        body.setTransform(x + width / 2, y, 0.0f)
+    }
+
+    override val onDispose: SpriteEntityWithLogic.() -> Unit = {
+        physicsShape.dispose()
+        gamePhysics.destroy(body)
+        explosionLights.onDispose()
+    }
+
+    private fun SpriteEntityWithLogic.createShieldPhysics() {
         body = gamePhysics.createDynamicBody()
         body.isActive = false
 
@@ -54,17 +70,6 @@ class ShieldLogic(
         display = false
 
         val fixture = body.createFixture(gamePhysics.getStandardFixtureDef(physicsShape))
-        fixture?.userData = this
-    }
-
-    override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        body.setTransform(x + width / 2, y, 0.0f)
-        checkPosition()
-    }
-
-    override val onDispose: SpriteEntityWithLogic.() -> Unit = {
-        physicsShape.dispose()
-        gamePhysics.destroy(body)
-        explosionLights.onDispose()
+        fixture.userData = this
     }
 }

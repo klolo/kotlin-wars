@@ -2,19 +2,24 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import pl.klolo.game.engine.GameEngine
+import pl.klolo.game.engine.ProfileHolder
+import pl.klolo.game.engine.getScreenWidth
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 import java.util.*
 
-val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 250f
-val minimalShootDelay = 0.5f
+const val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 250f
+const val minimalShootDelay = 0.5f
 
-class EnemyBaseLogic(
+class EnemyGeneratorLogic(
+        private val profileHolder: ProfileHolder,
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
 
+    private var enemySpeed = 1f
     private var maxEnemiesOnStage = 3
     private var enemiesCount = 0
     private var totalCreatedEnemy = 0
@@ -24,11 +29,15 @@ class EnemyBaseLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        enemySpeed = GameEngine.applicationConfiguration.getConfig("engine")
+                .getDouble("enemySpeed")
+                .toFloat()
+
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
         eventProcessor
                 .subscribe(id)
                 .onEvent(EnemyDestroyed) {
-                    Gdx.app.debug(this.javaClass.name,"Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
+                    Gdx.app.debug(this.javaClass.name, "Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
                             "shoot delay: ${Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)}")
                     enemiesCount--
                 }
@@ -54,17 +63,17 @@ class EnemyBaseLogic(
         val random = Random()
         val margin = 120
 
-        val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
+        val enemyXPosition = random.nextInt(getScreenWidth(profileHolder.activeProfile).toInt() - margin) + width
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
         val enemyEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, false) {
-            x = enemyXPosition.toFloat()
+            x = enemyXPosition
             y = enemyYPosition
         } as SpriteEntityWithLogic
 
         (enemyEntity.logic as EnemyLogic).apply {
             shootDelay = 3f - Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)
-
+            speed = enemySpeed
         }
         enemyEntity.logic.apply { initialize.invoke(enemyEntity) }
         eventProcessor.sendEvent(RegisterEntity(enemyEntity))

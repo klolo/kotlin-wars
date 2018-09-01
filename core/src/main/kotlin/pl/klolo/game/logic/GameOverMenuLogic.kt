@@ -20,7 +20,7 @@ class GameOverMenuLogic<T : Entity>(
     private lateinit var scoreLabels: TextEntity
 
     override val initialize: T.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name, "initialize")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }

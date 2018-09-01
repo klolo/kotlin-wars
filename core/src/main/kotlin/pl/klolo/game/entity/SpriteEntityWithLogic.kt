@@ -37,7 +37,7 @@ open class SpriteEntityWithLogic(
     }
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
-        if(display) {
+        if (display) {
             batch.draw(sprite, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
         }
     }

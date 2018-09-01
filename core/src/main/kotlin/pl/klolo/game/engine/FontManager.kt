@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import pl.klolo.game.configuration.Colors.white
+import pl.klolo.game.engine.GameEngine.Companion.applicationConfiguration
 
+private val fontConfiguration = applicationConfiguration.getConfig("font")
 enum class FontSize(val value: Int) {
-    SMALL(25),
-    MEDIUM(30),
-    BIG(45),
-    HUGE(90),
+    SMALL(fontConfiguration.getInt("small")),
+    MEDIUM(fontConfiguration.getInt("medium")),
+    BIG(fontConfiguration.getInt("big")),
+    HUGE(fontConfiguration.getInt("huge")),
 }
 
 class FontManager {

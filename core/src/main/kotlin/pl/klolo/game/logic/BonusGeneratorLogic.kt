@@ -8,23 +8,23 @@ import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 import java.util.*
 
-class BonusLogic(
+class BonusGeneratorLogic(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
     private val random = Random()
 
     private val items by lazy {
         listOf(
-                entityRegistry.getConfigurationById("medicineBonus") to 50,
-                entityRegistry.getConfigurationById("starBonus") to 1,
-                entityRegistry.getConfigurationById("superBulletBonus") to 20,
-                entityRegistry.getConfigurationById("shieldBonus") to 20,
+                entityRegistry.getConfigurationById("medicineBonus") to 20,
+                entityRegistry.getConfigurationById("starBonus") to 2,
+                entityRegistry.getConfigurationById("superBulletBonus") to 30,
+                entityRegistry.getConfigurationById("shieldBonus") to 30,
                 entityRegistry.getConfigurationById("doublePointsBonus") to 40
         )
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         addAction(forever(
                 sequence(
@@ -57,11 +57,11 @@ class BonusLogic(
         val random = Random()
         val margin = 100
 
-        val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin) + margin
+        val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin)
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
-        val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration) {
-            x = enemyXPosition.toFloat()
+        val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration, false) {
+            x = enemyXPosition.toFloat() + width
             y = enemyYPosition
         } as SpriteEntityWithLogic
 

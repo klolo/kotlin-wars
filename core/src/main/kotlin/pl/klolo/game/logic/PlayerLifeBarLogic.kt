@@ -22,7 +22,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"initialize")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         fill = Sprite(Texture(Gdx.files.internal(entityConfiguration.image)))
         background = Sprite(Texture(Gdx.files.internal("assets/lifebar.png")))
@@ -56,7 +56,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
 
     override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {
         x = Gdx.graphics.width.toFloat() - entityConfiguration.width * 1.2f
-        width = (entityConfiguration.width * 0.9f) * lifeAmount
+        width = Math.max(0f, (entityConfiguration.width * 0.9f) * lifeAmount)
         y = Gdx.graphics.height.toFloat() - height * 1.4f
     }
 }
