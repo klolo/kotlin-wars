@@ -1,4 +1,4 @@
-package pl.klolo.game.extensions
+package pl.klolo.game.common
 
 import com.badlogic.gdx.graphics.Color
 import java.lang.Long.parseLong

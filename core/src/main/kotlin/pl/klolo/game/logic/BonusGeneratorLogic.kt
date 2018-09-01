@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
+import pl.klolo.game.entity.EntityLogic
 import java.util.*
 
 class BonusGeneratorLogic(

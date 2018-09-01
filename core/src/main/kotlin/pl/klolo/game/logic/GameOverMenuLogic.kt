@@ -8,6 +8,7 @@ import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
+import pl.klolo.game.entity.EntityLogic
 
 class GameOverMenuLogic<T : Entity>(
         private val highscore: Highscore,

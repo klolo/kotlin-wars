@@ -9,7 +9,8 @@ import pl.klolo.game.event.AddPoints
 import pl.klolo.game.event.EnableDoublePoints
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
-import pl.klolo.game.extensions.executeAfterDelay
+import pl.klolo.game.common.executeAfterDelay
+import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.player.bonusLifetime
 
 class HUDLogic(

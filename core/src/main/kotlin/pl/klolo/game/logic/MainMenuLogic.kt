@@ -1,7 +1,6 @@
 package pl.klolo.game.logic
 
 import box2dLight.Light
-import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.FontSize
@@ -10,13 +9,14 @@ import pl.klolo.game.engine.Song
 import pl.klolo.game.engine.SoundManager
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
+import pl.klolo.game.entity.EntityLogic
 
 
 class PulsingLightAnimation(private val light: Light) {
-    private var delta = 0f
-    private val deltaStep = 0.02f
-    private val minDistance = 150
-    private val distanceGrow = 350
+    var delta = 0f
+    var deltaStep = 0.02f
+    var minDistance = 150
+    var distanceGrow = 350
 
     fun update() {
         delta += deltaStep
@@ -60,7 +60,7 @@ class MainMenuLogic<T : Entity>(
             width = logoConfiguration.width
             height = logoConfiguration.height
             x = Gdx.graphics.width.toFloat() / 2 - width / 2
-            y = Gdx.graphics.height.toFloat() / 2 - height * 2
+            y = Gdx.graphics.height.toFloat() / 2 - height
         }
 
         val logoLight = gameLighting.createPointLight(100, Colors.white, 300f,

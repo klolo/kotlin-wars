@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
+import pl.klolo.game.engine.assetManager
 import pl.klolo.game.entity.SpriteWithCustomRendering
+import pl.klolo.game.entity.EntityLogicWithRendering
 
 class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
     companion object {
@@ -30,7 +32,7 @@ class BackgroundLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
         Gdx.app.debug(this.javaClass.name,"createSubscription")
 
         if (!positionInitialized) {
-            val texture = Texture(Gdx.files.internal(entityConfiguration.image))
+            val texture = assetManager.get(entityConfiguration.image, Texture::class.java)
             leftBackground = Sprite(texture)
             leftBackground.x = Gdx.graphics.width.toFloat() * -1
 

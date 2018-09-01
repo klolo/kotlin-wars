@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.isEnemyByName
@@ -13,9 +12,10 @@ import pl.klolo.game.engine.isPlayerByName
 import pl.klolo.game.engine.isShieldByName
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
-import pl.klolo.game.extensions.addSequence
-import pl.klolo.game.extensions.execute
-import pl.klolo.game.extensions.executeAfterDelay
+import pl.klolo.game.common.addSequence
+import pl.klolo.game.common.execute
+import pl.klolo.game.common.executeAfterDelay
+import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.physics.GamePhysics
 import java.util.*
 

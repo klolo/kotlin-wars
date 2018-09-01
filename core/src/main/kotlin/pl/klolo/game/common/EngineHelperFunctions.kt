@@ -1,4 +1,4 @@
-package pl.klolo.game.engine
+package pl.klolo.game.common
 
 import com.badlogic.gdx.Gdx
 import pl.klolo.game.configuration.Profile

@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
-import pl.klolo.game.configuration.Colors.red
+import pl.klolo.game.engine.assetManager
 import pl.klolo.game.entity.SpriteWithCustomRendering
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.ChangePlayerLfeLevel
+import pl.klolo.game.entity.EntityLogicWithRendering
 
 class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLogicWithRendering<SpriteWithCustomRendering> {
     private lateinit var fill: Sprite
@@ -24,8 +25,8 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "createSubscription")
 
-        fill = Sprite(Texture(Gdx.files.internal(entityConfiguration.image)))
-        background = Sprite(Texture(Gdx.files.internal("assets/lifebar.png")))
+        fill = Sprite(assetManager.get(entityConfiguration.image, Texture::class.java))
+        background = Sprite(assetManager.get("assets/lifebar.png", Texture::class.java))
 
         useLighting = false
         width = entityConfiguration.width

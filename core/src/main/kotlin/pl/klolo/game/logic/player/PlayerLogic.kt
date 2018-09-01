@@ -12,9 +12,9 @@ import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
-import pl.klolo.game.extensions.executeAfterDelay
+import pl.klolo.game.common.executeAfterDelay
 import pl.klolo.game.logic.BulletLogic
-import pl.klolo.game.logic.EntityLogic
+import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics

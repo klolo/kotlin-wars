@@ -1,0 +1,14 @@
+[
+  {
+    "uniqueName": "text",
+    "type": "TEXT_ENTITY",
+    "initOnCreate": false,
+    "layer": 10
+  },
+  {
+    "uniqueName": "loader",
+    "type": "SPRITE_WITH_CUSTOM_RENDERING",
+    "logicClass": "pl.klolo.game.logic.GameLoaderLogic",
+    "initOnCreate": true
+  }
+]

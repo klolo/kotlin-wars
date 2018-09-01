@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import pl.klolo.game.engine.GameEngine
 import pl.klolo.game.engine.ProfileHolder
-import pl.klolo.game.engine.getScreenWidth
+import pl.klolo.game.common.getScreenWidth
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
+import pl.klolo.game.entity.EntityLogic
 import java.util.*
 
 const val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 250f

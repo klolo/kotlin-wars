@@ -24,11 +24,11 @@ class SoundManager(private val eventProcessor: EventProcessor) {
     private var currentMusic: Music? = null
 
     private val sounds: Map<SoundEffect, Sound> by lazy {
-        SoundEffect.values().map { it to Gdx.audio.newSound(Gdx.files.internal(it.filename)) }.toMap()
+        SoundEffect.values().map { it to assetManager.get(it.filename, Sound::class.java) }.toMap()
     }
 
     fun initialize() {
-        Gdx.app.debug(this.javaClass.name,"createSubscription")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         eventProcessor
                 .subscribe(-2)
@@ -39,7 +39,7 @@ class SoundManager(private val eventProcessor: EventProcessor) {
 
     fun playSong(song: Song) {
         currentMusic?.stop()
-        currentMusic = Gdx.audio.newMusic(Gdx.files.internal(song.filename))
+        currentMusic = assetManager.get(song.filename, Music::class.java)
         currentMusic?.play()
         currentMusic?.isLooping = true;
     }

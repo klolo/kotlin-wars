@@ -5,10 +5,10 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
+import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.physics.GamePhysics
 

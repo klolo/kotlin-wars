@@ -1,7 +1,6 @@
 package pl.klolo.game.logic
 
 import box2dLight.PointLight
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
@@ -9,13 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.ProfileHolder
-import pl.klolo.game.engine.getScreenWidth
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
-import pl.klolo.game.extensions.addForeverSequence
-import pl.klolo.game.extensions.addSequence
-import pl.klolo.game.extensions.execute
+import pl.klolo.game.common.addForeverSequence
+import pl.klolo.game.common.addSequence
+import pl.klolo.game.common.execute
+import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics

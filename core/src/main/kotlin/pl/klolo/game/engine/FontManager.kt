@@ -21,6 +21,7 @@ class FontManager {
         private val fontsBySize: Map<Int, Label> = mapOf(
                 FontSize.SMALL.value to createFont(FontSize.SMALL.value),
                 FontSize.MEDIUM.value to createFont(FontSize.MEDIUM.value),
+                FontSize.BIG.value to createFont(FontSize.BIG.value),
                 FontSize.HUGE.value to createFont(FontSize.HUGE.value)
         )
 

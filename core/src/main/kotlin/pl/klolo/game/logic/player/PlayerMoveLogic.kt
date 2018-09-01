@@ -7,7 +7,7 @@ import pl.klolo.game.configuration.Profile
 import pl.klolo.game.engine.GameEngine.Companion.applicationConfiguration
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.extensions.execute
+import pl.klolo.game.common.execute
 
 
 enum class Direction { LEFT, RIGHT, NONE }

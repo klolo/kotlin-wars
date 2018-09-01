@@ -36,5 +36,6 @@ class RegisterEntity(val entity: Entity? = null) : Event()
 
 class GameOver(val totalPoints: Int = 0) : Event()
 object StartNewGame : Event()
+object OpenMainMenu : Event()
 class OnCollision(val entity: Entity? = null) : Event()
 class PlaySound(val soundEffect: SoundEffect? = null) : Event()

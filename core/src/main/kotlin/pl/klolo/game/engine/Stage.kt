@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.beust.klaxon.Klaxon
 import pl.klolo.game.entity.*
-import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.GameOver
-import pl.klolo.game.event.RegisterEntity
-import pl.klolo.game.event.StartNewGame
+import pl.klolo.game.event.*
 import pl.klolo.game.physics.GamePhysics
 
 class Stage(
@@ -23,12 +20,15 @@ class Stage(
         Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         subscribe()
-        loadStage("assets/entities/menu-entities.json")
+        loadStage("assets/entities/loader-entities.json")
     }
 
     private fun subscribe() {
         eventProcessor
                 .subscribe(-1)
+                .onEvent(OpenMainMenu) {
+                    switchStage("assets/entities/menu-entities.json")
+                }
                 .onEvent(RegisterEntity::class.java) { event: RegisterEntity ->
                     val newEntity = event.entity
                     if (newEntity != null) {

@@ -1,4 +1,4 @@
-package pl.klolo.game.extensions
+package pl.klolo.game.common
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec

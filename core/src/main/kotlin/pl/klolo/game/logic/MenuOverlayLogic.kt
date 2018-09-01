@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import pl.klolo.game.configuration.Profile
 import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.EntityLogic
 
 
 class MenuOverlayLogic(private val profileHolder: ProfileHolder) : EntityLogic<SpriteEntityWithLogic> {

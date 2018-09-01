@@ -1,13 +1,9 @@
 package pl.klolo.game.entity
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
+import pl.klolo.game.engine.assetManager
 import pl.klolo.game.engine.gameDependencyInjectionContext
-import pl.klolo.game.logic.EntityLogic
-import pl.klolo.game.logic.EntityLogicWithRendering
-import kotlin.reflect.KType
-import kotlin.reflect.full.createType
 
 private var entityCounter = 0
 
@@ -30,7 +26,7 @@ fun createEntity(configuration: EntityConfiguration,
     return when (configuration.type) {
         EntityType.SPRITE_WITH_LOGIC -> {
             val entityLogic = createLogicClass<SpriteEntityWithLogic>(Class.forName(configuration.logicClass))
-            val entitySprite = Sprite(Texture(Gdx.files.internal(configuration.image)))
+            val entitySprite = Sprite(assetManager.get(configuration.image, Texture::class.java))
 
             SpriteEntityWithLogic(configuration, entityLogic, entitySprite, entityCounter++)
                     .apply(configureEntity)

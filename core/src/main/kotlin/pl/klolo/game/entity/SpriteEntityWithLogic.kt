@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
-import pl.klolo.game.logic.EntityLogic
 
 open class SpriteEntityWithLogic(
         entityConfiguration: EntityConfiguration,
@@ -27,7 +26,6 @@ open class SpriteEntityWithLogic(
     }
 
     override fun dispose() {
-        sprite.texture.dispose()
         logic.onDispose.invoke(this)
     }
 

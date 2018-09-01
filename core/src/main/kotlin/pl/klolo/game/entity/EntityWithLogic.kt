@@ -2,9 +2,7 @@ package pl.klolo.game.entity
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
-import pl.klolo.game.logic.EntityLogic
 
 open class EntityWithLogic(entityConfiguration: EntityConfiguration,
                            val logic: EntityLogic<EntityWithLogic>,

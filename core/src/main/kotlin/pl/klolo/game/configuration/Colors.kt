@@ -1,6 +1,6 @@
 package pl.klolo.game.configuration
 
-import pl.klolo.game.extensions.toColor
+import pl.klolo.game.common.toColor
 
 object Colors {
     val red = "#ff0000".toColor()

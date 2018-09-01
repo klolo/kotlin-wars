@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import pl.klolo.game.configuration.Colors.red
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.extensions.executeAfterDelay
+import pl.klolo.game.common.executeAfterDelay
 import java.util.*
 
 class ExplosionLights(private val gameLighting: GameLighting, private val distance: Float, private val lightColor: Color = red) {

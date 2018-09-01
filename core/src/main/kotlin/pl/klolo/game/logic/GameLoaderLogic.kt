@@ -1,68 +1,137 @@
 package pl.klolo.game.logic
 
-import box2dLight.Light
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Music
+import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import pl.klolo.game.configuration.Colors
-import pl.klolo.game.engine.FontSize
-import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.Song
-import pl.klolo.game.engine.SoundManager
-import pl.klolo.game.entity.*
-import pl.klolo.game.event.*
+import pl.klolo.game.engine.*
+import pl.klolo.game.entity.EntityRegistry
+import pl.klolo.game.entity.SpriteWithCustomRendering
+import pl.klolo.game.entity.TextEntity
+import pl.klolo.game.entity.createEntity
+import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.event.OpenMainMenu
+import pl.klolo.game.event.RegisterEntity
+import pl.klolo.game.common.addSequence
+import pl.klolo.game.common.execute
+import pl.klolo.game.entity.EntityLogicWithRendering
 
-class GameLoaderLogic<T : Entity>(
+class GameLoaderLogic(
         private val gameLighting: GameLighting,
-        private val soundManager: SoundManager,
         private val eventProcessor: EventProcessor,
-        private val entityRegistry: EntityRegistry) : EntityLogic<T> {
+        private val entityRegistry: EntityRegistry) : EntityLogicWithRendering<SpriteWithCustomRendering> {
 
     private val textConfiguration = entityRegistry.getConfigurationById("text")
-
+    private lateinit var progressBar: Sprite
+    private lateinit var progressBarFill: Sprite
     private lateinit var pulsingLightAnimation: PulsingLightAnimation
     private lateinit var infoLabel: TextEntity
 
-    override val initialize: T.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name, "initialize")
+    private var centerX = 0f
+    private var centerY = 0f
+    private var progress = 0f
 
-        eventProcessor
-                .subscribe(id)
-                .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
-                .onEvent(OnEscape) { Gdx.app.exit() }
+    private val loaderDelay = 0.2f
+
+    override val initialize: SpriteWithCustomRendering.() -> Unit = {
+        Gdx.app.debug(this.javaClass.name, "initialize")
+        val loadingStart = System.currentTimeMillis()
+
+        addSequence(
+                delay(loaderDelay),
+                execute {
+                    progress += 0.25f
+                    loadTextures()
+                },
+                delay(loaderDelay),
+                execute {
+                    progress += 0.25f
+                    loadSounds()
+                },
+                delay(loaderDelay),
+                execute {
+                    progress += 0.25f
+                    loadMusics()
+                },
+                delay(loaderDelay),
+                execute {
+                    assetManager.finishLoading()
+                    progress = 1f
+                },
+                delay(loaderDelay),
+                execute {
+                    Gdx.app.debug(this.javaClass.name, "Loading time: ${System.currentTimeMillis() - loadingStart} ms")
+                    eventProcessor.sendEvent(OpenMainMenu)
+                }
+        )
 
         infoLabel = createInfoLabel()
-        showGameLogo()
+        showProgressBar()
     }
 
-    private fun showGameLogo() {
-        val logoConfiguration = entityRegistry.getConfigurationById("gameLogo")
-        val gameLogo: SpriteEntityWithLogic = createEntity(logoConfiguration) {
-            width = logoConfiguration.width
-            height = logoConfiguration.height
-            x = Gdx.graphics.width.toFloat() / 2 - width / 2
-            y = Gdx.graphics.height.toFloat() / 2 - height * 2
+    private fun loadSounds() {
+        sounds.forEach {
+            println("load: $it")
+            assetManager.load(it, Sound::class.java)
         }
-
-        val logoLight = gameLighting.createPointLight(100, Colors.white, 300f,
-                Gdx.graphics.width.toFloat() / 2, gameLogo.y + gameLogo.height / 2)
-        pulsingLightAnimation = PulsingLightAnimation(logoLight)
-
-        eventProcessor.sendEvent(RegisterEntity(gameLogo))
     }
 
-    override val onDispose: T.() -> Unit = {
+    private fun loadMusics() {
+        musics.forEach {
+            println("load: $it")
+            assetManager.load(it, Music::class.java)
+        }
+    }
+
+    private fun loadTextures() {
+        textures.forEach {
+            println("load: $it")
+            assetManager.load(it, Texture::class.java)
+        }
+    }
+
+    private fun showProgressBar() {
+        centerX = Gdx.graphics.width.toFloat() / 2
+        centerY = Gdx.graphics.height.toFloat() / 2
+
+        val logoLight = gameLighting.createPointLight(200, Colors.blueLight, 300f, centerX, centerY)
+
+        pulsingLightAnimation = PulsingLightAnimation(logoLight)
+                .apply {
+                    delta = 1f
+                    minDistance = 80
+                    distanceGrow = 150
+                }
+
+        progressBar = Sprite(Texture(Gdx.files.internal("assets/lifebar-background.png")))
+        progressBarFill = Sprite(Texture(Gdx.files.internal("assets/white.png")))
+    }
+
+    override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit = { batch, _ ->
+        batch.draw(progressBarFill, centerX - infoLabel.getFontWidth() / 2, centerY, infoLabel.getFontWidth(), 10f)
+        batch.draw(progressBar, centerX - infoLabel.getFontWidth() / 2, centerY, infoLabel.getFontWidth() * progress, 10f)
+    }
+
+    override val onDispose: SpriteWithCustomRendering.() -> Unit = {
         infoLabel.dispose()
         pulsingLightAnimation.dispose()
     }
 
-    override val onUpdate: T.(Float) -> Unit = {
+    override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {
         pulsingLightAnimation.update()
     }
 
     private fun createInfoLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration)
                 .apply {
-                    text = "by lolcio"
-                    fontSize = FontSize.SMALL
+                    text = "Kotlin wars"
+                    fontSize = FontSize.BIG
+                    useLighting = true
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }
                 .apply {
@@ -70,7 +139,7 @@ class GameLoaderLogic<T : Entity>(
                 }
                 .apply {
                     x = Gdx.graphics.width.toFloat() / 2 - getFontWidth() / 2
-                    y = getFontHeight()
+                    y = Gdx.graphics.height.toFloat() / 2 - (getFontHeight() * 2)
                 }
     }
 }

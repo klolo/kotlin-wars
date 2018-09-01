@@ -7,8 +7,8 @@ import pl.klolo.game.entity.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
-import pl.klolo.game.extensions.addSequence
-import pl.klolo.game.extensions.execute
+import pl.klolo.game.common.addSequence
+import pl.klolo.game.common.execute
 
 class PopupMessages(
         private val entityRegistry: EntityRegistry,
