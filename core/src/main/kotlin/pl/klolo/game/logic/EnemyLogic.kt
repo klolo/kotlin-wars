@@ -106,6 +106,8 @@ class EnemyLogic(
     }
 
     private fun SpriteEntityWithLogic.onDestroyEnemy() {
+        clearActions()
+
         popupMessages.showAndRun(this, "+${height.toInt()}") {
             onDestroy()
         }

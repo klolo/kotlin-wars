@@ -36,7 +36,7 @@ class GameLoaderLogic(
     private var centerY = 0f
     private var progress = 0f
 
-    private val loaderDelay = 0.2f
+    private val loaderDelay = 0.1f
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "initialize")

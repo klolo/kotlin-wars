@@ -41,6 +41,7 @@ class PlayerLogic(
     private var enabledSuperBulletCounter = 0
     private var bulletPower = defaultBulletPower
     private var doublePoints = false
+    private var isImmortal = false
 
     private lateinit var physicsShape: PolygonShape
     private lateinit var body: Body
@@ -144,14 +145,19 @@ class PlayerLogic(
 
     private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
         val collidedEntity = it.entity!!
-        if (isEnemyLaser(collidedEntity) && !hasShield) {
+        if (isEnemyLaser(collidedEntity) && !hasShield && !isImmortal) {
             eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_COLLISION))
 
             lifeLevel -= 10
             popupMessages.show(this, "-10%")
 
+            executeAfterDelay(0.2f) {
+                isImmortal = false
+            }
+
             explosionLights.addLight(this)
             eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
+            isImmortal = true
 
             if (lifeLevel <= 0) {
                 onGameOver()

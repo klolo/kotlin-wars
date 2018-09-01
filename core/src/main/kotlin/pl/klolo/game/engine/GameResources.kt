@@ -9,6 +9,7 @@ val textures = arrayOf(
         "assets/enemy/enemyRed5.png",
         "assets/lifebar.png",
         "assets/menu-overlay.png",
+        "assets/menu-overlay-portrait.png",
         "assets/logo.png",
         "assets/ship.png",
         "assets/shield1.png",
@@ -19,7 +20,10 @@ val textures = arrayOf(
         "assets/power-ups/powerupBlue_shield.png",
         "assets/power-ups/star_gold.png",
         "assets/background.jpg",
-        "assets/lifebar-background.png"
+        "assets/background-portrait.jpg",
+        "assets/lifebar-background.png",
+        "assets/power-ups/powerupBlue_bolt.png",
+        "assets/laser/laserBlue06.png"
 )
 
 val sounds = arrayOf(

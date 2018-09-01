@@ -21,10 +21,10 @@ data class EntityConfiguration(
         val image: String = "",
 
         /** Position of the entity */
-        val x: Float = 100f,
+        val x: Float = 0f,
 
         /** Position of the entity */
-        val y: Float = 100f,
+        val y: Float = 0f,
 
         /** Size of the entity */
         val width: Float = 0f,

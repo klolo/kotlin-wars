@@ -3,10 +3,8 @@ package pl.klolo.game.logic
 import box2dLight.Light
 import com.badlogic.gdx.Gdx
 import pl.klolo.game.configuration.Colors
-import pl.klolo.game.engine.FontSize
-import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.Song
-import pl.klolo.game.engine.SoundManager
+import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.*
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
 import pl.klolo.game.entity.EntityLogic
@@ -29,6 +27,7 @@ class PulsingLightAnimation(private val light: Light) {
 }
 
 class MainMenuLogic<T : Entity>(
+        private val profileHolder: ProfileHolder,
         private val gameLighting: GameLighting,
         private val soundManager: SoundManager,
         private val eventProcessor: EventProcessor,
@@ -99,7 +98,7 @@ class MainMenuLogic<T : Entity>(
     private fun createInfoLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration)
                 .apply {
-                    text = "press enter for start, escape for exit"
+                    text = if (profileHolder.activeProfile == Profile.ANDROID) "touch for start" else "press enter for start, escape for exit"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }
@@ -108,7 +107,7 @@ class MainMenuLogic<T : Entity>(
                 }
                 .apply {
                     x = Gdx.graphics.width.toFloat() / 2 - getFontWidth() / 2
-                    y = getFontHeight()
+                    y = getFontHeight() * 2
                 }
     }
 }

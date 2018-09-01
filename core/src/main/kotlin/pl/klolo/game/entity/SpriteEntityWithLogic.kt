@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 open class SpriteEntityWithLogic(
         entityConfiguration: EntityConfiguration,
         val logic: EntityLogic<SpriteEntityWithLogic>,
-        val sprite: Sprite,
+        var sprite: Sprite,
         override var id: Int) : Entity, Actor() {
     override var useLighting: Boolean = true
     override val uniqueName = entityConfiguration.uniqueName
