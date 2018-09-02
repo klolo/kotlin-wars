@@ -13,8 +13,8 @@ class AndroidPlayerMoveLogic(private val eventProcessor: EventProcessor) : Playe
     override val createSubscription: SpriteEntityWithLogic.() -> EventProcessor.Subscription = { eventProcessor.subscribe(id) }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        super.checkBoundPosition(this)
         move(Gdx.input.accelerometerX)
+        super.checkBoundPosition(this)
         eventProcessor.sendEvent(PlayerChangePosition(x + width / 2, y + height / 2))
     }
 
@@ -27,11 +27,12 @@ class AndroidPlayerMoveLogic(private val eventProcessor: EventProcessor) : Playe
             return
         }
 
-        if (accelerometerX < 0) {
+        if (accelerometerX < 0 && x < Gdx.graphics.width.toFloat()) {
             direction = Direction.RIGHT
             onMove(x + Gdx.graphics.width.toFloat(), playerSpeed)
         }
-        else {
+
+        if (accelerometerX > 0 && x > 0) {
             direction = Direction.LEFT
             onMove(x - Gdx.graphics.width.toFloat(), playerSpeed)
         }

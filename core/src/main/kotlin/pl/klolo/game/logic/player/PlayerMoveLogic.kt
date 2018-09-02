@@ -46,7 +46,7 @@ abstract class BasePlayerMove(private val eventProcessor: EventProcessor) {
         }
 
         if (x < 0) {
-            x++
+            x = 0f
         }
 
         if (x > Gdx.graphics.width.toFloat()) {
