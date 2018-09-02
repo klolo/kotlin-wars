@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.*
@@ -45,18 +46,22 @@ class GameLoaderLogic(
         addSequence(
                 delay(loaderDelay),
                 execute {
-                    progress += 0.25f
+                    progress += 0.2f
                     loadTextures()
                 },
                 delay(loaderDelay),
                 execute {
-                    progress += 0.25f
+                    progress += 0.2f
                     loadSounds()
                 },
                 delay(loaderDelay),
                 execute {
-                    progress += 0.25f
+                    progress += 0.2f
                     loadMusics()
+                },
+                execute {
+                    progress += 0.2f
+                    loadAtlases()
                 },
                 delay(loaderDelay),
                 execute {
@@ -72,6 +77,13 @@ class GameLoaderLogic(
 
         infoLabel = createInfoLabel()
         showProgressBar()
+    }
+
+    private fun loadAtlases() {
+        atlas.forEach {
+            println("load: $it")
+            assetManager.load(it, TextureAtlas::class.java)
+        }
     }
 
     private fun loadSounds() {

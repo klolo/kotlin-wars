@@ -4,7 +4,8 @@ enum class EntityType {
     SPRITE_WITH_LOGIC,
     SPRITE_WITH_CUSTOM_RENDERING,
     ENTITY_WITH_LOGIC,
-    TEXT_ENTITY
+    TEXT_ENTITY,
+    PARTICLE_ENTITY
 }
 
 data class EntityConfiguration(

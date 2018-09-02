@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.PlaySound
+import pl.klolo.game.event.StopMusic
 
 enum class Song(val filename: String) {
     MENU("assets/sound/bensound-littleplanet.mp3"),
@@ -34,6 +35,9 @@ class SoundManager(private val eventProcessor: EventProcessor) {
                 .subscribe(-2)
                 .onEvent(PlaySound::class.java) {
                     sounds[it.soundEffect]?.play()
+                }
+                .onEvent(StopMusic) {
+                    currentMusic?.stop()
                 }
     }
 

@@ -40,7 +40,7 @@ class AndroidPlayerMoveLogic(private val eventProcessor: EventProcessor) : Playe
     companion object {
         fun getPlayerSpeed(accelerometerX: Float, speed: Float): Float {
             val detectionLevel = 1f
-            val maxDetectionLevel = 5f
+            val maxDetectionLevel = 6f
             val detectionRange = maxDetectionLevel - detectionLevel
             val absX = Math.abs(accelerometerX);
 

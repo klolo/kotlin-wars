@@ -5,19 +5,19 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
+import pl.klolo.game.common.addForeverSequence
+import pl.klolo.game.common.addSequence
+import pl.klolo.game.common.execute
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
-import pl.klolo.game.common.addForeverSequence
-import pl.klolo.game.common.addSequence
-import pl.klolo.game.common.execute
-import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
+
 
 class EnemyLogic(
         private val profileHolder: ProfileHolder,
@@ -25,9 +25,10 @@ class EnemyLogic(
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
+
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages: PopupMessages = PopupMessages(entityRegistry, eventProcessor)
-
+    private var explosion: ParticleEntity? = null
     private lateinit var light: PointLight
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
@@ -38,7 +39,6 @@ class EnemyLogic(
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         if (display) {
-            light.remove()
             physicsShape.dispose()
             gamePhysics.destroy(body)
         }
@@ -108,6 +108,16 @@ class EnemyLogic(
     private fun SpriteEntityWithLogic.onDestroyEnemy() {
         clearActions()
 
+        val explosionConfiguration = entityRegistry.getConfigurationById("particle")
+        explosion = createEntity(explosionConfiguration)
+        val currentX = x
+        val currentY = y
+        explosion.apply {
+            this!!.effect.setPosition(currentX, currentY)
+        }
+        eventProcessor.sendEvent(RegisterEntity(explosion))
+
+        light.color = Colors.redLight
         popupMessages.showAndRun(this, "+${height.toInt()}") {
             onDestroy()
         }
@@ -123,6 +133,7 @@ class EnemyLogic(
         }
         shouldBeRemove = true
         eventProcessor.sendEvent(EnemyDestroyed)
+        light.remove()
         explosionLights.onDispose()
     }
 
@@ -130,9 +141,19 @@ class EnemyLogic(
         light.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
 
+        updateExplosion()
+
         val downMarginBeforeDestroyEntity = 20
         if (x + downMarginBeforeDestroyEntity < 0) {
             shouldBeRemove = true
+        }
+    }
+
+    fun SpriteEntityWithLogic.updateExplosion() {
+        val currentX = x
+        val currentY = y
+        explosion?.apply {
+            this!!.effect.setPosition(currentX, currentY)
         }
     }
 

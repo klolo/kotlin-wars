@@ -144,7 +144,7 @@
     "logicClass": "pl.klolo.game.logic.AdditionalPointsBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "image": "assets/power-ups/star_gold.png",
-      "width": 20,
+    "width": 20,
     "height": 20,
     "layer": -1
   },
@@ -184,5 +184,11 @@
     "width": 20,
     "height": 20,
     "layer": -1
+  },
+  {
+    "uniqueName": "particle",
+    "logicClass": "pl.klolo.game.logic.ParticleEntity",
+    "type": "PARTICLE_ENTITY",
+    "layer": 1
   }
 ]

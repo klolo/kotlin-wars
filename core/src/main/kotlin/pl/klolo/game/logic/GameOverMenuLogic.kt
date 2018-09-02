@@ -1,16 +1,15 @@
 package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
+import pl.klolo.game.configuration.Profile
 import pl.klolo.game.engine.FontSize
 import pl.klolo.game.engine.Highscore
-import pl.klolo.game.entity.Entity
-import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.TextEntity
-import pl.klolo.game.entity.createEntity
+import pl.klolo.game.engine.ProfileHolder
+import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
-import pl.klolo.game.entity.EntityLogic
 
 class GameOverMenuLogic<T : Entity>(
+        private val profileHolder: ProfileHolder,
         private val highscore: Highscore,
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<T> {
@@ -22,6 +21,7 @@ class GameOverMenuLogic<T : Entity>(
 
     override val initialize: T.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "createSubscription")
+
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
@@ -71,7 +71,7 @@ class GameOverMenuLogic<T : Entity>(
     private fun createInfoLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration)
                 .apply {
-                    text = "press enter for start, escape for exit"
+                    text = if (profileHolder.activeProfile == Profile.ANDROID) "touch for start" else "press enter for start, escape for exit"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }

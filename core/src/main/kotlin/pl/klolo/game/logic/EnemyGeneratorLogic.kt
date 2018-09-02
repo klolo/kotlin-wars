@@ -64,7 +64,7 @@ class EnemyGeneratorLogic(
         val random = Random()
         val margin = 150
 
-        val enemyXPosition = random.nextInt(getScreenWidth(profileHolder.activeProfile).toInt() - margin) + width
+        val enemyXPosition = random.nextInt(Gdx.graphics.width - margin) + width
         val enemyYPosition = Gdx.graphics.height.toFloat() + margin
 
         val enemyEntity: SpriteEntityWithLogic = createEntity(laserConfiguration, false) {

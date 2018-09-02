@@ -26,6 +26,10 @@ val textures = arrayOf(
         "assets/laser/laserBlue06.png"
 )
 
+val atlas = arrayOf(
+        "assets/damage.atlas"
+)
+
 val sounds = arrayOf(
         "assets/sound/bonus.wav",
         "assets/sound/laser-shot-silenced.wav",

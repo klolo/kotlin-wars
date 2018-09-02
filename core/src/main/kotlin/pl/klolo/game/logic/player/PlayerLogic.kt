@@ -167,7 +167,10 @@ class PlayerLogic(
 
     private fun SpriteEntityWithLogic.onGameOver() {
         highscore.setLastScore(points)
+
+        eventProcessor.sendEvent(StopMusic)
         eventProcessor.sendEvent(PlaySound(SoundEffect.DESTROY_PLAYER))
+
         playerLight.distance *= 200
         display = false
 

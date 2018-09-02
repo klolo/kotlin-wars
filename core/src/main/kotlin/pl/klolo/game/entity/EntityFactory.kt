@@ -32,6 +32,7 @@ fun createEntity(configuration: EntityConfiguration,
                     .apply(configureEntity)
                     .apply(getInitializeFunction(configuration, forceInitLogic, entityLogic))
         }
+
         EntityType.ENTITY_WITH_LOGIC -> {
             val entityLogic = createLogicClass<EntityWithLogic>(Class.forName(configuration.logicClass))
 
@@ -41,6 +42,9 @@ fun createEntity(configuration: EntityConfiguration,
         }
         EntityType.TEXT_ENTITY -> {
             TextEntity(configuration, entityCounter++).apply(configureEntity as TextEntity.() -> Unit)
+        }
+        EntityType.PARTICLE_ENTITY -> {
+            ParticleEntity(configuration, entityCounter++).apply(configureEntity as ParticleEntity.() -> Unit)
         }
         EntityType.SPRITE_WITH_CUSTOM_RENDERING -> {
             val entityLogic = createLogicClass<SpriteWithCustomRendering>(Class.forName(configuration.logicClass))
