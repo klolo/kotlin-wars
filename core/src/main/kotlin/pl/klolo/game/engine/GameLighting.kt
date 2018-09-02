@@ -28,6 +28,10 @@ class GameLighting(private val gamePhysics: GamePhysics) {
         rayHandler.dispose()
     }
 
+    fun clearLights() {
+        rayHandler.removeAll()
+    }
+
     fun render(camera: OrthographicCamera) {
         rayHandler.setCombinedMatrix(camera);
         rayHandler.updateAndRender();

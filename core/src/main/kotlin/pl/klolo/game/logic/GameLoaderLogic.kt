@@ -131,7 +131,6 @@ class GameLoaderLogic(
 
     override val onDispose: SpriteWithCustomRendering.() -> Unit = {
         infoLabel.dispose()
-        pulsingLightAnimation.dispose()
     }
 
     override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {

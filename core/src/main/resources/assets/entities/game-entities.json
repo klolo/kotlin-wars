@@ -3,19 +3,19 @@
     "uniqueName": "player",
     "logicClass": "pl.klolo.game.logic.player.PlayerLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/ship.png",
+    "file": "assets/ship.png",
     "x": 250.0,
     "y": 50.0,
     "width": 50.0,
     "height": 50.0,
-    "layer": 2,
+    "layer": 3,
     "initOnCreate": true
   },
   {
     "uniqueName": "playerLifebar",
     "logicClass": "pl.klolo.game.logic.PlayerLifeBarLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",
-    "image": "assets/lifebar-background.png",
+    "file": "assets/lifebar-background.png",
     "width": 100,
     "height": 20,
     "layer": 2,
@@ -25,7 +25,7 @@
     "uniqueName": "background",
     "logicClass": "pl.klolo.game.logic.BackgroundLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",
-    "image": "assets/background.jpg",
+    "file": "assets/background.jpg",
     "layer": 1,
     "initOnCreate": true
   },
@@ -33,7 +33,7 @@
     "uniqueName": "laserBlue01",
     "logicClass": "pl.klolo.game.logic.BulletLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/laser/laserBlue01.png",
+    "file": "assets/laser/laserBlue01.png",
     "x": 10.0,
     "y": 10.0,
     "width": 10,
@@ -44,7 +44,7 @@
     "uniqueName": "laserBlue02",
     "logicClass": "pl.klolo.game.logic.BulletLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/laser/laserBlue06.png",
+    "file": "assets/laser/laserBlue06.png",
     "x": 10.0,
     "y": 10.0,
     "width": 13,
@@ -55,7 +55,7 @@
     "uniqueName": "laserRed01",
     "logicClass": "pl.klolo.game.logic.BulletLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/laser/laserRed01.png",
+    "file": "assets/laser/laserRed01.png",
     "x": 10.0,
     "y": 10.0,
     "width": 10,
@@ -89,7 +89,7 @@
     "uniqueName": "enemyRed1",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/enemy/enemyRed1.png",
+    "file": "assets/enemy/enemyRed1.png",
     "width": 30,
     "height": 30,
     "layer": -1
@@ -98,7 +98,7 @@
     "uniqueName": "enemyRed2",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/enemy/enemyRed2.png",
+    "file": "assets/enemy/enemyRed2.png",
     "width": 40,
     "height": 40,
     "layer": -1
@@ -107,7 +107,7 @@
     "uniqueName": "enemyRed3",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/enemy/enemyRed3.png",
+    "file": "assets/enemy/enemyRed3.png",
     "width": 50,
     "height": 50,
     "layer": -1
@@ -116,7 +116,7 @@
     "uniqueName": "enemyRed4",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/enemy/enemyRed4.png",
+    "file": "assets/enemy/enemyRed4.png",
     "width": 60,
     "height": 60,
     "layer": -1
@@ -125,7 +125,7 @@
     "uniqueName": "enemyRed5",
     "logicClass": "pl.klolo.game.logic.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/enemy/enemyRed5.png",
+    "file": "assets/enemy/enemyRed5.png",
     "width": 60,
     "height": 60,
     "layer": -1
@@ -134,7 +134,7 @@
     "uniqueName": "medicineBonus",
     "logicClass": "pl.klolo.game.logic.AdditionalLifeBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/power-ups/pill_red.png",
+    "file": "assets/power-ups/pill_red.png",
     "width": 20,
     "height": 20,
     "layer": -1
@@ -143,7 +143,7 @@
     "uniqueName": "starBonus",
     "logicClass": "pl.klolo.game.logic.AdditionalPointsBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/power-ups/star_gold.png",
+    "file": "assets/power-ups/star_gold.png",
     "width": 20,
     "height": 20,
     "layer": -1
@@ -152,7 +152,7 @@
     "uniqueName": "superBulletBonus",
     "logicClass": "pl.klolo.game.logic.SuperBulletBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/power-ups/powerupBlue_bolt.png",
+    "file": "assets/power-ups/powerupBlue_bolt.png",
     "width": 20,
     "height": 20,
     "layer": -1
@@ -161,7 +161,7 @@
     "uniqueName": "shieldBonus",
     "logicClass": "pl.klolo.game.logic.ShieldBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/power-ups/powerupBlue_shield.png",
+    "file": "assets/power-ups/powerupBlue_shield.png",
     "width": 20,
     "height": 20,
     "layer": -1
@@ -170,7 +170,7 @@
     "uniqueName": "shield1",
     "logicClass": "pl.klolo.game.logic.ShieldLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/shield1.png",
+    "file": "assets/shield1.png",
     "width": 110,
     "height": 60,
     "layer": 2,
@@ -180,15 +180,23 @@
     "uniqueName": "doublePointsBonus",
     "logicClass": "pl.klolo.game.logic.DoublePointsBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "image": "assets/power-ups/powerupBlue_star.png",
+    "file": "assets/power-ups/powerupBlue_star.png",
     "width": 20,
     "height": 20,
     "layer": -1
   },
   {
-    "uniqueName": "particle",
+    "uniqueName": "explosion",
     "logicClass": "pl.klolo.game.logic.ParticleEntity",
+    "file": "assets/explosion.p",
     "type": "PARTICLE_ENTITY",
-    "layer": 1
+    "layer": 2
+  },
+  {
+    "uniqueName": "engineFire",
+    "logicClass": "pl.klolo.game.logic.ParticleEntity",
+    "file": "assets/fire.p",
+    "type": "PARTICLE_ENTITY",
+    "layer": 2
   }
 ]

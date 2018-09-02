@@ -9,6 +9,7 @@ import pl.klolo.game.event.*
 import pl.klolo.game.physics.GamePhysics
 
 class Stage(
+        private val gameLighting: GameLighting,
         private val soundManager: SoundManager,
         private val gamePhysics: GamePhysics,
         private val entityRegistry: EntityRegistry,
@@ -62,6 +63,8 @@ class Stage(
         Gdx.app.debug(this.javaClass.name, "clearing entities")
         entities.forEach { it.dispose() }
         entities = emptyList()
+
+        gameLighting.clearLights()
     }
 
     private fun loadStage(stageConfigurationFilename: String) {
@@ -90,7 +93,7 @@ class Stage(
                 uniqueName = entityConfiguration.uniqueName,
                 type = entityConfiguration.type,
                 logicClass = entityConfiguration.logicClass,
-                image = entityConfiguration.image,
+                file = entityConfiguration.file,
                 x = entityConfiguration.x,
                 y = entityConfiguration.y,
                 width = entityConfiguration.width * entityScaleFactor,

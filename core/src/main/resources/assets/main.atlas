@@ -1,68 +1,75 @@
 
-damage.png
+atlas.png
 size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+particle
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 playerShip1_damage1
   rotate: false
-  xy: 445, 2
+  xy: 445, 36
   size: 99, 76
   orig: 99, 76
   offset: 0, 0
   index: -1
 playerShip1_damage2
   rotate: false
-  xy: 546, 2
+  xy: 546, 36
   size: 99, 76
   orig: 99, 76
   offset: 0, 0
   index: -1
 playerShip1_damage3
   rotate: false
-  xy: 343, 2
+  xy: 343, 36
   size: 100, 76
   orig: 100, 76
   offset: 0, 0
   index: -1
 playerShip2_damage1
   rotate: false
-  xy: 230, 2
+  xy: 230, 36
   size: 111, 76
   orig: 111, 76
   offset: 0, 0
   index: -1
 playerShip2_damage2
   rotate: false
-  xy: 116, 2
+  xy: 116, 36
   size: 112, 76
   orig: 112, 76
   offset: 0, 0
   index: -1
 playerShip2_damage3
   rotate: false
-  xy: 2, 2
+  xy: 2, 36
   size: 112, 76
   orig: 112, 76
   offset: 0, 0
   index: -1
 playerShip3_damage1
   rotate: false
-  xy: 746, 2
+  xy: 746, 36
   size: 97, 76
   orig: 97, 76
   offset: 0, 0
   index: -1
 playerShip3_damage2
   rotate: false
-  xy: 647, 2
+  xy: 647, 36
   size: 97, 76
   orig: 97, 76
   offset: 0, 0
   index: -1
 playerShip3_damage3
   rotate: false
-  xy: 845, 2
+  xy: 845, 36
   size: 97, 76
   orig: 97, 76
   offset: 0, 0

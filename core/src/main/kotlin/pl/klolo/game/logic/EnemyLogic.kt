@@ -10,7 +10,6 @@ import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
@@ -18,14 +17,13 @@ import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
-
 class EnemyLogic(
-        private val profileHolder: ProfileHolder,
         private val entityRegistry: EntityRegistry,
         private val gamePhysics: GamePhysics,
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
+    private val explosionConfiguration = entityRegistry.getConfigurationById("explosion")
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages: PopupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var explosion: ParticleEntity? = null
@@ -107,17 +105,8 @@ class EnemyLogic(
 
     private fun SpriteEntityWithLogic.onDestroyEnemy() {
         clearActions()
+        showExplosion()
 
-        val explosionConfiguration = entityRegistry.getConfigurationById("particle")
-        explosion = createEntity(explosionConfiguration)
-        val currentX = x
-        val currentY = y
-        explosion.apply {
-            this!!.effect.setPosition(currentX, currentY)
-        }
-        eventProcessor.sendEvent(RegisterEntity(explosion))
-
-        light.color = Colors.redLight
         popupMessages.showAndRun(this, "+${height.toInt()}") {
             onDestroy()
         }
@@ -125,6 +114,17 @@ class EnemyLogic(
         onDispose()
         display = false
         eventProcessor.sendEvent(AddPoints(height.toInt()))
+    }
+
+    private fun SpriteEntityWithLogic.showExplosion() {
+        explosion = createEntity(explosionConfiguration)
+        val currentX = x
+        val currentY = y
+        explosion.apply {
+            this!!.effect.setPosition(currentX, currentY)
+        }
+        eventProcessor.sendEvent(RegisterEntity(explosion))
+        light.color = Colors.blueLight
     }
 
     private fun SpriteEntityWithLogic.onDestroy() {
@@ -149,12 +149,10 @@ class EnemyLogic(
         }
     }
 
-    fun SpriteEntityWithLogic.updateExplosion() {
+    private fun SpriteEntityWithLogic.updateExplosion() {
         val currentX = x
         val currentY = y
-        explosion?.apply {
-            this!!.effect.setPosition(currentX, currentY)
-        }
+        explosion?.apply { this.effect.setPosition(currentX, currentY) }
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {

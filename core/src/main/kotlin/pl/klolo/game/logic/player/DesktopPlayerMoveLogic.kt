@@ -18,13 +18,13 @@ class DesktopPlayerMoveLogic(private val eventProcessor: EventProcessor) : Playe
         eventProcessor
                 .subscribe(id)
                 .onEvent(OnLeftDown) {
-                    if (x - 100 > 0) {
+                    if (x - width > 0) {
                         direction = Direction.LEFT
                         onMove(x - Gdx.graphics.width.toFloat(), playerSpeed)
                     }
                 }
                 .onEvent(OnRightDown) {
-                    if (x + 100 < Gdx.graphics.width.toFloat()) {
+                    if (x + width < Gdx.graphics.width.toFloat()) {
                         direction = Direction.RIGHT
                         onMove(x + Gdx.graphics.width.toFloat(), playerSpeed)
                     }

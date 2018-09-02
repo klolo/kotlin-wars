@@ -21,10 +21,10 @@ open class ParticleEntity(entityConfiguration: EntityConfiguration, override var
             .getDouble("entityScaleFactor")
             .toFloat()
 
-    private val atlas = (assetManager.get("assets/damage.atlas", TextureAtlas::class.java))
+    private val atlas = (assetManager.get("assets/main.atlas", TextureAtlas::class.java))
 
     init {
-        effect.load(Gdx.files.internal("assets/explosion.p"), atlas)
+        effect.load(Gdx.files.internal(entityConfiguration.file), atlas)
         effect.start()
         effect.scaleEffect(entityScaleFactor)
     }
@@ -43,6 +43,6 @@ open class ParticleEntity(entityConfiguration: EntityConfiguration, override var
     override fun update(delta: Float) {
         effect.update(Gdx.graphics.deltaTime)
         effect.setPosition(x, y)
-        super.act(delta)
+        super.act(Gdx.graphics.deltaTime)
     }
 }

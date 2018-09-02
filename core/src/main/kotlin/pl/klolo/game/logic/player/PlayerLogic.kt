@@ -7,14 +7,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.*
-import pl.klolo.game.entity.EntityConfiguration
-import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.*
 import pl.klolo.game.common.executeAfterDelay
+import pl.klolo.game.entity.*
 import pl.klolo.game.logic.BulletLogic
-import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
@@ -32,6 +28,7 @@ class PlayerLogic(
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var moveLogic = getMoveLogicImplementation(profileHolder.activeProfile, eventProcessor)
+    private lateinit var engineFire: ParticleEntity
 
     private var hasShield = false
 
@@ -50,7 +47,6 @@ class PlayerLogic(
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()
-        playerLight.remove()
         explosionLights.onDispose()
         gamePhysics.destroy(body)
     }
@@ -100,6 +96,13 @@ class PlayerLogic(
                 }
 
         createPhysics()
+        createEngineFire()
+    }
+
+    private fun createEngineFire() {
+        val engineFireConfiguration = entityRegistry.getConfigurationById("engineFire")
+        engineFire = createEntity(engineFireConfiguration)
+        eventProcessor.sendEvent(RegisterEntity(engineFire))
     }
 
     private fun addPoints(it: AddPoints) {
@@ -207,6 +210,16 @@ class PlayerLogic(
         playerLight.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
         moveLogic.onUpdate(this, it)
+        updateEngineFirePosition()
+    }
+
+    private fun SpriteEntityWithLogic.updateEngineFirePosition() {
+        val currentX = x
+        val currentY = y
+        val playerWidth = width
+        engineFire.apply {
+            this.effect.setPosition(currentX + playerWidth / 2, currentY)
+        }
     }
 
     private fun SpriteEntityWithLogic.createPhysics() {

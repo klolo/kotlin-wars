@@ -27,7 +27,7 @@ val textures = arrayOf(
 )
 
 val atlas = arrayOf(
-        "assets/damage.atlas"
+        "assets/main.atlas"
 )
 
 val sounds = arrayOf(

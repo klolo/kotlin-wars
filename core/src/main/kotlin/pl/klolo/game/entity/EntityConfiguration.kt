@@ -18,8 +18,8 @@ data class EntityConfiguration(
         /** full package name of EntityLogic class implementation */
         val logicClass: String = "",
 
-        /** Image filename for Entity with texture */
-        val image: String = "",
+        /** File used by entity */
+        val file: String = "",
 
         /** Position of the entity */
         val x: Float = 0f,

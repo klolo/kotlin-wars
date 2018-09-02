@@ -34,7 +34,7 @@ class BackgroundLogic(private val profileHolder: ProfileHolder) : EntityLogicWit
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "createSubscription")
 
-        val imageToLoad = if (isPortrait) "assets/background-portrait.jpg" else entityConfiguration.image
+        val imageToLoad = if (isPortrait) "assets/background-portrait.jpg" else entityConfiguration.file
 
         if (!positionInitialized) {
             val texture = assetManager.get(imageToLoad, Texture::class.java)

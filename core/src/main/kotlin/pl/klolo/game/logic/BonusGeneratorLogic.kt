@@ -16,7 +16,7 @@ class BonusGeneratorLogic(
 
     private val items by lazy {
         listOf(
-                entityRegistry.getConfigurationById("medicineBonus") to 20,
+                entityRegistry.getConfigurationById("medicineBonus") to 10,
                 entityRegistry.getConfigurationById("starBonus") to 2,
                 entityRegistry.getConfigurationById("superBulletBonus") to 30,
                 entityRegistry.getConfigurationById("shieldBonus") to 30,

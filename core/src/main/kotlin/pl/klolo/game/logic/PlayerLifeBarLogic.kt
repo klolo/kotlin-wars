@@ -25,7 +25,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "createSubscription")
 
-        fill = Sprite(assetManager.get(entityConfiguration.image, Texture::class.java))
+        fill = Sprite(assetManager.get(entityConfiguration.file, Texture::class.java))
         background = Sprite(assetManager.get("assets/lifebar.png", Texture::class.java))
 
         useLighting = false

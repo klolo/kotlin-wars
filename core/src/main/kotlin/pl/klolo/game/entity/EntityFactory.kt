@@ -26,7 +26,7 @@ fun createEntity(configuration: EntityConfiguration,
     return when (configuration.type) {
         EntityType.SPRITE_WITH_LOGIC -> {
             val entityLogic = createLogicClass<SpriteEntityWithLogic>(Class.forName(configuration.logicClass))
-            val entitySprite = Sprite(assetManager.get(configuration.image, Texture::class.java))
+            val entitySprite = Sprite(assetManager.get(configuration.file, Texture::class.java))
 
             SpriteEntityWithLogic(configuration, entityLogic, entitySprite, entityCounter++)
                     .apply(configureEntity)

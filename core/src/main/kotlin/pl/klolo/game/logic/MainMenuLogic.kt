@@ -20,10 +20,6 @@ class PulsingLightAnimation(private val light: Light) {
         delta += deltaStep
         light.distance = minDistance + (distanceGrow * Math.abs(Math.sin(delta.toDouble())).toFloat())
     }
-
-    fun dispose() {
-        light.remove()
-    }
 }
 
 class MainMenuLogic<T : Entity>(
@@ -72,7 +68,6 @@ class MainMenuLogic<T : Entity>(
     override val onDispose: T.() -> Unit = {
         gameTitleLabel.dispose()
         infoLabel.dispose()
-        pulsingLightAnimation.dispose()
     }
 
     override val onUpdate: T.(Float) -> Unit = {
@@ -98,7 +93,7 @@ class MainMenuLogic<T : Entity>(
     private fun createInfoLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration)
                 .apply {
-                    text = if (profileHolder.activeProfile == Profile.ANDROID) "touch for start" else "press enter for start, escape for exit"
+                    text = if (profileHolder.activeProfile == Profile.ANDROID) "touch to start" else "press enter for start, escape for exit"
                     fontSize = FontSize.SMALL
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }
