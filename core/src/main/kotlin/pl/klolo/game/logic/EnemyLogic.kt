@@ -26,11 +26,13 @@ class EnemyLogic(
     private val explosionConfiguration = entityRegistry.getConfigurationById("explosion")
     private var explosionLights = ExplosionLights(gameLighting, 50f)
     private var popupMessages: PopupMessages = PopupMessages(entityRegistry, eventProcessor)
+
     private var explosion: ParticleEntity? = null
     private lateinit var light: PointLight
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var life: Int = 0
+    private var doublePoints = false
     private val lifeFactory = 20
     var shootDelay = 3f
     var speed = 1f
@@ -63,12 +65,19 @@ class EnemyLogic(
                 execute { shootOnPosition(laserConfiguration) }
         )
 
-        eventProcessor.subscribe(id)
+        eventProcessor
+                .subscribe(id)
                 .onEvent(OnCollision::class.java) {
                     val collidedEntity = it.entity!!
                     if (isPlayerLaser(collidedEntity) && display) {
                         onCollisionWithLaser(collidedEntity as SpriteEntityWithLogic)
                     }
+                }
+                .onEvent(EnableDoublePoints) {
+                    doublePoints = true
+                }
+                .onEvent(DisableDoublePoints) {
+                    doublePoints = false
                 }
     }
 
@@ -107,7 +116,7 @@ class EnemyLogic(
         clearActions()
         showExplosion()
 
-        popupMessages.showAndRun(this, "+${height.toInt()}") {
+        popupMessages.showAndRun(this, "+${if (doublePoints) height.toInt() * 2 else height.toInt()}") {
             onDestroy()
         }
 

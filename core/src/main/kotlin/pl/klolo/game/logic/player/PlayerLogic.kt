@@ -92,6 +92,7 @@ class PlayerLogic(
                     executeAfterDelay(bonusLifetime) {
                         doublePoints = false
                         popupMessages.show(this, "x1")
+                        eventProcessor.sendEvent(DisableDoublePoints)
                     }
                 }
 
@@ -143,6 +144,7 @@ class PlayerLogic(
             bulletPower = defaultBulletPower
             playerLight.distance = 70f
             playerLight.color = blueLight
+            eventProcessor.sendEvent(DisableSuperBullet)
         }
     }
 

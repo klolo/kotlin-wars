@@ -17,12 +17,12 @@ val textures = arrayOf(
         "assets/laser/laserRed01.png",
         "assets/power-ups/powerupBlue_star.png",
         "assets/power-ups/pill_red.png",
+        "assets/power-ups/powerupBlue_bolt.png",
         "assets/power-ups/powerupBlue_shield.png",
         "assets/power-ups/star_gold.png",
         "assets/background.jpg",
         "assets/background-portrait.jpg",
         "assets/lifebar-background.png",
-        "assets/power-ups/powerupBlue_bolt.png",
         "assets/laser/laserBlue06.png"
 )
 

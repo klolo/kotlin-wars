@@ -24,10 +24,16 @@ class PlayerChangePosition(val x: Float = 0f, val y: Float = 0f) : Event()
 class ChangePlayerLfeLevel(val actualPlayerLifeLevel: Int = 100) : Event()
 class AddPoints(val points: Int = 0) : Event()
 class AddPlayerLife(val lifeAmount: Int = 0) : Event()
+
 object EnableSuperBullet : Event()
+object DisableSuperBullet : Event()
+
 object EnableShield : Event()
 object DisableShield : Event()
+
 object EnableDoublePoints : Event()
+object DisableDoublePoints : Event()
+
 object LaserHitInShield : Event()
 
 

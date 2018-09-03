@@ -25,19 +25,20 @@ class PopupMessages(
             (messageLabel as TextEntity).shouldBeRemove = true
         }
 
-        messageLabel = createResultLabel(message)
-        messageLabel?.setPosition(x, y + height)
-        messageLabel?.apply {
+        val label = createResultLabel(message)
+        label.setPosition(x + label.width / 2, y + height)
+        label.apply {
             addSequence(
                     alpha(0f, 0.01f),
                     alpha(1f, 0.1f),
                     alpha(0f, 1f),
                     execute {
-                        (messageLabel as TextEntity).shouldBeRemove = true
+                        label.shouldBeRemove = true
                         messageLabel = null
                         callback()
                     })
         }
+        messageLabel = label
     }
 
     var updatePosition: SpriteEntityWithLogic.() -> Unit = {

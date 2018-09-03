@@ -12,7 +12,7 @@ import pl.klolo.game.event.RegisterEntity
 import pl.klolo.game.entity.EntityLogic
 import java.util.*
 
-const val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 250f
+const val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 500f
 const val minimalShootDelay = 0.5f
 
 class EnemyGeneratorLogic(

@@ -18,7 +18,6 @@ class HUDLogic(
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
     private val textConfiguration = entityRegistry.getConfigurationById("text")
     private val pointsLabel: TextEntity by lazy { initPointLabel() }
-    private val bonusLabel: TextEntity by lazy { initBonusLabel() }
     private var points = 0
     var doublePoints = false
 
@@ -45,7 +44,7 @@ class HUDLogic(
     }
 
     override val initialize: EntityWithLogic.() -> Unit = {
-        Gdx.app.debug(this.javaClass.name,"createSubscription")
+        Gdx.app.debug(this.javaClass.name, "createSubscription")
 
         eventProcessor
                 .subscribe(id)
@@ -55,10 +54,8 @@ class HUDLogic(
                 }
                 .onEvent(EnableDoublePoints) {
                     doublePoints = true
-                    bonusLabel.text = "x2"
                     executeAfterDelay(bonusLifetime) {
                         doublePoints = false
-                        bonusLabel.text = ""
                     }
                 }
     }
@@ -66,9 +63,6 @@ class HUDLogic(
     override val onUpdate: EntityWithLogic.(Float) -> Unit = {
         val leftMargin = 10f
         pointsLabel.setPosition(leftMargin, Gdx.graphics.height.toFloat() - pointsLabel.getFontHeight() * 1.2f)
-        bonusLabel.setPosition(
-                Gdx.graphics.width.toFloat() - bonusLabel.getFontWidth() * 2f,
-                Gdx.graphics.height.toFloat() - pointsLabel.getFontHeight() * 3f)
     }
 
     private fun addPoints(it: AddPoints) {

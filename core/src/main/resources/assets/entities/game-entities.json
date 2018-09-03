@@ -16,6 +16,16 @@
     "logicClass": "pl.klolo.game.logic.PlayerLifeBarLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",
     "file": "assets/lifebar-background.png",
+    "width": 120,
+    "height": 20,
+    "layer": 2,
+    "initOnCreate": true
+  },
+  {
+    "uniqueName": "playerBonusBarLogic",
+    "logicClass": "pl.klolo.game.logic.PlayerBonusBarLogic",
+    "type": "SPRITE_WITH_CUSTOM_RENDERING",
+    "file": "assets/lifebar-background.png",
     "width": 100,
     "height": 20,
     "layer": 2,
