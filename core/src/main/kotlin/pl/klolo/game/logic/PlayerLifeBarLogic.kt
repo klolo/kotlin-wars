@@ -56,8 +56,8 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
     }
 
     override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {
-        x = Gdx.graphics.width.toFloat() - entityConfiguration.width * 1.2f
+        x = Gdx.graphics.width.toFloat() - entityConfiguration.width * 1.1f
         width = Math.max(0f, (entityConfiguration.width * 0.9f) * lifeAmount)
-        y = Gdx.graphics.height.toFloat() - height * 1.4f
+        y = Gdx.graphics.height.toFloat() - height * 1.3f
     }
 }

@@ -22,7 +22,7 @@ class PlayerBonusBarLogic(
 
     private val entityScaleFactor = GameEngine.applicationConfiguration.getConfig("engine").getDouble("entityScaleFactor").toFloat()
     private var posY = Gdx.graphics.height - entityRegistry.getConfigurationById("playerLifebar").height * 2
-    private val initialPositionX = Gdx.graphics.width.toFloat() - entityRegistry.getConfigurationById("playerLifebar").width * 0.5f
+    private val initialPositionX = Gdx.graphics.width.toFloat() - entityRegistry.getConfigurationById("playerLifebar").width * 0.4f
 
     private val icons: List<BonusBarItem> = mutableListOf(
             BonusBarItem(Sprite(assetManager.get("assets/power-ups/powerupBlue_star.png", Texture::class.java))),
