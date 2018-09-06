@@ -19,8 +19,7 @@
   {
     "uniqueName": "menuOverlay",
     "logicClass": "pl.klolo.game.logic.MenuOverlayLogic",
-    "type": "SPRITE_WITH_LOGIC",
-    "file": "assets/menu-overlay.png",
+    "type": "SPRITE_WITH_CUSTOM_RENDERING",
     "layer": 2,
     "initOnCreate": true
   },

@@ -5,8 +5,8 @@ class GameDependencyInjectionContext {
 
     fun <T> registerBean(classRef: Class<T>) {
         println("Register: $classRef")
-        val constructParameter = classRef.constructors[0].parameters
-                .map { getBeanByClass(it.type) }
+        val constructParameter = classRef.constructors[0].parameterTypes
+                .map { getBeanByClass(it) }
                 .toTypedArray()
 
         beanRegistry[classRef] = classRef.constructors[0].newInstance(*constructParameter)
