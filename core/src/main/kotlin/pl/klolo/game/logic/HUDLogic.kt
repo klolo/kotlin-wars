@@ -16,10 +16,11 @@ import pl.klolo.game.logic.player.bonusLifetime
 class HUDLogic(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
+
     private val textConfiguration = entityRegistry.getConfigurationById("text")
     private val pointsLabel: TextEntity by lazy { initPointLabel() }
     private var points = 0
-    var doublePoints = false
+    private var doublePoints = false
 
     private fun initPointLabel(): TextEntity {
         return createEntity<TextEntity>(textConfiguration)
