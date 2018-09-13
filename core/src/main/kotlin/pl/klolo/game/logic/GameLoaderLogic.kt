@@ -1,5 +1,6 @@
 package pl.klolo.game.logic
 
+import box2dLight.Light
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
@@ -37,7 +38,8 @@ class GameLoaderLogic(
     private var centerY = 0f
     private var progress = 0f
 
-    private val loaderDelay = 0.1f
+    private val loaderDelay = .1f
+    private lateinit var mainLight: Light
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         Gdx.app.debug(this.javaClass.name, "initialize")
@@ -112,12 +114,13 @@ class GameLoaderLogic(
         centerY = Gdx.graphics.height.toFloat() / 2
 
         val logoLight = gameLighting.createPointLight(200, Colors.blueLight, 300f, centerX, centerY)
+        mainLight = gameLighting.createPointLight(200, Colors.ambient, 500f, centerX, centerY)
 
         pulsingLightAnimation = PulsingLightAnimation(logoLight)
                 .apply {
                     delta = 1f
-                    minDistance = 80
-                    distanceGrow = 150
+                    minDistance = 150
+                    distanceGrow = 250
                 }
 
         progressBar = Sprite(Texture(Gdx.files.internal("assets/lifebar-background.png")))
@@ -142,7 +145,7 @@ class GameLoaderLogic(
                 .apply {
                     text = "Kotlin wars"
                     fontSize = FontSize.BIG
-                    useLighting = true
+                    useLighting = false
                     eventProcessor.sendEvent(RegisterEntity(this))
                 }
                 .apply {

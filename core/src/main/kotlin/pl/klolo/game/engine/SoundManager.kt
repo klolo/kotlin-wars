@@ -23,6 +23,7 @@ enum class SoundEffect(val filename: String) {
 
 class SoundManager(private val eventProcessor: EventProcessor) {
     private var currentMusic: Music? = null
+    private var musicVolume: Float = 1f
 
     private val sounds: Map<SoundEffect, Sound> by lazy {
         SoundEffect.values().map { it to assetManager.get(it.filename, Sound::class.java) }.toMap()
@@ -30,6 +31,10 @@ class SoundManager(private val eventProcessor: EventProcessor) {
 
     fun initialize() {
         Gdx.app.debug(this.javaClass.name, "createSubscription")
+
+        musicVolume = GameEngine.applicationConfiguration.getConfig("sound")
+                .getDouble("musicVolume")
+                .toFloat()
 
         eventProcessor
                 .subscribe(-2)
@@ -46,5 +51,6 @@ class SoundManager(private val eventProcessor: EventProcessor) {
         currentMusic = assetManager.get(song.filename, Music::class.java)
         currentMusic?.play()
         currentMusic?.isLooping = true;
+        currentMusic?.volume = musicVolume
     }
 }
