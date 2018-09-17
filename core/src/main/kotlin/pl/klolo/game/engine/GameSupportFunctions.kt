@@ -21,3 +21,8 @@ fun isEnemyLaser(entity: Entity): Boolean {
 fun isPlayerLaser(entity: Entity): Boolean {
     return entity.uniqueName.contains("laserBlue")
 }
+
+fun isExtraPointsBonus(entity: Entity): Boolean {
+    return entity.uniqueName == "starBonus"
+}
+

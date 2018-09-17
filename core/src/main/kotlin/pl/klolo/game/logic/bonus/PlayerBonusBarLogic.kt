@@ -1,4 +1,4 @@
-package pl.klolo.game.logic
+package pl.klolo.game.logic.bonus
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -12,7 +12,6 @@ import pl.klolo.game.entity.EntityRegistry
 import pl.klolo.game.entity.SpriteWithCustomRendering
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.player.bonusLifetime
-import java.time.LocalDateTime
 
 private data class BonusBarItem(val sprite: Sprite, var enabled: Boolean = false, var since: Long = 0)
 
@@ -29,10 +28,6 @@ class PlayerBonusBarLogic(
             BonusBarItem(Sprite(assetManager.get("assets/power-ups/powerupBlue_bolt.png", Texture::class.java))),
             BonusBarItem(Sprite(assetManager.get("assets/power-ups/powerupBlue_shield.png", Texture::class.java)))
     )
-
-    override val onDispose: SpriteWithCustomRendering.() -> Unit = {
-
-    }
 
     override val initialize: SpriteWithCustomRendering.() -> Unit = {
         icons.forEach {
@@ -75,5 +70,9 @@ class PlayerBonusBarLogic(
             }
 
     override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {
+    }
+
+    override val onDispose: SpriteWithCustomRendering.() -> Unit = {
+
     }
 }

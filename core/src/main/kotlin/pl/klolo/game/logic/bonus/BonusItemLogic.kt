@@ -1,4 +1,4 @@
-package pl.klolo.game.logic
+package pl.klolo.game.logic.bonus
 
 import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.ProfileHolder
@@ -23,9 +23,13 @@ class AdditionalPointsBonusLogic(
         gameLighting: GameLighting,
         gamePhysics: GamePhysics) : BaseBonusLogic(profileHolder, eventProcessor, gameLighting, gamePhysics) {
 
+    companion object {
+        const val additionalPoints = 100
+    }
+
     override fun getEventToSendOnCollisionWithPlayer(): Event {
         eventProcessor.sendEvent(PlaySound(SoundEffect.YIPEE))
-        return AddPoints(100)
+        return AddPoints(additionalPoints)
     }
 }
 

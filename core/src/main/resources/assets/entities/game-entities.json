@@ -13,7 +13,7 @@
   },
   {
     "uniqueName": "playerLifebar",
-    "logicClass": "pl.klolo.game.logic.PlayerLifeBarLogic",
+    "logicClass": "pl.klolo.game.logic.player.PlayerLifeBarLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",
     "file": "assets/lifebar-background.png",
     "width": 120,
@@ -23,7 +23,7 @@
   },
   {
     "uniqueName": "playerBonusBarLogic",
-    "logicClass": "pl.klolo.game.logic.PlayerBonusBarLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.PlayerBonusBarLogic",
     "type": "SPRITE_WITH_CUSTOM_RENDERING",
     "file": "assets/lifebar-background.png",
     "width": 100,
@@ -74,7 +74,7 @@
   },
   {
     "uniqueName": "enemyBase",
-    "logicClass": "pl.klolo.game.logic.EnemyGeneratorLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyGeneratorLogic",
     "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },
@@ -91,13 +91,13 @@
   },
   {
     "uniqueName": "bonusManager",
-    "logicClass": "pl.klolo.game.logic.BonusGeneratorLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.BonusGeneratorLogic",
     "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },
   {
     "uniqueName": "enemyRed1",
-    "logicClass": "pl.klolo.game.logic.EnemyLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/enemy/enemyRed1.png",
     "width": 30,
@@ -106,7 +106,7 @@
   },
   {
     "uniqueName": "enemyRed2",
-    "logicClass": "pl.klolo.game.logic.EnemyLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/enemy/enemyRed2.png",
     "width": 40,
@@ -115,7 +115,7 @@
   },
   {
     "uniqueName": "enemyRed3",
-    "logicClass": "pl.klolo.game.logic.EnemyLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/enemy/enemyRed3.png",
     "width": 50,
@@ -124,7 +124,7 @@
   },
   {
     "uniqueName": "enemyRed4",
-    "logicClass": "pl.klolo.game.logic.EnemyLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/enemy/enemyRed4.png",
     "width": 60,
@@ -133,7 +133,7 @@
   },
   {
     "uniqueName": "enemyRed5",
-    "logicClass": "pl.klolo.game.logic.EnemyLogic",
+    "logicClass": "pl.klolo.game.logic.enemy.EnemyLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/enemy/enemyRed5.png",
     "width": 60,
@@ -142,7 +142,7 @@
   },
   {
     "uniqueName": "medicineBonus",
-    "logicClass": "pl.klolo.game.logic.AdditionalLifeBonusLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.AdditionalLifeBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/power-ups/pill_red.png",
     "width": 20,
@@ -151,7 +151,7 @@
   },
   {
     "uniqueName": "starBonus",
-    "logicClass": "pl.klolo.game.logic.AdditionalPointsBonusLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.AdditionalPointsBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/power-ups/star_gold.png",
     "width": 20,
@@ -160,7 +160,7 @@
   },
   {
     "uniqueName": "superBulletBonus",
-    "logicClass": "pl.klolo.game.logic.SuperBulletBonusLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.SuperBulletBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/power-ups/powerupBlue_bolt.png",
     "width": 20,
@@ -169,7 +169,7 @@
   },
   {
     "uniqueName": "shieldBonus",
-    "logicClass": "pl.klolo.game.logic.ShieldBonusLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.ShieldBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/power-ups/powerupBlue_shield.png",
     "width": 20,
@@ -188,7 +188,7 @@
   },
   {
     "uniqueName": "doublePointsBonus",
-    "logicClass": "pl.klolo.game.logic.DoublePointsBonusLogic",
+    "logicClass": "pl.klolo.game.logic.bonus.DoublePointsBonusLogic",
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/power-ups/powerupBlue_star.png",
     "width": 20,

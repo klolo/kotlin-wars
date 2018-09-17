@@ -1,4 +1,4 @@
-package pl.klolo.game.logic
+package pl.klolo.game.logic.player
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color

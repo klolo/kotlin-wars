@@ -4,15 +4,18 @@ import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
+import pl.klolo.game.common.executeAfterDelay
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.configuration.Colors.blueLight
 import pl.klolo.game.engine.*
-import pl.klolo.game.event.*
-import pl.klolo.game.common.executeAfterDelay
 import pl.klolo.game.entity.*
+import pl.klolo.game.event.*
 import pl.klolo.game.logic.BulletLogic
+import pl.klolo.game.logic.bonus.AdditionalPointsBonusLogic.Companion.additionalPoints
 import pl.klolo.game.logic.helper.ExplosionLights
+import pl.klolo.game.logic.helper.PopupMessageConfiguration
 import pl.klolo.game.logic.helper.PopupMessages
+import pl.klolo.game.logic.player.move.getMoveLogicImplementation
 import pl.klolo.game.physics.GamePhysics
 
 const val bonusLifetime = 15f
@@ -26,7 +29,7 @@ class PlayerLogic(
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private var explosionLights = ExplosionLights(gameLighting, 50f)
-    private var popupMessages = PopupMessages(entityRegistry, eventProcessor)
+    private val popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var moveLogic = getMoveLogicImplementation(profileHolder.activeProfile, eventProcessor)
     private lateinit var engineFire: ParticleEntity
 
@@ -88,10 +91,11 @@ class PlayerLogic(
                 .onEvent(EnableDoublePoints) {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     doublePoints = true
-                    popupMessages.show(this, "x2")
+
+                    popupMessages.show(this, PopupMessageConfiguration("x2"))
                     executeAfterDelay(bonusLifetime) {
                         doublePoints = false
-                        popupMessages.show(this, "x1")
+                        popupMessages.show(this, PopupMessageConfiguration("x1"))
                         eventProcessor.sendEvent(DisableDoublePoints)
                     }
                 }
@@ -124,11 +128,11 @@ class PlayerLogic(
         }
 
         eventProcessor.sendEvent(ChangePlayerLfeLevel(lifeLevel))
-        popupMessages.show(this, "+${it.lifeAmount}%")
+        popupMessages.show(this, PopupMessageConfiguration("+${it.lifeAmount}%"))
     }
 
     private fun enableSuperBullet() {
-        Gdx.app.debug(this.javaClass.name, "Enable super bullet. enabled: ${enabledSuperBulletCounter}, current power: ${bulletPower}")
+        Gdx.app.debug(this.javaClass.name, "Enable super bullet. enabled: $enabledSuperBulletCounter, current power: $bulletPower")
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue02")
         bulletPower *= 4
         enabledSuperBulletCounter++
@@ -154,7 +158,7 @@ class PlayerLogic(
             eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_COLLISION))
 
             lifeLevel -= 10
-            popupMessages.show(this, "-10%")
+            popupMessages.show(this, PopupMessageConfiguration("-10%", Colors.orange))
 
             executeAfterDelay(0.2f) {
                 isImmortal = false
@@ -167,6 +171,10 @@ class PlayerLogic(
             if (lifeLevel <= 0) {
                 onGameOver()
             }
+        }
+
+        if (isExtraPointsBonus(collidedEntity)) {
+            popupMessages.show(this, PopupMessageConfiguration("+$additionalPoints"))
         }
     }
 
@@ -208,7 +216,7 @@ class PlayerLogic(
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        popupMessages.updatePosition(this)
+        popupMessages.updatePosition(x + width / 2, y + height)
         playerLight.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
         moveLogic.onUpdate(this, it)

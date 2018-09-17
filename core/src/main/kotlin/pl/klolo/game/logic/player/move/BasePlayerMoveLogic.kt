@@ -1,4 +1,4 @@
-package pl.klolo.game.logic.player
+package pl.klolo.game.logic.player.move
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Action

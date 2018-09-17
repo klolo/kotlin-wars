@@ -2,7 +2,7 @@ package pl.klolo.game.logic
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
-import pl.klolo.game.logic.player.AndroidPlayerMoveLogic
+import pl.klolo.game.logic.player.move.AndroidPlayerMoveLogic
 
 internal class AndroidPlayerMoveLogicTest : ShouldSpec({
 

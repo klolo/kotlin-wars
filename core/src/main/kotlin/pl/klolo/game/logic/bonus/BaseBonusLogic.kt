@@ -1,4 +1,4 @@
-package pl.klolo.game.logic
+package pl.klolo.game.logic.bonus
 
 import box2dLight.PointLight
 import com.badlogic.gdx.math.Interpolation
@@ -27,7 +27,7 @@ abstract class BaseBonusLogic(
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var ignoreNextCollision = false
-    private val bonusSpeed = 15f
+    private val bonusSpeed = 18f
 
     abstract fun getEventToSendOnCollisionWithPlayer(): Event;
 
@@ -41,7 +41,7 @@ abstract class BaseBonusLogic(
         )
 
         addSequence(
-                moveTo(x, -1 * height, 18f),
+                moveTo(x, -1 * height, bonusSpeed),
                 execute {
                     shouldBeRemove = true
                 }

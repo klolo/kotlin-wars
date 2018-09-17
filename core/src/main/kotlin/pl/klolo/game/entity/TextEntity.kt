@@ -1,10 +1,12 @@
 package pl.klolo.game.entity
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
+import pl.klolo.game.configuration.Colors
 import pl.klolo.game.engine.FontManager
 import pl.klolo.game.engine.FontSize
 
@@ -17,6 +19,7 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
     var label: Label? = null
     var text: String = ""
     var fontSize = FontSize.SMALL
+    var labelColor = Colors.white
 
     init {
         x = entityConfiguration.x
@@ -42,6 +45,7 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
         label?.setPosition(x, y)
         label?.scaleBy(scaleX, scaleY)
         label?.setText(text)
+        label?.color = labelColor;
         label?.draw(batch, color.a)
     }
 

@@ -1,4 +1,4 @@
-package pl.klolo.game.logic
+package pl.klolo.game.logic.enemy
 
 import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
@@ -13,7 +13,10 @@ import pl.klolo.game.engine.GameLighting
 import pl.klolo.game.engine.isPlayerLaser
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
+import pl.klolo.game.logic.BulletLogic
+import pl.klolo.game.logic.Direction
 import pl.klolo.game.logic.helper.ExplosionLights
+import pl.klolo.game.logic.helper.PopupMessageConfiguration
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
 
@@ -115,14 +118,21 @@ class EnemyLogic(
     private fun SpriteEntityWithLogic.onDestroyEnemy() {
         clearActions()
         showExplosion()
-
-        popupMessages.showAndRun(this, "+${if (doublePoints) height.toInt() * 2 else height.toInt()}") {
-            onDestroy()
-        }
+        showPopup()
 
         onDispose()
         display = false
         eventProcessor.sendEvent(AddPoints(height.toInt()))
+    }
+
+    private fun SpriteEntityWithLogic.showPopup() {
+        val popupMessageConfiguration = PopupMessageConfiguration(
+                message = "+${if (doublePoints) height.toInt() * 2 else height.toInt()}",
+                callback = {
+                    onDestroy()
+                }
+        )
+        popupMessages.show(this, popupMessageConfiguration)
     }
 
     private fun SpriteEntityWithLogic.showExplosion() {
