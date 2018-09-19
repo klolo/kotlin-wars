@@ -9,7 +9,7 @@ import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.entity.EntityLogic
-import pl.klolo.game.logic.helper.ExplosionLights
+import pl.klolo.game.logic.enemy.ExplosionEffect
 import pl.klolo.game.physics.GamePhysics
 
 class ShieldLogic(
@@ -17,7 +17,7 @@ class ShieldLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
-    private var explosionLights = ExplosionLights(gameLighting, 200f, blueLight)
+    private var explosionLights = ExplosionEffect(gameLighting, 200f, blueLight)
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
 

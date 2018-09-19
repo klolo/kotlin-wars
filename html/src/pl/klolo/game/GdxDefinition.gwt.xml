@@ -7,11 +7,8 @@
     <inherits name='Box2DLights'/>
     <inherits name='com.badlogic.ashley_gwt'/>
 
-    <inherits name='com.mygdx.game.GdxDefinition'/>
-
-    <collapse-all-properties/>
-
-    <add-linker name="xsiframe"/>
-    <set-configuration-property name="devModeRedirectEnabled" value="true"/>
+    <inherits name='GameEngine'/>
+    <entry-point class='pl.klolo.game.client.HtmlLauncher'/>
     <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
+    <set-configuration-property name="gdx.assetpath" value="../android/assets"/>
 </module>

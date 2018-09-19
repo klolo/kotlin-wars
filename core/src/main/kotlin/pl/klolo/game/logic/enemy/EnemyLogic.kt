@@ -3,8 +3,8 @@ package pl.klolo.game.logic.enemy
 import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.delay
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.common.addForeverSequence
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
@@ -15,10 +15,10 @@ import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.BulletLogic
 import pl.klolo.game.logic.Direction
-import pl.klolo.game.logic.helper.ExplosionLights
 import pl.klolo.game.logic.helper.PopupMessageConfiguration
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.physics.GamePhysics
+
 
 class EnemyLogic(
         private val entityRegistry: EntityRegistry,
@@ -27,18 +27,22 @@ class EnemyLogic(
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
     private val explosionConfiguration = entityRegistry.getConfigurationById("explosion")
-    private var explosionLights = ExplosionLights(gameLighting, 50f)
+    private var explosionLights = ExplosionEffect(gameLighting, 50f)
     private var popupMessages: PopupMessages = PopupMessages(entityRegistry, eventProcessor)
 
     private var explosion: ParticleEntity? = null
-    private lateinit var light: PointLight
+    private var light: PointLight? = null
+
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var life: Int = 0
     private var doublePoints = false
     private val lifeFactory = 20
+
     var shootDelay = 3f
     var speed = 1f
+    private val lightDistance = 40f
+    private val lightDistanceDistanceAfterExplosion = 250f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         if (display) {
@@ -49,7 +53,7 @@ class EnemyLogic(
 
     override val initialize: SpriteEntityWithLogic.() -> Unit = {
         val laserConfiguration = entityRegistry.getConfigurationById("laserRed01")
-        light = gameLighting.createPointLight(50, Colors.redLight, 40f, x, y)
+        light = gameLighting.createPointLight(50, Colors.redLight, lightDistance, x, y)
 
         life = uniqueName
                 .elementAt(uniqueName.lastIndex)
@@ -143,7 +147,9 @@ class EnemyLogic(
             this!!.effect.setPosition(currentX, currentY)
         }
         eventProcessor.sendEvent(RegisterEntity(explosion))
-        light.color = Colors.blueLight
+        light?.color = Colors.redLight
+        val explosionLightFadeOutTime = 0.4f
+        addAction(fadeOut(explosionLightFadeOutTime))
     }
 
     private fun SpriteEntityWithLogic.onDestroy() {
@@ -152,19 +158,31 @@ class EnemyLogic(
         }
         shouldBeRemove = true
         eventProcessor.sendEvent(EnemyDestroyed)
-        light.remove()
+        light?.remove()
         explosionLights.onDispose()
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        light.setPosition(x + width / 2, y + height / 2)
+        light?.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
+
+        if (!display) {
+            updateLightAfterDestroyedEnemy()
+        }
 
         updateExplosion()
 
         val downMarginBeforeDestroyEntity = 20
         if (x + downMarginBeforeDestroyEntity < 0) {
             shouldBeRemove = true
+        }
+    }
+
+    private fun SpriteEntityWithLogic.updateLightAfterDestroyedEnemy() {
+        light?.distance = lightDistanceDistanceAfterExplosion * color.a
+        if ((light?.distance ?: 1f) < 0.01) {
+            light?.isActive = false
+            light = null
         }
     }
 

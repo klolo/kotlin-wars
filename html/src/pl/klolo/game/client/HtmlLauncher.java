@@ -1,9 +1,12 @@
-package com.mygdx.game.client;
+package pl.klolo.game.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.mygdx.game.MyGdxGame;
+import pl.MyGdxGame;
+import pl.klolo.game.configuration.Profile;
+
+import static pl.klolo.game.engine.GameEngineFactoryKt.createGameEngine;
 
 public class HtmlLauncher extends GwtApplication {
 

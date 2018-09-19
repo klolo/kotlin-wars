@@ -46,7 +46,7 @@ class MenuOverlayLogic() : EntityLogicWithRendering<SpriteWithCustomRendering> {
 
     }
 
-    override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit = { batch, camera ->
+    override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit = { batch, _ ->
         clouds.draw(batch)
         leftTop.draw(batch)
         rightBottom.draw(batch)

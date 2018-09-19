@@ -12,7 +12,7 @@ import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.BulletLogic
 import pl.klolo.game.logic.bonus.AdditionalPointsBonusLogic.Companion.additionalPoints
-import pl.klolo.game.logic.helper.ExplosionLights
+import pl.klolo.game.logic.enemy.ExplosionEffect
 import pl.klolo.game.logic.helper.PopupMessageConfiguration
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.logic.player.move.getMoveLogicImplementation
@@ -28,7 +28,7 @@ class PlayerLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
-    private var explosionLights = ExplosionLights(gameLighting, 50f)
+    private var explosionLights = ExplosionEffect(gameLighting, 50f)
     private val popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var moveLogic = getMoveLogicImplementation(profileHolder.activeProfile, eventProcessor)
     private lateinit var engineFire: ParticleEntity
