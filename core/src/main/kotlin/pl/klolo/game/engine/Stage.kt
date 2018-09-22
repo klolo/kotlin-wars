@@ -30,14 +30,14 @@ class Stage(
                 .onEvent(OpenMainMenu) {
                     switchStage("assets/entities/menu-entities.json")
                 }
-                .onEvent(RegisterEntity::class.java) { event: RegisterEntity ->
+                .onEvent(RegisterEntity::class) { event: RegisterEntity ->
                     val newEntity = event.entity
                     if (newEntity != null) {
                         entities += newEntity
                         Gdx.app.debug(this.javaClass.name, "register entity uniqueName = ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
                     }
                 }
-                .onEvent(GameOver::class.java) {
+                .onEvent(GameOver) {
                     Gdx.app.debug(this.javaClass.name, "game over")
                     switchStage("assets/entities/gameover-menu-entities.json")
                     soundManager.playSong(Song.MENU)

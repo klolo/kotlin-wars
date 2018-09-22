@@ -42,7 +42,7 @@ class EnemyLogic(
     var shootDelay = 3f
     var speed = 1f
     private val lightDistance = 40f
-    private val lightDistanceDistanceAfterExplosion = 300f
+    private val lightDistanceDistanceAfterExplosion = 400f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         if (display) {
@@ -74,7 +74,7 @@ class EnemyLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnCollision::class.java) {
+                .onEvent(OnCollision::class) {
                     val collidedEntity = it.entity!!
                     if (isPlayerLaser(collidedEntity) && display) {
                         onCollisionWithLaser(collidedEntity as SpriteEntityWithLogic)
@@ -164,6 +164,7 @@ class EnemyLogic(
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         light?.setPosition(x + width / 2, y + height / 2)
         body.setTransform(x + width / 2, y + height / 2, 0.0f)
+        explosionLights.updateLight()
 
         if (!display) {
             updateLightAfterDestroyedEnemy()

@@ -16,20 +16,17 @@ class ContactListener(private val eventProcessor: EventProcessor) : ContactListe
             val userDataB = contact.fixtureB.userData as Entity
 
             if (userDataA is SpriteEntityWithLogic && userDataB is SpriteEntityWithLogic) {
-                eventProcessor.sendEvent(OnCollision(userDataA), userDataB.id)
-                eventProcessor.sendEvent(OnCollision(userDataB), userDataA.id)
+                val collisionPoint = contact.worldManifold.points[0]
+                eventProcessor.sendEvent(OnCollision(userDataA, collisionPoint.x, collisionPoint.y), userDataB.id)
+                eventProcessor.sendEvent(OnCollision(userDataB, collisionPoint.x, collisionPoint.y), userDataA.id)
             }
         }
     }
 
-    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {
-    }
+    override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {}
 
-    override fun beginContact(contact: Contact?) {
+    override fun beginContact(contact: Contact?) {}
 
-    }
-
-    override fun endContact(contact: Contact?) {
-    }
+    override fun endContact(contact: Contact?) {}
 
 }

@@ -48,7 +48,7 @@ abstract class BaseBonusLogic(
         )
 
         eventProcessor.subscribe(id)
-                .onEvent(OnCollision::class.java) {
+                .onEvent(OnCollision::class) {
                     val collidedEntity = it.entity!!
 
                     if (isPlayerByName(collidedEntity) && !ignoreNextCollision) {

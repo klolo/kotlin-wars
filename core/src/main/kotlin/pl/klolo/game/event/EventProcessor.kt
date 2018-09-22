@@ -1,6 +1,7 @@
 package pl.klolo.game.event
 
 import java.lang.IllegalArgumentException
+import kotlin.reflect.KClass
 
 class EventProcessor {
     private val subscription = mutableMapOf<Event, MutableList<Pair<Int /*ID*/, (Event) -> Unit>>>()
@@ -19,8 +20,8 @@ class EventProcessor {
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun <T: Event> onEvent(event: Class<T>, eventConsumer: (T) -> Unit): Subscription {
-            val eventInstance: Event = event.newInstance() as Event
+        fun <T : Event> onEvent(event: KClass<T>, eventConsumer: (T) -> Unit): Subscription {
+            val eventInstance: Event = event.java.newInstance() as Event
             eventProcessor.onEvent(eventInstance, id, eventConsumer as (Event) -> Unit)
             return this
         }

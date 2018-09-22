@@ -34,15 +34,20 @@ object DisableShield : Event()
 object EnableDoublePoints : Event()
 object DisableDoublePoints : Event()
 
-object LaserHitInShield : Event()
+class LaserHitInShield(val x: Float = 0f, val y: Float = 0f) : Event()
 
 
 // engine
 class RegisterEntity(val entity: Entity? = null) : Event()
 
-class GameOver(val totalPoints: Int = 0) : Event()
+object GameOver : Event()
 object StartNewGame : Event()
 object OpenMainMenu : Event()
-class OnCollision(val entity: Entity? = null) : Event()
+
+class OnCollision(
+        val entity: Entity? = null,  // collided object
+        val x: Float = 0f,  // collision position
+        val y: Float = 0f) : Event() // collision position
+
 class PlaySound(val soundEffect: SoundEffect? = null) : Event()
 object StopMusic : Event()

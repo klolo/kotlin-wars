@@ -63,16 +63,16 @@ class PlayerLogic(
 
         moveLogic.initialize(this)
         moveLogic.createSubscription(this)
-                .onEvent(OnCollision::class.java) {
+                .onEvent(OnCollision::class) {
                     onCollision(it)
                 }
                 .onEvent(OnSpace) {
                     shootOnPosition()
                 }
-                .onEvent(AddPoints::class.java) {
+                .onEvent(AddPoints::class) {
                     addPoints(it)
                 }
-                .onEvent(AddPlayerLife::class.java) {
+                .onEvent(AddPlayerLife::class) {
                     onAddPlayerLife(it)
                 }
                 .onEvent(EnableSuperBullet) {
@@ -188,7 +188,7 @@ class PlayerLogic(
         display = false
 
         executeAfterDelay(0.15f) {
-            eventProcessor.sendEvent(GameOver(lifeLevel))
+            eventProcessor.sendEvent(GameOver)
         }
     }
 

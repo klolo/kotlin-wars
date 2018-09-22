@@ -26,7 +26,7 @@ class ShieldLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(PlayerChangePosition::class.java) {
+                .onEvent(PlayerChangePosition::class) {
                     x = it.x - width / 2
                     y = it.y
                 }
@@ -40,13 +40,13 @@ class ShieldLogic(
                     body.isActive = true
                     display = true
                 }
-                .onEvent(LaserHitInShield) {
+                .onEvent(LaserHitInShield::class) {
                     if (!body.isActive) {
                         return@onEvent
                     }
 
                     eventProcessor.sendEvent(PlaySound(SoundEffect.SHIELD_COLLISION))
-                    explosionLights.addLight(this)
+                    explosionLights.addLightOnPosition(this, it.x, it.y)
                 }
 
         createShieldPhysics()
@@ -54,6 +54,7 @@ class ShieldLogic(
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
         body.setTransform(x + width / 2, y, 0.0f)
+        explosionLights.updateLight()
     }
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {

@@ -49,7 +49,7 @@ class HUDLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(AddPoints::class.java) {
+                .onEvent(AddPoints::class) {
                     addPoints(it)
                     pointsLabel.text = "$points"
                 }

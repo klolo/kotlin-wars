@@ -53,7 +53,7 @@ class BulletLogic(
         executeAfterDelay(0.25f) {
             eventProcessor
                     .subscribe(id)
-                    .onEvent(OnCollision::class.java) {
+                    .onEvent(OnCollision::class) {
                         onCollision(it)
                     }
         }
@@ -70,7 +70,7 @@ class BulletLogic(
             shouldBeRemove = enemyHitPlayer || playerHitEnemy || enemyHitShield
 
             if (enemyHitShield) {
-                eventProcessor.sendEvent(LaserHitInShield)
+                eventProcessor.sendEvent(LaserHitInShield(it.x, it.y))
             }
         }
     }
