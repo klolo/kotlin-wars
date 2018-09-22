@@ -9,14 +9,14 @@ class TouchProcessor(eventProcessor: EventProcessor) : GestureDetector(GestureLi
 
 class GestureListener(private val eventProcessor: EventProcessor) : GestureDetector.GestureListener {
     override fun touchDown(x: Float, y: Float, pointer: Int, button: Int): Boolean {
-        eventProcessor.sendEvent(OnEnter)
+        eventProcessor.sendEvent(PressedEnter)
         return true
     }
 
     override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
-        eventProcessor.sendEvent(OnSpace)
-        eventProcessor.sendEvent(OnRightUp)
-        eventProcessor.sendEvent(OnLeftUp)
+        eventProcessor.sendEvent(PressedSpace)
+        eventProcessor.sendEvent(PressedRightUp)
+        eventProcessor.sendEvent(PressedLeftUp)
         return true
     }
 

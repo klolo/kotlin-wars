@@ -17,23 +17,23 @@ class DesktopPlayerMoveLogic(private val eventProcessor: EventProcessor) : Playe
     override val createSubscription: SpriteEntityWithLogic.() -> EventProcessor.Subscription = {
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnLeftDown) {
+                .onEvent<PressedLeftDown> {
                     if (x - width > 0) {
                         direction = Direction.LEFT
                         onMove(x - Gdx.graphics.width.toFloat(), playerSpeed)
                     }
                 }
-                .onEvent(OnRightDown) {
+                .onEvent<PressedRightDown> {
                     if (x + width < Gdx.graphics.width.toFloat()) {
                         direction = Direction.RIGHT
                         onMove(x + Gdx.graphics.width.toFloat(), playerSpeed)
                     }
                 }
-                .onEvent(OnRightUp) {
+                .onEvent<PressedRightUp> {
                     direction = Direction.NONE
                     removeAction(currentMove)
                 }
-                .onEvent(OnLeftUp) {
+                .onEvent<PressedLeftUp> {
                     direction = Direction.NONE
                     removeAction(currentMove)
                 }

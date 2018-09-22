@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Manifold
 import pl.klolo.game.entity.Entity
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.OnCollision
+import pl.klolo.game.event.Collision
 
 class ContactListener(private val eventProcessor: EventProcessor) : ContactListener {
     override fun preSolve(contact: Contact?, oldManifold: Manifold?) {
@@ -17,8 +17,8 @@ class ContactListener(private val eventProcessor: EventProcessor) : ContactListe
 
             if (userDataA is SpriteEntityWithLogic && userDataB is SpriteEntityWithLogic) {
                 val collisionPoint = contact.worldManifold.points[0]
-                eventProcessor.sendEvent(OnCollision(userDataA, collisionPoint.x, collisionPoint.y), userDataB.id)
-                eventProcessor.sendEvent(OnCollision(userDataB, collisionPoint.x, collisionPoint.y), userDataA.id)
+                eventProcessor.sendEvent(Collision(userDataA, collisionPoint.x, collisionPoint.y), userDataB.id)
+                eventProcessor.sendEvent(Collision(userDataB, collisionPoint.x, collisionPoint.y), userDataA.id)
             }
         }
     }

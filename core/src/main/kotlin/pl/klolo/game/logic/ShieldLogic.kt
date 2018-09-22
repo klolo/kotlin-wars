@@ -26,21 +26,21 @@ class ShieldLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(PlayerChangePosition::class) {
+                .onEvent<PlayerChangePosition> {
                     x = it.x - width / 2
                     y = it.y
                 }
-                .onEvent(DisableShield) {
+                .onEvent<DisableShield> {
                     Gdx.app.debug(this.javaClass.name, "disabling shield...")
                     body.isActive = false
                     display = false
                 }
-                .onEvent(EnableShield) {
+                .onEvent<EnableShield> {
                     Gdx.app.debug(this.javaClass.name, "enabling shield...")
                     body.isActive = true
                     display = true
                 }
-                .onEvent(LaserHitInShield::class) {
+                .onEvent<LaserHitInShield> {
                     if (!body.isActive) {
                         return@onEvent
                     }

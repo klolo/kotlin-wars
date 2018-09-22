@@ -26,13 +26,13 @@ class KeyboardProcessor(private val eventProcessor: EventProcessor) : InputProce
 
     override fun keyUp(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.LEFT -> eventProcessor.sendEvent(OnLeftUp)
-            Input.Keys.RIGHT -> eventProcessor.sendEvent(OnRightUp)
-            Input.Keys.SPACE -> eventProcessor.sendEvent(OnSpace)
-            Input.Keys.DOWN -> eventProcessor.sendEvent(OnArrowDown)
-            Input.Keys.UP -> eventProcessor.sendEvent(OnArrowUp)
-            Input.Keys.ENTER -> eventProcessor.sendEvent(OnEnter)
-            Input.Keys.ESCAPE -> eventProcessor.sendEvent(OnEscape)
+            Input.Keys.LEFT -> eventProcessor.sendEvent(PressedLeftUp)
+            Input.Keys.RIGHT -> eventProcessor.sendEvent(PressedRightUp)
+            Input.Keys.SPACE -> eventProcessor.sendEvent(PressedSpace)
+            Input.Keys.DOWN -> eventProcessor.sendEvent(PressedArrowDown)
+            Input.Keys.UP -> eventProcessor.sendEvent(PressedArrowUp)
+            Input.Keys.ENTER -> eventProcessor.sendEvent(PressedEnter)
+            Input.Keys.ESCAPE -> eventProcessor.sendEvent(PressedEscape)
         }
         return true
     }
@@ -43,8 +43,8 @@ class KeyboardProcessor(private val eventProcessor: EventProcessor) : InputProce
 
     override fun keyDown(keycode: Int): Boolean {
         when (keycode) {
-            Input.Keys.LEFT -> eventProcessor.sendEvent(OnLeftDown)
-            Input.Keys.RIGHT -> eventProcessor.sendEvent(OnRightDown)
+            Input.Keys.LEFT -> eventProcessor.sendEvent(PressedLeftDown)
+            Input.Keys.RIGHT -> eventProcessor.sendEvent(PressedRightDown)
         }
         return true
     }

@@ -27,22 +27,22 @@ class Stage(
     private fun subscribe() {
         eventProcessor
                 .subscribe(-1)
-                .onEvent(OpenMainMenu) {
+                .onEvent<OpenMainMenu> {
                     switchStage("assets/entities/menu-entities.json")
                 }
-                .onEvent(RegisterEntity::class) { event: RegisterEntity ->
-                    val newEntity = event.entity
+                .onEvent<RegisterEntity> {
+                    val newEntity = it.entity
                     if (newEntity != null) {
                         entities += newEntity
                         Gdx.app.debug(this.javaClass.name, "register entity uniqueName = ${newEntity.uniqueName}. Total bodies: ${gamePhysics.world.bodyCount}")
                     }
                 }
-                .onEvent(GameOver) {
+                .onEvent<GameOver> {
                     Gdx.app.debug(this.javaClass.name, "game over")
                     switchStage("assets/entities/gameover-menu-entities.json")
                     soundManager.playSong(Song.MENU)
                 }
-                .onEvent(StartNewGame) {
+                .onEvent<StartNewGame> {
                     Gdx.app.debug(this.javaClass.name, "start new game")
                     switchStage("assets/entities/game-entities.json")
                     soundManager.playSong(Song.GAME)

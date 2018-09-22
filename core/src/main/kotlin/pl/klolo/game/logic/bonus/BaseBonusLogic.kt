@@ -10,7 +10,7 @@ import pl.klolo.game.engine.*
 import pl.klolo.game.entity.SpriteEntityWithLogic
 import pl.klolo.game.event.Event
 import pl.klolo.game.event.EventProcessor
-import pl.klolo.game.event.OnCollision
+import pl.klolo.game.event.Collision
 import pl.klolo.game.common.addForeverSequence
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
@@ -48,7 +48,7 @@ abstract class BaseBonusLogic(
         )
 
         eventProcessor.subscribe(id)
-                .onEvent(OnCollision::class) {
+                .onEvent<Collision> {
                     val collidedEntity = it.entity!!
 
                     if (isPlayerByName(collidedEntity) && !ignoreNextCollision) {

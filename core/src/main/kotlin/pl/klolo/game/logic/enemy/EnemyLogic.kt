@@ -3,7 +3,6 @@ package pl.klolo.game.logic.enemy
 import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.common.addForeverSequence
 import pl.klolo.game.common.addSequence
@@ -74,16 +73,16 @@ class EnemyLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnCollision::class) {
+                .onEvent<Collision> {
                     val collidedEntity = it.entity!!
                     if (isPlayerLaser(collidedEntity) && display) {
                         onCollisionWithLaser(collidedEntity as SpriteEntityWithLogic)
                     }
                 }
-                .onEvent(EnableDoublePoints) {
+                .onEvent<EnableDoublePoints> {
                     doublePoints = true
                 }
-                .onEvent(DisableDoublePoints) {
+                .onEvent<DisableDoublePoints> {
                     doublePoints = false
                 }
     }

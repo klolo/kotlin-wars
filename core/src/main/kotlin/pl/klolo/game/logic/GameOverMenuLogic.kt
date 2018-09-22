@@ -28,10 +28,8 @@ class GameOverMenuLogic<T : Entity>(
         executeAfterDelay(activateNavigationTime) {
             eventProcessor
                     .subscribe(id)
-                    .onEvent(OnEnter) {
-                        eventProcessor.sendEvent(StartNewGame)
-                    }
-                    .onEvent(OnEscape) { Gdx.app.exit() }
+                    .onEvent<PressedEnter> { eventProcessor.sendEvent(StartNewGame) }
+                    .onEvent<PressedEscape> { Gdx.app.exit() }
         }
 
         infoLabel = createInfoLabel()

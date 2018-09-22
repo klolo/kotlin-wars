@@ -53,13 +53,13 @@ class BulletLogic(
         executeAfterDelay(0.25f) {
             eventProcessor
                     .subscribe(id)
-                    .onEvent(OnCollision::class) {
+                    .onEvent<Collision> {
                         onCollision(it)
                     }
         }
     }
 
-    private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
+    private fun SpriteEntityWithLogic.onCollision(it: Collision) {
         val collidedEntity = it.entity
 
         if (collidedEntity != null && !shouldBeRemove) {

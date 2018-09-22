@@ -44,10 +44,10 @@ class SoundManager(private val eventProcessor: EventProcessor) {
 
         eventProcessor
                 .subscribe(-2)
-                .onEvent(PlaySound::class) {
+                .onEvent<PlaySound> {
                     sounds[it.soundEffect]?.play()
                 }
-                .onEvent(StopMusic) {
+                .onEvent<StopMusic> {
                     currentMusic?.stop()
                 }
     }

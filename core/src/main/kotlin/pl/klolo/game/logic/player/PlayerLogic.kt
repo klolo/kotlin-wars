@@ -63,24 +63,24 @@ class PlayerLogic(
 
         moveLogic.initialize(this)
         moveLogic.createSubscription(this)
-                .onEvent(OnCollision::class) {
+                .onEvent<Collision> {
                     onCollision(it)
                 }
-                .onEvent(OnSpace) {
+                .onEvent<PressedSpace> {
                     shootOnPosition()
                 }
-                .onEvent(AddPoints::class) {
+                .onEvent<AddPoints> {
                     addPoints(it)
                 }
-                .onEvent(AddPlayerLife::class) {
+                .onEvent<AddPlayerLife> {
                     onAddPlayerLife(it)
                 }
-                .onEvent(EnableSuperBullet) {
+                .onEvent<EnableSuperBullet> {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     enableSuperBullet()
                     executeAfterDelay(bonusLifetime) { disableSuperBullet() }
                 }
-                .onEvent(EnableShield) {
+                .onEvent<EnableShield> {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     hasShield = true
                     executeAfterDelay(bonusLifetime) {
@@ -88,7 +88,7 @@ class PlayerLogic(
                         eventProcessor.sendEvent(DisableShield)
                     }
                 }
-                .onEvent(EnableDoublePoints) {
+                .onEvent<EnableDoublePoints> {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     doublePoints = true
 
@@ -152,7 +152,7 @@ class PlayerLogic(
         }
     }
 
-    private fun SpriteEntityWithLogic.onCollision(it: OnCollision) {
+    private fun SpriteEntityWithLogic.onCollision(it: Collision) {
         val collidedEntity = it.entity!!
         if (isEnemyLaser(collidedEntity) && !hasShield && !isImmortal) {
             eventProcessor.sendEvent(PlaySound(SoundEffect.PLAYER_COLLISION))

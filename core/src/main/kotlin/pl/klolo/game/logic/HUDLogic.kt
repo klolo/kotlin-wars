@@ -49,11 +49,11 @@ class HUDLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(AddPoints::class) {
+                .onEvent<AddPoints> {
                     addPoints(it)
                     pointsLabel.text = "$points"
                 }
-                .onEvent(EnableDoublePoints) {
+                .onEvent<EnableDoublePoints> {
                     doublePoints = true
                     executeAfterDelay(bonusLifetime) {
                         doublePoints = false

@@ -6,16 +6,16 @@ import pl.klolo.game.entity.Entity
 sealed class Event()
 
 // keyboard
-object OnLeftUp : Event()
+object PressedLeftUp : Event()
 
-object OnRightUp : Event()
-object OnLeftDown : Event()
-object OnRightDown : Event()
-object OnSpace : Event()
-object OnArrowDown : Event()
-object OnArrowUp : Event()
-object OnEnter : Event()
-object OnEscape : Event()
+object PressedRightUp : Event()
+object PressedLeftDown : Event()
+object PressedRightDown : Event()
+object PressedSpace : Event()
+object PressedArrowDown : Event()
+object PressedArrowUp : Event()
+object PressedEnter : Event()
+object PressedEscape : Event()
 
 // player
 object EnemyDestroyed : Event()
@@ -44,7 +44,7 @@ object GameOver : Event()
 object StartNewGame : Event()
 object OpenMainMenu : Event()
 
-class OnCollision(
+class Collision(
         val entity: Entity? = null,  // collided object
         val x: Float = 0f,  // collision position
         val y: Float = 0f) : Event() // collision position

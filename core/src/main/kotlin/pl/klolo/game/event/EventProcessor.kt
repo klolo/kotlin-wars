@@ -1,8 +1,5 @@
 package pl.klolo.game.event
 
-import java.lang.IllegalArgumentException
-import kotlin.reflect.KClass
-
 class EventProcessor {
     private val subscription = mutableMapOf<Event, MutableList<Pair<Int /*ID*/, (Event) -> Unit>>>()
 
@@ -10,9 +7,7 @@ class EventProcessor {
         return Subscription(id, this)
     }
 
-    class Subscription(
-            private val id: Int,
-            private val eventProcessor: EventProcessor) {
+    class Subscription(val id: Int, val eventProcessor: EventProcessor) {
 
         fun onEvent(event: Event, eventConsumer: (Event) -> Unit): Subscription {
             eventProcessor.onEvent(event, id, eventConsumer)
@@ -20,14 +15,14 @@ class EventProcessor {
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun <T : Event> onEvent(event: KClass<T>, eventConsumer: (T) -> Unit): Subscription {
-            val eventInstance: Event = event.java.newInstance() as Event
-            eventProcessor.onEvent(eventInstance, id, eventConsumer as (Event) -> Unit)
+        inline fun <reified T : Event> onEvent(noinline eventConsumer: (T) -> Unit): Subscription {
+            val eventInstance = if (T::class.objectInstance != null) T::class.objectInstance else T::class.java.newInstance()
+            eventProcessor.onEvent(eventInstance as Event, id, eventConsumer as (Event) -> Unit)
             return this
         }
     }
 
-    private fun onEvent(event: Event, id: Int, eventProcessor: (Event) -> Unit) {
+    fun onEvent(event: Event, id: Int, eventProcessor: (Event) -> Unit) {
         subscription.computeIfAbsent(event) {
             mutableListOf()
         }

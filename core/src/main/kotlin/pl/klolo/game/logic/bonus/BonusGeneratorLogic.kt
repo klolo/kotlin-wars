@@ -19,7 +19,7 @@ class BonusGeneratorLogic(
                 entityRegistry.getConfigurationById("medicineBonus") to 10,
                 entityRegistry.getConfigurationById("starBonus") to 2,
                 entityRegistry.getConfigurationById("superBulletBonus") to 50,
-                entityRegistry.getConfigurationById("shieldBonus") to 50,
+                entityRegistry.getConfigurationById("shieldBonus") to 1,
                 entityRegistry.getConfigurationById("doublePointsBonus") to 50
         )
     }

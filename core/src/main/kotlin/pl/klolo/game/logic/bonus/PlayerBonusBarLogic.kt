@@ -37,15 +37,15 @@ class PlayerBonusBarLogic(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(EnableSuperBullet) {
+                .onEvent<EnableSuperBullet> {
                     icons[1].enabled = true
                     icons[1].since = System.currentTimeMillis()
                 }
-                .onEvent(EnableShield) {
+                .onEvent<EnableShield> {
                     icons[2].enabled = true
                     icons[2].since = System.currentTimeMillis()
                 }
-                .onEvent(EnableDoublePoints) {
+                .onEvent<EnableDoublePoints> {
                     icons[0].since = System.currentTimeMillis()
                     icons[0].enabled = true
                 }

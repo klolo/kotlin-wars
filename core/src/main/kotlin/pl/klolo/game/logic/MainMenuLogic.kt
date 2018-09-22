@@ -40,8 +40,8 @@ class MainMenuLogic<T : Entity>(
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(OnEnter) { eventProcessor.sendEvent(StartNewGame) }
-                .onEvent(OnEscape) { Gdx.app.exit() }
+                .onEvent<PressedEnter> { eventProcessor.sendEvent(StartNewGame) }
+                .onEvent<PressedEscape> { Gdx.app.exit() }
 
         soundManager.playSong(Song.MENU)
         infoLabel = createInfoLabel()

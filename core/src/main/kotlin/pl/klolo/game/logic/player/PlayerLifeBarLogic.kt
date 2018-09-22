@@ -34,7 +34,7 @@ class PlayerLifeBarLogic(private val eventProcessor: EventProcessor) : EntityLog
 
         eventProcessor
                 .subscribe(id)
-                .onEvent(ChangePlayerLfeLevel::class) {
+                .onEvent<ChangePlayerLfeLevel> {
                     lifeAmount = it.actualPlayerLifeLevel / 100f
                 }
     }
