@@ -28,7 +28,7 @@ class PlayerLogic(
         private val eventProcessor: EventProcessor,
         private val gameLighting: GameLighting) : EntityLogic<SpriteEntityWithLogic> {
 
-    private var explosionLights = ExplosionEffect(gameLighting, 50f)
+    private var explosionLights = ExplosionEffect(gameLighting, 100f)
     private val popupMessages = PopupMessages(entityRegistry, eventProcessor)
     private var moveLogic = getMoveLogicImplementation(profileHolder.activeProfile, eventProcessor)
     private lateinit var engineFire: ParticleEntity
