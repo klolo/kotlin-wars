@@ -2,12 +2,15 @@ package pl.klolo.game.logic
 
 import box2dLight.Light
 import com.badlogic.gdx.Gdx
-import pl.klolo.game.configuration.Colors
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.common.Colors
+import pl.klolo.game.engine.Profile
 import pl.klolo.game.engine.*
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
 import pl.klolo.game.entity.EntityLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.TextEntity
+import pl.klolo.game.physics.GameLighting
 
 
 class PulsingLightAnimation(private val light: Light) {

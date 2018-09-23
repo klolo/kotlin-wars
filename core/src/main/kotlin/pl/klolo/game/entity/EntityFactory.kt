@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import pl.klolo.game.engine.assetManager
 import pl.klolo.game.engine.gameDependencyInjectionContext
+import pl.klolo.game.entity.kind.*
 
 private var entityCounter = 0
 

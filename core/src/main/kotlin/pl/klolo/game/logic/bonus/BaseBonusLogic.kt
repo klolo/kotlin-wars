@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
-import pl.klolo.game.configuration.Colors
+import pl.klolo.game.common.Colors
 import pl.klolo.game.engine.*
-import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.Event
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.Collision
@@ -15,6 +15,8 @@ import pl.klolo.game.common.addForeverSequence
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
 import pl.klolo.game.entity.EntityLogic
+import pl.klolo.game.entity.isPlayerByName
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.physics.GamePhysics
 
 abstract class BaseBonusLogic(

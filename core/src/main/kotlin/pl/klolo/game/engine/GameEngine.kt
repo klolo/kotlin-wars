@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.inputProcessor.KeyboardProcessor
+import pl.klolo.game.engine.inputProcessor.TouchProcessor
 import pl.klolo.game.event.EventProcessor
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.physics.GamePhysics
 
 class GameEngine internal constructor(

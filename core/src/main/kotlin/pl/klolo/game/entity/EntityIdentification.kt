@@ -1,6 +1,4 @@
-package pl.klolo.game.engine
-
-import pl.klolo.game.entity.Entity
+package pl.klolo.game.entity
 
 fun isPlayerByName(entity: Entity): Boolean {
     return entity.uniqueName.contains("player")

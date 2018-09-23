@@ -1,7 +1,7 @@
 package pl.klolo.game.common
 
 import com.badlogic.gdx.Gdx
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.Profile
 
 fun getScreenWidth(profile: Profile): Float {
     return when (profile) {

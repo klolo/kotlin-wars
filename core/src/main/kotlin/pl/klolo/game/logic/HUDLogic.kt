@@ -2,8 +2,8 @@ package pl.klolo.game.logic
 
 import com.badlogic.gdx.Gdx
 import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.EntityWithLogic
-import pl.klolo.game.entity.TextEntity
+import pl.klolo.game.entity.kind.EntityWithLogic
+import pl.klolo.game.entity.kind.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.AddPoints
 import pl.klolo.game.event.EnableDoublePoints

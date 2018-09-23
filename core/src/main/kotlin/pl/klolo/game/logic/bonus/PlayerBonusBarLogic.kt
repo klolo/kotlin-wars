@@ -9,7 +9,7 @@ import pl.klolo.game.engine.GameEngine
 import pl.klolo.game.engine.assetManager
 import pl.klolo.game.entity.EntityLogicWithRendering
 import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.SpriteWithCustomRendering
+import pl.klolo.game.entity.kind.SpriteWithCustomRendering
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.player.bonusLifetime
 

@@ -1,4 +1,4 @@
-package pl.klolo.game.configuration
+package pl.klolo.game.common
 
 import pl.klolo.game.common.toColor
 

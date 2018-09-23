@@ -3,10 +3,10 @@ package pl.klolo.game.logic
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
-import pl.klolo.game.configuration.Colors.blueLight
-import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.common.Colors.blueLight
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.engine.SoundEffect
-import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.entity.EntityLogic
 import pl.klolo.game.logic.enemy.ExplosionEffect

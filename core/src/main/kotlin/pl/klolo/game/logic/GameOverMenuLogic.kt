@@ -3,11 +3,12 @@ package pl.klolo.game.logic
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import pl.klolo.game.common.executeAfterDelay
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.Profile
 import pl.klolo.game.engine.FontSize
 import pl.klolo.game.engine.Highscore
 import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.entity.*
+import pl.klolo.game.entity.kind.TextEntity
 import pl.klolo.game.event.*
 
 class GameOverMenuLogic<T : Entity>(

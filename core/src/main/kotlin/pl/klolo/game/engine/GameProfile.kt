@@ -1,4 +1,4 @@
-package pl.klolo.game.configuration
+package pl.klolo.game.engine
 
 enum class Profile {
     DESKTOP,

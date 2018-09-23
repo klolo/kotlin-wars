@@ -3,9 +3,9 @@ package pl.klolo.game.logic.player.move
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.Profile
 import pl.klolo.game.engine.GameEngine.Companion.applicationConfiguration
-import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.common.execute
 

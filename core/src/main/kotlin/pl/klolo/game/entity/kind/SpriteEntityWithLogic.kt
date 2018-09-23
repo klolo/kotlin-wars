@@ -1,10 +1,13 @@
-package pl.klolo.game.entity
+package pl.klolo.game.entity.kind
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
+import pl.klolo.game.entity.Entity
+import pl.klolo.game.entity.EntityConfiguration
+import pl.klolo.game.entity.EntityLogic
 
 open class SpriteEntityWithLogic(
         entityConfiguration: EntityConfiguration,

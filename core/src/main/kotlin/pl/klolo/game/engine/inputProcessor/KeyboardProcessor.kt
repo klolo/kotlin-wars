@@ -1,4 +1,4 @@
-package pl.klolo.game.engine
+package pl.klolo.game.engine.inputProcessor
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputProcessor

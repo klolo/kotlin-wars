@@ -1,14 +1,15 @@
-package pl.klolo.game.entity
+package pl.klolo.game.entity.kind
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import pl.klolo.game.configuration.Colors
+import pl.klolo.game.common.Colors
 import pl.klolo.game.engine.FontManager
 import pl.klolo.game.engine.FontSize
+import pl.klolo.game.entity.Entity
+import pl.klolo.game.entity.EntityConfiguration
 
 open class TextEntity(entityConfiguration: EntityConfiguration, override var id: Int) : Entity, Actor() {
     override val uniqueName = entityConfiguration.uniqueName

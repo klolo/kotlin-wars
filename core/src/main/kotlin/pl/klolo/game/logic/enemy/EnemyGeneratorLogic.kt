@@ -9,6 +9,8 @@ import pl.klolo.game.event.EnemyDestroyed
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 import pl.klolo.game.entity.EntityLogic
+import pl.klolo.game.entity.kind.EntityWithLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import java.util.*
 
 const val speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy = 500f

@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import pl.klolo.game.entity.Entity
-import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.Collision
 

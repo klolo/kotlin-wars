@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
-import pl.klolo.game.configuration.Profile
+import pl.klolo.game.engine.Profile
 import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.assetManager
-import pl.klolo.game.entity.SpriteWithCustomRendering
+import pl.klolo.game.entity.kind.SpriteWithCustomRendering
 import pl.klolo.game.entity.EntityLogicWithRendering
 
 class BackgroundLogic(private val profileHolder: ProfileHolder) : EntityLogicWithRendering<SpriteWithCustomRendering> {

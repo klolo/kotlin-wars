@@ -12,7 +12,6 @@ class Highscore {
 
     fun setLastScore(score: Int) {
         lastScore = score
-        @Suppress("UNNECESSARY_SAFE_CALL")
         if (prefs.getInteger("record") < score) {
             prefs.putInteger("record", score)
             prefs.flush()

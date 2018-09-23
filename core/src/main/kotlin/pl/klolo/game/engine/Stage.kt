@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.beust.klaxon.Klaxon
 import pl.klolo.game.entity.*
 import pl.klolo.game.event.*
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.physics.GamePhysics
 
 class Stage(

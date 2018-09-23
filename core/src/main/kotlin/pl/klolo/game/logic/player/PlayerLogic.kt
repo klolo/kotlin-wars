@@ -6,10 +6,12 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.Action
 import pl.klolo.game.common.executeAfterDelay
-import pl.klolo.game.configuration.Colors
-import pl.klolo.game.configuration.Colors.blueLight
+import pl.klolo.game.common.Colors
+import pl.klolo.game.common.Colors.blueLight
 import pl.klolo.game.engine.*
 import pl.klolo.game.entity.*
+import pl.klolo.game.entity.kind.ParticleEntity
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.BulletLogic
 import pl.klolo.game.logic.bonus.AdditionalPointsBonusLogic.Companion.additionalPoints
@@ -17,6 +19,7 @@ import pl.klolo.game.logic.enemy.ExplosionEffect
 import pl.klolo.game.logic.helper.PopupMessageConfiguration
 import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.logic.player.move.getMoveLogicImplementation
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.physics.GamePhysics
 
 const val bonusLifetime = 20f

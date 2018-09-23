@@ -3,14 +3,14 @@ package pl.klolo.game.logic.helper
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha
 import pl.klolo.game.entity.EntityRegistry
-import pl.klolo.game.entity.SpriteEntityWithLogic
-import pl.klolo.game.entity.TextEntity
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
+import pl.klolo.game.entity.kind.TextEntity
 import pl.klolo.game.entity.createEntity
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.RegisterEntity
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
-import pl.klolo.game.configuration.Colors
+import pl.klolo.game.common.Colors
 
 data class PopupMessageConfiguration(
         val message: String,

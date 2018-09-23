@@ -5,14 +5,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo
-import pl.klolo.game.configuration.Colors.blueLight
-import pl.klolo.game.entity.SpriteEntityWithLogic
+import pl.klolo.game.common.Colors.blueLight
 import pl.klolo.game.event.*
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
 import pl.klolo.game.common.executeAfterDelay
-import pl.klolo.game.engine.*
-import pl.klolo.game.entity.EntityLogic
+import pl.klolo.game.entity.*
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.physics.GamePhysics
 import java.util.*
 

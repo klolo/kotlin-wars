@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import pl.klolo.game.engine.assetManager
-import pl.klolo.game.entity.SpriteWithCustomRendering
+import pl.klolo.game.entity.kind.SpriteWithCustomRendering
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.ChangePlayerLfeLevel
 import pl.klolo.game.entity.EntityLogicWithRendering

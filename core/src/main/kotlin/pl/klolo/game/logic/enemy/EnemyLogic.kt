@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
 import pl.klolo.game.common.addForeverSequence
 import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
-import pl.klolo.game.configuration.Colors
-import pl.klolo.game.engine.GameLighting
-import pl.klolo.game.engine.isPlayerLaser
+import pl.klolo.game.common.Colors
+import pl.klolo.game.physics.GameLighting
+import pl.klolo.game.entity.isPlayerLaser
 import pl.klolo.game.entity.*
+import pl.klolo.game.entity.kind.ParticleEntity
+import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import pl.klolo.game.event.*
 import pl.klolo.game.logic.BulletLogic
 import pl.klolo.game.logic.Direction

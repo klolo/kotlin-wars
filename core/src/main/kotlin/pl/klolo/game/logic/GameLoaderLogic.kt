@@ -13,6 +13,8 @@ import pl.klolo.game.common.addSequence
 import pl.klolo.game.common.execute
 import pl.klolo.game.engine.*
 import pl.klolo.game.entity.*
+import pl.klolo.game.entity.kind.SpriteWithCustomRendering
+import pl.klolo.game.entity.kind.TextEntity
 import pl.klolo.game.event.EventProcessor
 import pl.klolo.game.event.OpenMainMenu
 import pl.klolo.game.event.RegisterEntity

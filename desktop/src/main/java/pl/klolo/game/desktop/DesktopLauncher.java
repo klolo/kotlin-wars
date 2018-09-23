@@ -3,7 +3,7 @@ package pl.klolo.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.typesafe.config.Config;
-import pl.klolo.game.configuration.Profile;
+import pl.klolo.game.engine.Profile;
 import pl.klolo.game.engine.GameEngine;
 
 import static pl.klolo.game.engine.GameEngineFactoryKt.createGameEngine;

@@ -1,11 +1,11 @@
-package pl.klolo.game.engine
+package pl.klolo.game.physics
 
 import box2dLight.PointLight
 import box2dLight.RayHandler
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
-import pl.klolo.game.configuration.Colors
-import pl.klolo.game.physics.GamePhysics
+import pl.klolo.game.common.Colors
+import pl.klolo.game.engine.GameEngine
 
 class GameLighting(private val gamePhysics: GamePhysics) {
     private lateinit var rayHandler: RayHandler

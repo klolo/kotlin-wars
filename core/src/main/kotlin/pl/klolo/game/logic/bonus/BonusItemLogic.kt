@@ -1,6 +1,6 @@
 package pl.klolo.game.logic.bonus
 
-import pl.klolo.game.engine.GameLighting
+import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.engine.ProfileHolder
 import pl.klolo.game.engine.SoundEffect
 import pl.klolo.game.event.*

@@ -1,4 +1,4 @@
-package pl.klolo.game.entity
+package pl.klolo.game.entity.kind
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.Actor
 import pl.klolo.game.engine.GameEngine
 import pl.klolo.game.engine.assetManager
+import pl.klolo.game.entity.Entity
+import pl.klolo.game.entity.EntityConfiguration
 
 open class ParticleEntity(entityConfiguration: EntityConfiguration, override var id: Int) : Entity, Actor() {
     val effect = ParticleEffect()
