@@ -172,6 +172,8 @@ class PlayerLogic(
             lifeLevel -= 10
             popupMessages.show(this, PopupMessageConfiguration("-10%", Colors.orange))
 
+            Gdx.input.vibrate(50)
+
             executeAfterDelay(0.2f) {
                 isImmortal = false
             }

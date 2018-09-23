@@ -29,7 +29,7 @@ abstract class BaseBonusLogic(
     private lateinit var physicsShape: CircleShape
     private lateinit var body: Body
     private var ignoreNextCollision = false
-    private val bonusSpeed = 18f
+    private val bonusSpeed = 15f
 
     abstract fun getEventToSendOnCollisionWithPlayer(): Event;
 
