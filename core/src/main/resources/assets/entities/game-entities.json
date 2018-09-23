@@ -3,11 +3,11 @@
     "uniqueName": "player",
     "logicClass": "pl.klolo.game.logic.player.PlayerLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "file": "assets/ship.png",
+    "file": "assets/fighter.png",
     "x": 250.0,
     "y": 50.0,
     "width": 50.0,
-    "height": 50.0,
+    "height": 60.0,
     "layer": 3,
     "initOnCreate": true
   },

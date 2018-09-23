@@ -11,9 +11,9 @@
     "uniqueName": "gameLogo",
     "logicClass": "pl.klolo.game.logic.EmptyLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "file": "assets/logo.png",
-    "width": 100,
-    "height": 97,
+    "file": "assets/fighter.png",
+    "width": 200,
+    "height": 300,
     "layer": 10
   },
   {

@@ -1,7 +1,5 @@
 package pl.klolo.game.common
 
-import pl.klolo.game.common.toColor
-
 object Colors {
     val red = "#f22c21".toColor()
     val redLight = "#fc677d".toColor()
@@ -10,5 +8,5 @@ object Colors {
     val blueLight = "#1e72ef".toColor()
     val gold = "#ffeb72".toColor()
     val ambient = "#383870".toColor()
-    val white = "#F6F7EB".toColor()
+    val white = "#F6F6F6".toColor()
 }

@@ -28,7 +28,8 @@ val textures = arrayOf(
         "assets/menu_cloud.png",
         "assets/middle_bottom.png",
         "assets/right_bottom_menu.png",
-        "assets/right_top_menu.png"
+        "assets/right_top_menu.png",
+        "assets/fighter.png"
 )
 
 val atlas = arrayOf(

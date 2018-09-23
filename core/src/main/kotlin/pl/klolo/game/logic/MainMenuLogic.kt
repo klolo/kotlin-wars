@@ -61,7 +61,7 @@ class MainMenuLogic<T : Entity>(
             y = Gdx.graphics.height.toFloat() / 2 - height
         }
 
-        val logoLight = gameLighting.createPointLight(100, Colors.white, 300f,
+        val logoLight = gameLighting.createPointLight(100, Colors.ambient, 300f,
                 Gdx.graphics.width.toFloat() / 2, gameLogo.y + gameLogo.height / 2)
         pulsingLightAnimation = PulsingLightAnimation(logoLight)
 
