@@ -28,7 +28,7 @@ class ShieldLogic(
                 .subscribe(id)
                 .onEvent<PlayerChangePosition> {
                     x = it.x - width / 2
-                    y = it.y
+                    y = it.y - height / 2
                 }
                 .onEvent<DisableShield> {
                     Gdx.app.debug(this.javaClass.name, "disabling shield...")
@@ -53,7 +53,7 @@ class ShieldLogic(
     }
 
     override val onUpdate: SpriteEntityWithLogic.(Float) -> Unit = {
-        body.setTransform(x + width / 2, y, 0.0f)
+        body.setTransform(x + width / 2, y + height / 2, 0.0f)
         explosionLights.updateLight()
     }
 

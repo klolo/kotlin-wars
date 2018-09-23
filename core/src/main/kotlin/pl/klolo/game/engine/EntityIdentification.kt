@@ -26,3 +26,7 @@ fun isExtraPointsBonus(entity: Entity): Boolean {
     return entity.uniqueName == "starBonus"
 }
 
+fun isExtraBonus(entity: Entity): Boolean {
+    return entity.uniqueName.contains("Bonus")
+}
+

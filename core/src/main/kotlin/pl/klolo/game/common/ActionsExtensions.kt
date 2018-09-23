@@ -11,14 +11,18 @@ fun execute(callback: () -> Unit): RunnableAction {
     return Actions.run(callback)
 }
 
-fun Actor.addSequence(vararg actions: Action) {
-    addAction(sequence(*actions))
+fun Actor.addSequence(vararg actions: Action): Action {
+    val sequenceAction = sequence(*actions)
+    addAction(sequenceAction)
+    return sequenceAction
 }
 
-fun Actor.addForeverSequence(vararg actions: Action) {
-    addAction(forever(sequence(*actions)))
+fun Actor.addForeverSequence(vararg actions: Action): Action {
+    val repeatAction = forever(sequence(*actions))
+    addAction(repeatAction)
+    return repeatAction
 }
 
-fun Actor.executeAfterDelay(delay: Float, callback: () -> Unit) {
-    addSequence(Actions.delay(delay), Actions.run(callback))
+fun Actor.executeAfterDelay(delay: Float, callback: () -> Unit): Action {
+    return addSequence(Actions.delay(delay), Actions.run(callback))
 }

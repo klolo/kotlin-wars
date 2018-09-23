@@ -4,6 +4,7 @@ import box2dLight.PointLight
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.scenes.scene2d.Action
 import pl.klolo.game.common.executeAfterDelay
 import pl.klolo.game.configuration.Colors
 import pl.klolo.game.configuration.Colors.blueLight
@@ -18,7 +19,7 @@ import pl.klolo.game.logic.helper.PopupMessages
 import pl.klolo.game.logic.player.move.getMoveLogicImplementation
 import pl.klolo.game.physics.GamePhysics
 
-const val bonusLifetime = 15f
+const val bonusLifetime = 20f
 
 class PlayerLogic(
         private val profileHolder: ProfileHolder,
@@ -47,6 +48,7 @@ class PlayerLogic(
     private lateinit var body: Body
     private lateinit var playerLight: PointLight
     private lateinit var laserConfiguration: EntityConfiguration
+    private var disableShieldAction: Action? = null
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         physicsShape.dispose()
@@ -62,7 +64,9 @@ class PlayerLogic(
         laserConfiguration = entityRegistry.getConfigurationById("laserBlue01")
 
         moveLogic.initialize(this)
-        moveLogic.createSubscription(this)
+
+        moveLogic
+                .createSubscription(this)
                 .onEvent<Collision> {
                     onCollision(it)
                 }
@@ -83,7 +87,12 @@ class PlayerLogic(
                 .onEvent<EnableShield> {
                     eventProcessor.sendEvent(PlaySound(SoundEffect.FOUND_BONUS))
                     hasShield = true
-                    executeAfterDelay(bonusLifetime) {
+
+                    if (disableShieldAction != null) {
+                        removeAction(disableShieldAction)
+                    }
+
+                    disableShieldAction = executeAfterDelay(bonusLifetime) {
                         hasShield = false
                         eventProcessor.sendEvent(DisableShield)
                     }

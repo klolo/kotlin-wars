@@ -182,7 +182,7 @@
     "type": "SPRITE_WITH_LOGIC",
     "file": "assets/shield1.png",
     "width": 110,
-    "height": 60,
+    "height": 120,
     "layer": 2,
     "initOnCreate": true
   },
