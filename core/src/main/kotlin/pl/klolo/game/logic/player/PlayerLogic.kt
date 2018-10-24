@@ -183,6 +183,7 @@ class PlayerLogic(
             isImmortal = true
 
             if (lifeLevel <= 0) {
+                Gdx.input.vibrate(200)
                 onGameOver()
             }
         }

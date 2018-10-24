@@ -43,7 +43,7 @@ class EnemyLogic(
     var shootDelay = 3f
     var speed = 1f
     private val lightDistance = 40f
-    private val lightDistanceDistanceAfterExplosion = 400f
+    private val lightDistanceDistanceAfterExplosion = 500f
 
     override val onDispose: SpriteEntityWithLogic.() -> Unit = {
         if (display) {
@@ -149,7 +149,7 @@ class EnemyLogic(
         }
         eventProcessor.sendEvent(RegisterEntity(explosion))
         light?.color = Colors.redLight
-        val explosionLightFadeOutTime = 0.25f
+        val explosionLightFadeOutTime = 0.35f
         addAction(fadeOut(explosionLightFadeOutTime))
     }
 

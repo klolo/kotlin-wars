@@ -16,7 +16,7 @@ class BonusGeneratorLogic(
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
     private val random = Random()
 
-    private val items by lazy {
+    private val items by lazy(LazyThreadSafetyMode.NONE) {
         listOf(
                 entityRegistry.getConfigurationById("medicineBonus") to 10,
                 entityRegistry.getConfigurationById("starBonus") to 2,

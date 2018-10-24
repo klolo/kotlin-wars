@@ -4,7 +4,7 @@ import pl.klolo.game.engine.Profile
 
 fun getPlayerBottomMargin(profile: Profile, playerHeight: Float): Float {
     return when (profile) {
-        Profile.ANDROID -> playerHeight * 1.5f
+        Profile.ANDROID -> playerHeight * 0.2f
         else -> playerHeight
     }
 }

@@ -63,9 +63,11 @@ class BackgroundLogic(private val profileHolder: ProfileHolder) : EntityLogicWit
 
     override val draw: SpriteWithCustomRendering.(batch: Batch, camera: OrthographicCamera) -> Unit =
             { batch: Batch, _ ->
+                batch.disableBlending() // for performance purpose when drawing big texture
                 batch.draw(firstBackground, firstBackground.x, firstBackground.y, originX, originY, width, height, scaleX, scaleY, rotation)
                 batch.draw(secondBackground, secondBackground.x, secondBackground.y, originX, originY, width, height, scaleX, scaleY, rotation)
                 batch.draw(thirdBackground, thirdBackground.x, thirdBackground.y, originX, originY, width, height, scaleX, scaleY, rotation)
+                batch.enableBlending()
             }
 
     override val onUpdate: SpriteWithCustomRendering.(Float) -> Unit = {

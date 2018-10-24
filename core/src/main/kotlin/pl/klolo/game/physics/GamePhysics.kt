@@ -4,13 +4,14 @@ import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import pl.klolo.game.engine.GameEngine
+import kotlin.LazyThreadSafetyMode.NONE
 
 class GamePhysics(private val contactListener: ContactListener) {
     lateinit var world: World
     private lateinit var debugRenderer: Box2DDebugRenderer
     private var bodyToRemove: List<Body> = mutableListOf()
 
-    private val enableDebugRender: Boolean by lazy {
+    private val enableDebugRender: Boolean by lazy(NONE) {
         GameEngine.applicationConfiguration
                 .getConfig("engine")
                 .getBoolean("debugRender")

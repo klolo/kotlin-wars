@@ -31,7 +31,7 @@ class SoundManager(private val eventProcessor: EventProcessor) {
     private var isSoundEnable = GameEngine.applicationConfiguration.getConfig("sound")
             .getBoolean("enable")
 
-    private val sounds: Map<SoundEffect, Sound> by lazy {
+    private val sounds: Map<SoundEffect, Sound> by lazy(LazyThreadSafetyMode.NONE) {
         SoundEffect.values().map { it to assetManager.get(it.filename, Sound::class.java) }.toMap()
     }
 
@@ -45,7 +45,7 @@ class SoundManager(private val eventProcessor: EventProcessor) {
         eventProcessor
                 .subscribe(-2)
                 .onEvent<PlaySound> {
-                    sounds[it.soundEffect]?.play()
+                    sounds[it.soundEffect]?.play(musicVolume)
                 }
                 .onEvent<StopMusic> {
                     currentMusic?.stop()

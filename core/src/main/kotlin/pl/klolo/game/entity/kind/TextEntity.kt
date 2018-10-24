@@ -44,7 +44,8 @@ open class TextEntity(entityConfiguration: EntityConfiguration, override var id:
 
     override fun draw(batch: Batch, camera: OrthographicCamera) {
         label?.setPosition(x, y)
-        label?.scaleBy(scaleX, scaleY)
+        label?.setSize(0f, fontSize.value.toFloat())
+        label?.setFontScale(scaleX, scaleY)
         label?.setText(text)
         label?.color = labelColor;
         label?.draw(batch, color.a)
