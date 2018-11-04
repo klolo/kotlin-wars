@@ -11,6 +11,23 @@ import pl.klolo.game.entity.kind.EntityWithLogic
 import pl.klolo.game.entity.kind.SpriteEntityWithLogic
 import java.util.*
 
+
+fun createItem(bonusItemConfiguration: EntityConfiguration): SpriteEntityWithLogic {
+    val random = Random()
+    val margin = 100
+
+    val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin)
+    val enemyYPosition = Gdx.graphics.height.toFloat() + margin
+
+    val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration, false) {
+        x = enemyXPosition.toFloat() + width
+        y = enemyYPosition
+    } as SpriteEntityWithLogic
+
+    enemyEntity.logic.apply { initialize.invoke(enemyEntity) }
+    return enemyEntity
+}
+
 class BonusGeneratorLogic(
         private val eventProcessor: EventProcessor,
         private val entityRegistry: EntityRegistry) : EntityLogic<EntityWithLogic> {
@@ -34,7 +51,8 @@ class BonusGeneratorLogic(
                         Actions.run {
                             val randomItem = getRandomItemConfiguration()
                             if (shouldCreateItem(randomItem.second)) {
-                                createItem(randomItem.first)
+                                val enemyEntity = createItem(randomItem.first)
+                                eventProcessor.sendEvent(RegisterEntity(enemyEntity))
                             }
                         },
                         delay(1f)
@@ -54,21 +72,5 @@ class BonusGeneratorLogic(
 
     private fun shouldCreateItem(createItemPropability: Int): Boolean {
         return random.nextInt(100) % createItemPropability == 0
-    }
-
-    private fun createItem(bonusItemConfiguration: EntityConfiguration) {
-        val random = Random()
-        val margin = 100
-
-        val enemyXPosition = random.nextInt(Gdx.graphics.width.toFloat().toInt() - margin)
-        val enemyYPosition = Gdx.graphics.height.toFloat() + margin
-
-        val enemyEntity: SpriteEntityWithLogic = createEntity(bonusItemConfiguration, false) {
-            x = enemyXPosition.toFloat() + width
-            y = enemyYPosition
-        } as SpriteEntityWithLogic
-
-        enemyEntity.logic.apply { initialize.invoke(enemyEntity) }
-        eventProcessor.sendEvent(RegisterEntity(enemyEntity))
     }
 }

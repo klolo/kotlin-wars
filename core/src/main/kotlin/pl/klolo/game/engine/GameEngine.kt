@@ -62,8 +62,8 @@ class GameEngine internal constructor(
     override fun render() {
         stage.update(Gdx.graphics.deltaTime)
 
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+//        Gdx.gl.glClearColor(0f, 1f, 0f, 0.5f)
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         batch.begin()
         stage.drawWithLight(batch, camera)

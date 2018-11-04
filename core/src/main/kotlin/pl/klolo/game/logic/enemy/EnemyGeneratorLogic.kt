@@ -39,7 +39,7 @@ class EnemyGeneratorLogic(
         eventProcessor
                 .subscribe(id)
                 .onEvent<EnemyDestroyed> {
-                    Gdx.app.debug(this.javaClass.name, "Enemy destoyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
+                    Gdx.app.debug(this.javaClass.name, "Enemy destroyed. Total enemies: $totalCreatedEnemy Max enemies: $maxEnemiesOnStage, " +
                             "shoot delay: ${Math.max(minimalShootDelay, totalCreatedEnemy / speedOfTheDecreasingEnemyShootDelayPerCreatedEnemy)}")
                     enemiesCount--
                 }

@@ -3,7 +3,7 @@
     "uniqueName": "player",
     "logicClass": "pl.klolo.game.logic.player.PlayerLogic",
     "type": "SPRITE_WITH_LOGIC",
-    "file": "assets/fighter.png",
+    "file": "assets/ship.png",
     "x": 250.0,
     "y": 50.0,
     "width": 50.0,
@@ -75,6 +75,12 @@
   {
     "uniqueName": "enemyBase",
     "logicClass": "pl.klolo.game.logic.enemy.EnemyGeneratorLogic",
+    "type": "ENTITY_WITH_LOGIC",
+    "initOnCreate": true
+  },
+  {
+    "uniqueName": "extraStarBonusGenerator",
+    "logicClass": "pl.klolo.game.logic.bonus.ExtraStarBonusGenerator",
     "type": "ENTITY_WITH_LOGIC",
     "initOnCreate": true
   },

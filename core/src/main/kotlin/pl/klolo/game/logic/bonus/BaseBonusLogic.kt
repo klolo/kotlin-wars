@@ -43,7 +43,7 @@ abstract class BaseBonusLogic(
         )
 
         addSequence(
-                moveTo(x, -1 * height, bonusSpeed),
+                moveTo(x, (-1 * height), bonusSpeed),
                 execute {
                     shouldBeRemove = true
                 }

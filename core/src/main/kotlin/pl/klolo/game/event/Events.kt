@@ -18,7 +18,7 @@ object PressedEnter : Event()
 object PressedEscape : Event()
 
 // player
-object EnemyDestroyed : Event()
+class EnemyDestroyed(val x: Float = 0f, val y: Float = 0f) : Event()
 
 class PlayerChangePosition(val x: Float = 0f, val y: Float = 0f) : Event()
 class ChangePlayerLfeLevel(val actualPlayerLifeLevel: Int = 100) : Event()

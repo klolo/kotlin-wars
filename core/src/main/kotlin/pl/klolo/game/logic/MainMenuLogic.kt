@@ -63,7 +63,7 @@ class MainMenuLogic<T : Entity>(
 
         val logoLight = gameLighting.createPointLight(100, Colors.ambient, 300f,
                 Gdx.graphics.width.toFloat() / 2, gameLogo.y + gameLogo.height / 2)
-        pulsingLightAnimation = PulsingLightAnimation(logoLight)
+        pulsingLightAnimation = PulsingLightAnimation(logoLight).apply { distanceGrow = 500 }
 
         eventProcessor.sendEvent(RegisterEntity(gameLogo))
     }

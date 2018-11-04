@@ -4,10 +4,7 @@ import box2dLight.PointLight
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.scenes.scene2d.actions.Actions.*
-import pl.klolo.game.common.addForeverSequence
-import pl.klolo.game.common.addSequence
-import pl.klolo.game.common.execute
-import pl.klolo.game.common.Colors
+import pl.klolo.game.common.*
 import pl.klolo.game.physics.GameLighting
 import pl.klolo.game.entity.isPlayerLaser
 import pl.klolo.game.entity.*
@@ -125,6 +122,8 @@ class EnemyLogic(
         showExplosion()
         showPopup()
 
+        executeAfterDelay(0.2f) { eventProcessor.sendEvent(EnemyDestroyed(x, y)) }
+
         onDispose()
         display = false
         eventProcessor.sendEvent(AddPoints(height.toInt()))
@@ -157,8 +156,8 @@ class EnemyLogic(
         if (shouldBeRemove) {
             return
         }
+
         shouldBeRemove = true
-        eventProcessor.sendEvent(EnemyDestroyed)
         light?.remove()
     }
 
